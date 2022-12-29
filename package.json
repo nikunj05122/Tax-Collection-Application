@@ -1,0 +1,26 @@
+{
+  "name": "tax-collaction",
+  "version": "1.0.0",
+  "description": "\"tax collection web side for goverment\"",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "\"Nikunj Gajera\"",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.2.1",
+    "body-parser": "^1.20.1",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.17.3",
+    "mongoose": "^6.8.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.20",
+    "pdf-creator-node": "^2.3.5",
+    "uuid": "^9.0.0"
+  }
+}

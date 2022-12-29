@@ -1,0 +1,23 @@
+<!-- Form Handaling -->
+<form action="/user/BillDashbord" method="POST" id="add_user">
+    <div class="new_user">
+        <div class="from-group">
+            <label for="email" class="txt-dark">Email<span class="redTick"> *</span></label>
+            <input type="text" name="email" value="nike621@gmail.com" placeholder="example@gmail.com">
+        </div>
+        <div class="from-group">
+            <label for="password" class="txt-dark">Create Password<span class="redTick">
+                    *</span></label>
+            <input type="password" name="password" value="1234567890" placeholder="Enter the password">
+        </div>
+        <% if (alert) { %>
+            <div class="alert alert-danger" role="alert">
+                Please enter proper password
+            </div>
+            <% } %>
+                <div class="from-group">
+                    <button type="submit" class="btn btn-outline-warning">Submit</button>
+                </div>
+    </div>
+</form>
+<!-- /Form Handaling -->

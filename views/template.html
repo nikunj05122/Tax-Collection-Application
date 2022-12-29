@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./../assets/css/style.css">
+    <title>Bill PDF</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table,
+        td,
+        th {
+            border: 1px solid rgb(222, 226, 230);
+            padding: 8px;
+        }
+
+        .rebate {
+            color: green;
+            font-weight: bold;
+        }
+
+        .amount {
+            padding-top: 25px;
+            padding-left: 25px;
+            vertical-align: text-top;
+        }
+
+        .amount b {
+            font-size: 25px;
+        }
+
+        .amount p {
+            font-size: 40px;
+            color: rgb(148, 22, 22);
+            font-weight: bold;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Bill Table -->
+    <table>
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="4" scope="col">
+                        <b style="font-size: 35px; font-weight: 900;">Property Tax Bill</b>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <b style="font-weight: 900;">Tenement No.</b>
+                        <p>
+                            {{tenament}}
+                        </p>
+                    </td>
+                    <td class="amount" rowspan="8">
+                        <b style="font-weight: 900;">Outstanding Amount</b>
+                        <p style="font-weight: 900;">Rs.
+                            {{Total}}/-
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b style="font-weight: 900;">Name</b>
+                        <p>
+                            {{Name}}
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b style="font-weight: 900;">Postal Address</b>
+                        <p>
+                            {{Postal_address}}
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b style="font-weight: 900;">Location Address</b>
+                        <p>
+                            {{Local_address}}
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b style="font-weight: 900;">Usage</b>
+                        <p>
+                            {{Usage}}
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b style="font-weight: 900;">OCCUPIER</b>
+                        <p>
+                            {{Occupier}}
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b style="font-weight: 900;">Last Bill Issue Data</b>
+                        <p>
+                            {{Last_Bill_Issue_Date}}
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b style="font-weight: 900;">Last Bill Due Date</b>
+                        <p>
+                            {{Last_Bill_Due_Date}}
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <!-- iner table -->
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="text-left" style="font-weight: 900;" scope="col">Particulars</th>
+                                    <th class="text-left" style="font-weight: 900;" scope="col">Rateable Sys. Arrears
+                                    </th>
+                                    <th class="text-left" style="font-weight: 900;" scope="col">Areabase Arrears</th>
+                                    <th class="text-left" style="font-weight: 900;" scope="col">Areabase Current Tax
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th style="font-weight: 900;" scope="row" class="text-left">Property Tax</th>
+                                    <td>0.00</td>
+                                    <td>0.00</td>
+                                    <td>
+                                        {{Property_tax}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="font-weight: 900;" scope="row" class="text-left">Water Charge</th>
+                                    <td>0.00</td>
+                                    <td>0.00</td>
+                                    <td>
+                                        {{Water_tax}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="font-weight: 900;" scope="row" class="text-left">Drainage Charge</th>
+                                    <td>0.00</td>
+                                    <td>0.00</td>
+                                    <td>
+                                        {{Drainage_tax}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="font-weight: 900;" scope="row" class="text-left">SW Charge</th>
+                                    <td>0.00</td>
+                                    <td>0.00</td>
+                                    <td>
+                                        {{SW_tax}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="font-weight: 900;" scope="row" class="text-left">Street Light Charge</th>
+                                    <td>0.00</td>
+                                    <td>0.00</td>
+                                    <td>
+                                        {{Street_Light}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="font-weight: 900;" scope="row" class="text-left">Fire Charge</th>
+                                    <td>0.00</td>
+                                    <td>0.00</td>
+                                    <td>
+                                        {{Fire_Charge}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="font-weight: 900;" scope="row" class="text-left">Env.Improve.Charge</th>
+                                    <td>0.00</td>
+                                    <td>0.00</td>
+                                    <td>
+                                        {{Env_improve_charge}}
+                                    </td>
+                                </tr>
+                                <tr class="rebate">
+                                    <th style="font-weight: 900;" scope="row" class="text-left">Rebate</th>
+                                    <td>0.00</td>
+                                    <td>0.00</td>
+                                    <td>
+                                        {{Rebate}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="font-weight: 900;" scope="row" class="text-left">Education Cess</th>
+                                    <td>0.00</td>
+                                    <td>0.00</td>
+                                    <td>
+                                        {{Education_Cess}}
+                                    </td>
+                                </tr>
+                                <tr style="font-weight: bold" class="text-left">
+                                    <th style="font-weight: 900;" scope="row">
+                                        <b>Total</b>
+                                    </th>
+                                    <td>0.00</td>
+                                    <td>0.00</td>
+                                    <td>
+                                        {{Total}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </table>
+    <table>
+        <tr>
+            <th style="font-weight: 900;" colspan="3"><b>Payment Details</b></th>
+        </tr>
+        <tr>
+            <th style="font-weight: 900;">Date</th>
+            <th style="font-weight: 900;">Transcation ID</th>
+            <th style="font-weight: 900;">Reference</th>
+        </tr>
+        <tr>
+            <td>{{Date}}</td>
+            <td>{{Transcation_ID}}</td>
+            <td>{{Reference}}</td>
+        </tr>
+    </table>
+    <!-- /Bill Table -->
+
+</body>
+
+</html>

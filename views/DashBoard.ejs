@@ -1,0 +1,230 @@
+<!-- Include Header -->
+<%- include('include/_header')%>
+    <!-- /Include Header -->
+
+    <!-- Include Main Navbar -->
+    <%- include('include/_Main-navbar')%>
+        <!-- /Include Main Navbar -->
+
+        <div class="bg-warning">
+            <div class="container">
+                <div class="nav-menu-user">
+                    <div class="person-intro">
+                        Welcome,
+                        <b id="person">
+                            <%= User.name %>
+                        </b>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <div class="banner">
+                <div class="hid"></div>
+                <div class="container pt-4 main-container ">
+                    <span>
+                        <strong class="purpel-text">DashBoard</strong>
+                    </span>
+                    <hr>
+
+                    <!-- list-payment holder -->
+                    <div class="list-payment">
+                        <div class="accordion" id="accordionPanelsStayOpenExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false"
+                                        aria-controls="panelsStayOpen-collapseOne">
+                                        Taluka
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                                    aria-labelledby="panelsStayOpen-headingOne">
+                                    <div class="accordion-body">
+                                        <!-- taluka -->
+                                        <% userBill.forEach(function (value, key) { %>
+                                            <div class="list-payment p-2">
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                                        <button class="accordion-button" type="button"
+                                                            data-bs-toggle="collapse"
+                                                            data-bs-target="#panelsStayOpen-collapseTwo"
+                                                            aria-expanded="false"
+                                                            aria-controls="panelsStayOpen-collapseTwo">
+                                                            <%= key %>
+                                                        </button>
+                                                    </h2>
+
+                                                    <div id="panelsStayOpen-collapseTwo"
+                                                        class="accordion-collapse collapse show"
+                                                        aria-labelledby="panelsStayOpen-headingTwo">
+                                                        <div class="accordion-body">
+                                                            <!-- table -->
+                                                            <table class="table table-striped table-hover">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope=" col">Tenement No</th>
+                                                                        <th scope="col">User</th>
+                                                                        <th scope="col">Address</th>
+                                                                        <th scope="col">Usage</th>
+                                                                        <th scope="col">Status </th>
+                                                                        <th scope="col">Total Bill</th>
+                                                                        <th scope="col">Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <% for( let i=0; i < userBill.get(key).length; i++ )
+                                                                        { %>
+                                                                        <tr class="payment-pandding">
+                                                                            <th scope="row">
+                                                                                <%= userBill.get(key)[i].tenament%>
+                                                                            </th>
+                                                                            <td>
+                                                                                <%= userBill.get(key)[i].Name%>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%=
+                                                                                    userBill.get(key)[i].Postal_address%>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= userBill.get(key)[i].Usage%>
+                                                                            </td>
+                                                                            <td>
+                                                                                <% if (userBill.get(key)[i].Status) { %>
+                                                                                    <img src="/img/ok.png"
+                                                                                        height="25px" />
+                                                                                    <% } else { %>
+                                                                                        <img src="/img/cancel.png"
+                                                                                            height="18px" />
+                                                                                        <% } %>
+                                                                            </td>
+                                                                            <td>
+                                                                                <%= userBill.get(key)[i].Total%>
+                                                                            </td>
+                                                                            <td>
+                                                                                <a class="Pay-btn shadow-sm"
+                                                                                    href="#">Details</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <% } %>
+                                                                </tbody>
+                                                            </table>
+                                                            <!-- /table -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }); %>
+                                                <!-- /taluka -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /list-payment holder -->
+
+                    <!-- Chart -->
+                    <hr>
+                    <div class="line-chart">
+                        <canvas class="line-chart" id="myChart"></canvas>
+                    </div>
+                    <hr>
+                    <div class="chart">
+                        <div class="chart-item">
+                            <canvas id="myChart2"></canvas>
+                        </div>
+                        <div class="chart-item">
+                            <canvas id="myChart3"></canvas>
+                        </div>
+                    </div>
+
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                    <script>
+                        const ctx = document.getElementById('myChart');
+                        const ctx2 = document.getElementById('myChart2');
+                        const ctx3 = document.getElementById('myChart3');
+
+
+                        new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: ['2018', '2019', '2020', '2021', '2022'],
+                                datasets: [{
+                                    label: 'Payment',
+                                    data: ['<%-year[0]%>', '<%-year[1]%>', '<%-year[2]%>', '<%-year[3]%>', '<%-year[4]%>'],
+                                    fill: true,
+                                    borderColor: 'rgb(75, 192, 192)',
+                                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                                    tension: 0.1,
+                                    hoverOffset: 4
+                                }]
+                            },
+                            options: {
+                                scales: { x: { title: { display: true, font: { size: 15 }, text: 'Year' } }, y: { title: { display: true, font: { size: 15 }, text: 'Rupees' } } }
+                            }
+                        });
+
+
+                        new Chart(ctx2, {
+                            type: 'pie',
+                            data: {
+                                labels: [
+                                    'Property_tax',
+                                    'Water_tax',
+                                    // 'Drainage_tax',
+                                    'SW_tax',
+                                    // 'Street_Light',
+                                    'Fire_Charge',
+                                    // 'Env_improve_charge',
+                                    // 'Education_Cess',
+                                ],
+                                datasets: [{
+                                    label: 'My First Dataset',
+                                    data: ['<%-tenData[0]%>', '<%-tenData[1]%>', '<%-tenData[3]%>', '<%-tenData[5]%>'],
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.5)',
+                                        'rgba(75, 192, 192, 0.5)',
+                                        'rgba(255, 205, 86, 0.5)',
+                                        'rgba(54, 162, 235, 0.5)'
+                                    ]
+                                }]
+                            },
+                        });
+
+                        new Chart(ctx3, {
+                            type: 'polarArea',
+                            data: {
+                                labels: [
+                                    // 'Property_tax',
+                                    // 'Water_tax',
+                                    'Drainage_tax',
+                                    // 'SW_tax',
+                                    'Street_Light',
+                                    // 'Fire_Charge',
+                                    'Env_improve_charge',
+                                    'Education_Cess',
+                                ],
+                                datasets: [{
+                                    label: 'My First Dataset',
+                                    data: ['<%-tenData[2]%>', '<%-tenData[4]%>', '<%-tenData[6]%>', '<%-tenData[7]%>'],
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.5)',
+                                        'rgba(75, 192, 192, 0.5)',
+                                        'rgba(255, 205, 86, 0.5)',
+                                        'rgba(54, 162, 235, 0.5)'
+                                    ]
+                                }]
+                            },
+                        });
+                    </script>
+                    <!-- /Chart -->
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Include Footer -->
+        <%- include('include/_footer')%>
+            <!-- /Include Footer -->

@@ -1,0 +1,129 @@
+<!-- Include Header -->
+<%- include('include/_header')%>
+    <!-- /Include Header -->
+
+    <!-- Navbar -->
+    <div class="img-DDO">
+        <img src="/img/DDO.jpg" class="index-DDO" alt="logo" />
+    </div>
+    <nav class="container navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Online Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Contact</a>
+                    </li>
+                </ul>
+                <ul class="end">
+                    <div class="signUp-btn mt-3">
+                        <a class="sign shadow-sm" href="/user/signUp">SIGN UP</a>
+                    </div>
+                    <div class="login-btn mt-3">
+                        <a class="login shadow-sm" href="/user/login">LOGIN</a>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- property tex area -->
+        <div>
+            <div class="container pt-5">
+                <p class="text-center" style="font-size: 40px">Welcome to</p>
+                <p class="text-center mb-3" style="font-size: 40px">
+                    Panchayat Tax Collaction Service
+                </p>
+
+                <!-- slide show of pic -->
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="/img/IcredibleIndia.jpg" class="d-block w-100" alt="..." />
+                        </div>
+                        <div class="carousel-item">
+                            <img src="/img/bannerv1.jpg" class="d-block w-100" alt="..." />
+                        </div>
+                        <div class="carousel-item">
+                            <img src="/img/amrit-banner.jpg" class="d-block w-100" alt="..." />
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden shadow p-3 mb-5 bg-body rounded">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden shadow p-3 mb-5 bg-body rounded">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- About US -->
+        <div class="alert alert-success mt-5" role="alert">
+            <p class="text-center" style="font-size: 40px">ABOUT US</p>
+            <hr />
+            <p class="text-center mb-3">The Full Story</p>
+            <p class="text-center mb-3">
+                As per our problem statement, Panchayat Tax collection is given by DDO
+                Office, Ahmedabad. we are implementing a web application that will be
+                used in rural areas. The main aim is, that end customers will get
+                access to their tax statements, the ability to request property
+                modifications with all required documentation, receive receipts, and
+                more. Sarpanch can view the end users of his village. Talati is able
+                to modify the taxpayer's parameters with the required documentation.
+                The users will be able to see past receipts and pay taxes with
+                different payment methods. Users are also notified over time to pay
+                taxes and new schemes which are forwarded by Sarpanch and Talati. The
+                website contains all the search filters including advanced reports and
+                analytics for Sarpanch and Talati.<br /><br />
+                The end user is also able to get all past records including which
+                taxes are been paid and which are remaining with the due amount added
+                in tax. Recent updates and various schemes are also been shown on the
+                home page of the website. The website will be available in English,
+                Gujrati, and also Hindi, to satisfy one of the motives to provide easy
+                navigation and simple UI to rural people. The whole process is online
+                and users are able to pay Tax at any time 24x7, because of that
+                corruption will decrease at a detectable level. The entire process of
+                fetching Tax details and payment is online, paper waste will be
+                significantly reduced.
+            </p>
+        </div>
+        <div>
+            <img src="/img/farmer.jpg" style="width: 100%" />
+        </div>
+    </main>
+    <!-- Footer using footer-->
+    <footer class="index-footer">
+        <strong>CONTACT</strong>
+        <div class="contact">
+            <div class="phone">
+                <i class="fa-solid fa-phone"></i> +91 xxx-xxx-xxxx
+            </div>
+            <div class="address">
+                <i class="fa-solid fa-location-dot"></i> Lal Daravaja, Bhadra, Ahmedabad, India - 380001
+            </div>
+            <div class="email">
+                <i class="fa-solid fa-envelope"></i> example@gmail.com
+            </div>
+        </div>
+    </footer>
+    <!-- /Footer using footer-->
+
+
+    <!-- Include Footer -->
+    <%- include('include/_footer')%>
+        <!-- /Include Footer -->

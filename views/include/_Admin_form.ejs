@@ -1,0 +1,38 @@
+<!-- Form Handaling -->
+<form action="/admin/api/signUp" method="POST" id="add_user">
+    <div class="new_user">
+        <div class="from-group">
+            <label for="name" class="txt-dark">Name<span class="redTick"> *</span></label>
+            <input type="hidden" name="id" value="">
+            <input type="text" name="name" value="<%= alert ? user.name : "" %>" placeholder="Elon Mask">
+        </div>
+        <div class="from-group">
+            <label for="email" class="txt-dark">Email<span class="redTick"> *</span></label>
+            <input type="text" name="email" value="<%= alert ? user.email : "" %>" placeholder="example@gmail.com">
+        </div>
+        <div class="from-group">
+            <label for="password" class="txt-dark">Create Password<span class="redTick">
+                    *</span></label>
+            <input type="password" name="password" value="" placeholder="Enter the password">
+        </div>
+        <div class="from-group">
+            <label for="ConfirmPassword" class="txt-dark">Confirm Password<span class="redTick">
+                    *</span></label>
+            <input type="password" name="ConfirmPassword" value="" placeholder="Enter the password">
+        </div>
+        <div class="form-group form-check py-2">
+            <input type="checkbox" class="form-check-input" name="termCondition" id="termCondition" required>
+            <label class="form-check-label" for="termCondition"><span class="redTick">*</span>By
+                creating an account you agree to our Terms of Service and our Privacy Policy</label>
+        </div>
+        <% if (alert) { %>
+            <div class="alert alert-danger" role="alert">
+                Please enter proper password
+            </div>
+            <% } %>
+                <div class="from-group">
+                    <button type="submit" class="btn btn-outline-warning">Submit</button>
+                </div>
+    </div>
+</form>
+<!-- /Form Handaling -->
