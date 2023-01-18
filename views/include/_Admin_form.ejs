@@ -10,6 +10,21 @@
             <label for="email" class="txt-dark">Email<span class="redTick"> *</span></label>
             <input type="text" name="email" value="<%= alert ? user.email : "" %>" placeholder="example@gmail.com">
         </div>
+        <div class="from-group admin-post ">
+            <label for="post" class="txt-dark pe-4">Post<span class="redTick"> *</span></label>
+            <div class="form-check px-4">
+                <input class="form-check-input" type="radio" name="post" id="flexRadioDefault1" value="Talati" checked>
+                <label class="form-check-label" for="flexRadioDefault1">
+                    Talati
+                </label>
+            </div>
+            <div class="form-check px-4">
+                <input class="form-check-input" type="radio" name="post" id="flexRadioDefault2" value="Mamlatdar">
+                <label class="form-check-label" for="flexRadioDefault2">
+                    Mamlatdar
+                </label>
+            </div>
+        </div>
         <div class="from-group">
             <label for="password" class="txt-dark">Create Password<span class="redTick">
                     *</span></label>

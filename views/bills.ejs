@@ -6,9 +6,9 @@
     <%- include('include/_Main-navbar')%>
         <!-- /Include Main Navbar -->
 
-        <!-- Include User Tenment number add -->
-        <%- include('include/_User_Tenment_number_add')%>
-            <!-- /Include User Tenment number add -->
+        <!-- Include User Navbar -->
+        <%- include('include/_user_bar')%>
+            <!-- /Include User Navbar -->
 
             <!-- property tex area -->
             <div class="banner">
@@ -58,7 +58,7 @@
                                                                     <%= Tenment[i][0].Usage%>
                                                                 </td>
                                                                 <td>
-                                                                    <%= Tenment[i][0].Last_Bill_Due_Date%>
+                                                                    31/12/<%= new Date().getFullYear();%>
                                                                 </td>
                                                                 <td>
                                                                     <%= Tenment[i][0].Total%>

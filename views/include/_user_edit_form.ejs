@@ -1,0 +1,31 @@
+<!-- Form Handaling -->
+<form action="/user/BillDashbord/userProfile/userEdit/userEditSubmit" method="POST" id="add_user">
+    <div class="new_user">
+        <div class="from-group">
+            <label for="name" class="txt-dark">Name<span class="redTick"> *</span></label>
+            <input type="hidden" name="id" value="">
+            <input type="text" name="name" value="<%= User.name %>" placeholder="Elon musk">
+        </div>
+        <div class="from-group">
+            <label for="email" class="txt-dark">Email<span class="redTick"> *</span></label>
+            <input type="text" name="email" value="<%= User.email %>" placeholder="example@gmail.com">
+        </div>
+        <div class="from-group">
+            <label for="number" class="txt-dark">Mobile number<span class="redTick"> *</span></label>
+            <input type="number" name="number" value="<%= User.number %>" placeholder="1234567890">
+        </div>
+        <div class="from-group">
+            <label for="code" class="txt-dark">PinCode<span class="redTick"> *</span></label>
+            <input type="number" name="code" value="<%= User.code %>" placeholder="123456">
+        </div>
+        <div class="from-group">
+            <label for="password" class="txt-dark">Password<span class="redTick"> *</span></label>
+            <input type="text" name="password" value="<%= User.password %>" placeholder="123456">
+        </div>
+
+        <div class="from-group">
+            <button type="submit" class="btn btn-outline-warning">Submit</button>
+        </div>
+    </div>
+</form>
+<!-- /Form Handaling -->

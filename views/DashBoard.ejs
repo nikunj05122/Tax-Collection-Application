@@ -28,6 +28,10 @@
                     </span>
                     <hr>
 
+                    <form class="d-flex p-3" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
                     <!-- list-payment holder -->
                     <div class="list-payment">
                         <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -146,11 +150,11 @@
                         const ctx2 = document.getElementById('myChart2');
                         const ctx3 = document.getElementById('myChart3');
 
-
+                        const year = new Date().getFullYear();
                         new Chart(ctx, {
                             type: 'line',
                             data: {
-                                labels: ['2018', '2019', '2020', '2021', '2022'],
+                                labels: [year - 4, year - 3, year - 2, year - 1, year],
                                 datasets: [{
                                     label: 'Payment',
                                     data: ['<%-year[0]%>', '<%-year[1]%>', '<%-year[2]%>', '<%-year[3]%>', '<%-year[4]%>'],

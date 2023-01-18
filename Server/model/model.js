@@ -41,6 +41,10 @@ var AdminSchema = mongoose.Schema({
         required: true,
         unique: true
     },
+    post: {
+        type: String,
+        required: true
+    },
     password: {
         type: String,
         required: true
@@ -78,14 +82,6 @@ var TenamentSchema = mongoose.Schema({
         type: String,
         require: true
         // default: ['Self', 'Tenant']
-    },
-    Last_Bill_Issue_Date: {
-        type: String,
-        default: `1/10/${new Date().getFullYear()}`
-    },
-    Last_Bill_Due_Date: {
-        type: String,
-        default: `31/12/${new Date().getFullYear()}`
     },
     Property_size: {
         type: Number,

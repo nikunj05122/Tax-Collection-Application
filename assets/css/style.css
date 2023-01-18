@@ -217,9 +217,43 @@ footer {
     display: none;
 }
 
-/* login page || Sign Page*/
+/*User login page || Sign Page*/
 
-.btn:hover {
+.btn-outline-warning:hover {
     color: white;
     background-color: rgb(255, 193, 7);
+}
+
+/* User Details  */
+
+.userEdit {
+    text-decoration: none;
+    color: black;
+}
+
+.userEdit:hover {
+    color: rgb(74, 6, 162);
+}
+
+.userdata {
+    display: flex;
+}
+
+.userdata > div,
+.userdata > strong {
+    padding: 10px;
+}
+
+.back-billboard {
+    display: flex;
+}
+
+.billbord {
+    padding-left: 750px;
+    text-decoration: none;
+}
+
+/* admin Sign up */
+.admin-post {
+    display: flex;
 }

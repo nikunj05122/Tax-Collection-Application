@@ -1,0 +1,59 @@
+<!-- Include Header -->
+<%- include('include/_header')%>
+    <!-- /Include Header -->
+
+    <!-- Include Main Navbar -->
+    <%- include('include/_Main-navbar')%>
+        <!-- /Include Main Navbar -->
+
+        <!-- Include User Navbar -->
+        <%- include('include/_user_bar')%>
+            <!-- /Include User Navbar -->
+
+            <main>
+                <div class="banner">
+                    <div class="hid"></div>
+                    <div class="container pt-4 main-container ">
+                        <div class="back-billboard">
+                            <strong class="purpel-text">User Details </strong>
+                            <div class="back"><a class="billbord" href="/user/BillDashbord">&lt; Back to the
+                                    Billboard</a></div>
+                        </div>
+                        <hr>
+                        <div class="container">
+                            <div class="userdata"><strong>Name : </strong>
+                                <div>
+                                    <%= User.name%>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="userdata"><strong>Email : </strong>
+                                <div>
+                                    <%= User.email%>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="userdata"><strong>Phone Number : </strong>
+                                <div>
+                                    <%= User.number%>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="userdata"><strong>Pin Code : </strong>
+                                <div>
+                                    <%= User.code%>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="userdata signUp-btn">
+                                <a href="/user/BillDashbord/userProfile/userEdit">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+
+            <!-- Include Footer -->
+            <%- include('include/_footer')%>
+                <!-- /Include Footer -->
