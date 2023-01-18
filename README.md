@@ -3,7 +3,3 @@
 WEB SITE LINK
 
 https://tax-collection.onrender.com
-
-```
-npm init
-```
