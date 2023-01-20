@@ -234,7 +234,7 @@
                 const checkoutButton = document.getElementById('payment-btn');
 
                 checkoutButton.addEventListener('click', function () {
-                    fetch('http://localhost:4000/user/BillDashbord/payment/<%= Tenment[0]._id %>', {
+                    fetch('/user/BillDashbord/payment/<%= Tenment[0]._id %>', {
                         headers: { 'Content-Type': 'application/json' },
                         method: 'POST',
                         body: JSON.stringify({

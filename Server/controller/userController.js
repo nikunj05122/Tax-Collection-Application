@@ -118,8 +118,8 @@ exports.payment = async (req, res) => {
                     },
                 ],
                 mode: "payment",
-                success_url: `http://localhost:4000/user/success/${req.params.id}/${Transcation_ID}/${Reference}`,
-                cancel_url: "http://localhost:4000/user/cancel",
+                success_url: `https://tax-collection.onrender.com//user/success/${req.params.id}/${Transcation_ID}/${Reference}`,
+                cancel_url: "https://tax-collection.onrender.com//user/cancel",
             });
             res.json({ id: session.id });
         }
