@@ -1,0 +1,24 @@
+<!-- Include Header -->
+<%- include('include/_header')%>
+    <!-- /Include Header -->
+
+    <!-- Include Main Navbar -->
+    <%- include('include/_Main-navbar')%>
+        <!-- /Include Main Navbar -->
+
+        <main>
+            <div class="position-absolute top-50 start-50 translate-middle">
+                <h3 class="payment-success">Transaction Successful</h3>
+                <h6 class="payment-success">Transaction ID : <%= TransactionDetails.Transcation_ID %>
+                </h6>
+                <h6 class="payment-success">Transaction ID : <%= TransactionDetails.Reference %>
+                </h6>
+                <a href="/user/login">
+                    <h6 class="payment-success">&lt; Back</h6>
+                </a>
+            </div>
+        </main>
+
+        <!-- Include Footer -->
+        <%- include('include/_footer')%>
+            <!-- /Include Footer -->

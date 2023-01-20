@@ -25,6 +25,9 @@ exports.exit = (req, res) => {
     });
 }
 
+exports.cancel = (req, res) => {
+    res.render('Fail', { title: "Payment Fail", alert: false });
+}
 
 // ------------------------------------- Admin ------------------------------------------
 exports.AdminSignUp = (req, res) => {

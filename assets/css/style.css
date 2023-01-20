@@ -257,3 +257,35 @@ footer {
 .admin-post {
     display: flex;
 }
+
+/* Admin Dashboard > Details */
+
+.name,
+.email,
+.tenament,
+.number,
+.code {
+    display: flex;
+    padding: 5px;
+}
+
+.name > div {
+    padding-left: 115px;
+}
+.email > div {
+    padding-left: 120px;
+}
+.tenament > div {
+    padding-left: 95px;
+}
+.number > div {
+    padding-left: 50px;
+}
+.code > div {
+    padding-left: 100px;
+}
+
+/* payment-success */
+.payment-success {
+    text-align: center;
+}

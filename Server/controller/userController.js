@@ -1,9 +1,10 @@
+var randomstring = require("randomstring");
 var { UserDB, TenamentDB, paymentDB } = require('./../model/model');
 const fs = require('fs');
 const pdf = require('pdf-creator-node');
 const path = require('path');
 const options = require('./../../assets/js/options');
-const { Console } = require('console');
+const stripe = require("stripe")("sk_test_51MRd1TSHnaTCqUYF365M2jUcfDbWZYEqU9QpdcviZQ67TfbRU8r3mLzizII4TGuHBI3SIcbCsI1K5BRN5EMU8JFn00918BRU15");
 const session = require('express-session');
 
 exports.create = async (req, res) => {
@@ -50,11 +51,14 @@ exports.billboard = async (req, res) => {
         if (req.session.user) {
             const Tenmentdata = [];
             const Paymentdata = [];
+            const year = new Date().getFullYear()
             for (var i = 0; i < (req.session.user)[0].tenment.length; i++) {
                 Tenmentdata.push(await TenamentDB.find({ tenament: (req.session.user)[0].tenment[i] }));
-                Paymentdata.push(await paymentDB.find({ tenament: (req.session.user)[0].tenment[i] }));
+                Paymentdata.push(await paymentDB.find({ $and: [{ tenament: (req.session.user)[0].tenment[i] }, { paymentYear: year }] }));
             }
-            res.status(200).render('bills', { title: "Bill Dashboard", User: (req.session.user)[0], Tenment: Tenmentdata, Payment: Paymentdata });
+            // for (var i = 0; i < Paymentdata.length; i++)
+            //     console.log(Paymentdata[i].length, Paymentdata[i]);
+            res.status(200).render('bills', { title: "Bill Dashboard", User: (req.session.user)[0], Tenment: Tenmentdata, Payment: Paymentdata, year: year });
         }
         else {
             res.status(500).json({
@@ -71,54 +75,10 @@ exports.billboard = async (req, res) => {
     }
 }
 
-// exports.addTenment = async (req, res) => {
-//     try {
-//         const tenment = (req.session.user)[0].tenment;
-//         tenment.push(req.body.Tenment);
-//         const id = req.params.id;
-//         const data = {
-//             tenment: tenment
-//         }
-//         const updateData = await UserDB.findByIdAndUpdate(id, data, {
-//             new: true,
-//             runValidators: true
-//         });
-
-//         res.status(200).redirect(`/user/AddTenament/${id}`);
-//     }
-//     catch (err) {
-//         res.status(404).json({
-//             status: 'fail',
-//             message: "fail update"
-//         });
-//     }
-// }
-
-// exports.Tenment = async (req, res) => {
-//     try {
-//         const Tenmentdata = [];
-//         if (req.session.user) {
-//             for (var i = 0; i < (req.session.user)[0].tenment.length; i++) {
-//                 Tenmentdata.push(await TenamentDB.find({ tenament: (req.session.user)[0].tenment[i] }));
-//             }
-//             res.status(200).render('addTenment', { title: "Add Tenment Dashboard", User: (req.session.user)[0], Tenment: Tenmentdata });
-//         }
-//         else {
-//             res.status(500).json({
-//                 status: "Fail",
-//                 message: "Please Re-Login..."
-//             });
-//         }
-//     } catch (err) {
-//         res.status(404).json({
-//             status: 'fail'
-//         });
-//     }
-// }
-
 exports.billDetails = async (req, res) => {
     try {
         if (req.session.user) {
+            // console.log(req.params);
             const data = await TenamentDB.find({ tenament: req.params.tenment });
             res.status(200).render('taxPage', { title: "Tex Page", User: (req.session.user)[0], Tenment: data });
         } else {
@@ -130,6 +90,93 @@ exports.billDetails = async (req, res) => {
     } catch (err) {
         res.status(404).json({
             status: 'fail'
+        });
+    }
+}
+
+exports.payment = async (req, res) => {
+    try {
+        if (req.session.user) {
+            const Transcation_ID = randomstring.generate({ length: 18, readable: true, charset: 'numeric' });
+            const Reference = randomstring.generate({ length: 10, readable: true, charset: 'alphanumeric', capitalization: 'uppercase' });
+            // const Reference = parseInt(cryptoRandomString({ length: 10, type: 'distinguishable' }));
+            const { product } = req.body;
+            // console.log(Transcation_ID, Reference)
+            const session = await stripe.checkout.sessions.create({
+                payment_method_types: ["card"],
+                line_items: [
+                    {
+                        price_data: {
+                            currency: "inr",
+                            product_data: {
+                                name: `Owner: ${req.session.user[0].name}`,
+                                description: `Address: ${product.name} Tenament: ${product.description} Transcation ID: ${Transcation_ID} Reference: ${Reference}`
+                            },
+                            unit_amount: product.amount * 100,
+                        },
+                        quantity: 1,
+                    },
+                ],
+                mode: "payment",
+                success_url: `http://localhost:4000/user/success/${req.params.id}/${Transcation_ID}/${Reference}`,
+                cancel_url: "http://localhost:4000/user/cancel",
+            });
+            res.json({ id: session.id });
+        }
+        else {
+            res.status(500).json({
+                status: "Fail",
+                message: "Please Re-Login..."
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            status: "Fail to payment",
+            message: err
+        });
+    }
+}
+
+exports.success = async (req, res) => {
+    try {
+        // if (req.session.user) {
+        // console.log(req.params, req.params.Transcation_ID * 1);
+        const TanmentData = await TenamentDB.findById(req.params.id);
+        // console.log(TanmentData, TanmentData._id);
+
+        const paymentData = {
+            tenament: TanmentData.tenament,
+            Status: true,
+            Total: TanmentData.Total,
+            paymentYear: `${new Date().getFullYear()}`,
+            Date: `${new Date().getDay() + 11}/${new Date().getMonth() + 1}/${new Date().getFullYear()}  ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`,
+            Transcation_ID: req.params.Transcation_ID * 1,
+            Reference: req.params.Reference
+        }
+        const payment = await paymentDB.create(paymentData);
+        // console.log(payment);
+
+        const updateData = {
+            Status: true
+        }
+        const ten = await TenamentDB.findByIdAndUpdate(req.params.id, updateData, {
+            new: true,
+            runValidators: true
+        });
+        // console.log(ten);
+
+        res.render('success', { title: "Payment Success", TransactionDetails: req.params, alert: false });
+        // }
+        // else {
+        //     res.status(500).json({
+        //         status: "Fail",
+        //         message: "Please Re-Login..."
+        //     });
+        // }
+    } catch (err) {
+        res.status(504).json({
+            status: "Fail to payment",
+            message: err
         });
     }
 }
@@ -182,7 +229,8 @@ exports.downloadReceipe = async (req, res) => {
     }
     catch (err) {
         res.status(404).json({
-            status: 'fail'
+            status: 'fail',
+            message: err
         });
     }
 }
@@ -269,3 +317,49 @@ exports.userEditSubmit = async (req, res) => {
         });
     }
 }
+
+
+// exports.addTenment = async (req, res) => {
+//     try {
+//         const tenment = (req.session.user)[0].tenment;
+//         tenment.push(req.body.Tenment);
+//         const id = req.params.id;
+//         const data = {
+//             tenment: tenment
+//         }
+//         const updateData = await UserDB.findByIdAndUpdate(id, data, {
+//             new: true,
+//             runValidators: true
+//         });
+
+//         res.status(200).redirect(`/user/AddTenament/${id}`);
+//     }
+//     catch (err) {
+//         res.status(404).json({
+//             status: 'fail',
+//             message: "fail update"
+//         });
+//     }
+// }
+
+// exports.Tenment = async (req, res) => {
+//     try {
+//         const Tenmentdata = [];
+//         if (req.session.user) {
+//             for (var i = 0; i < (req.session.user)[0].tenment.length; i++) {
+//                 Tenmentdata.push(await TenamentDB.find({ tenament: (req.session.user)[0].tenment[i] }));
+//             }
+//             res.status(200).render('addTenment', { title: "Add Tenment Dashboard", User: (req.session.user)[0], Tenment: Tenmentdata });
+//         }
+//         else {
+//             res.status(500).json({
+//                 status: "Fail",
+//                 message: "Please Re-Login..."
+//             });
+//         }
+//     } catch (err) {
+//         res.status(404).json({
+//             status: 'fail'
+//         });
+//     }
+// }

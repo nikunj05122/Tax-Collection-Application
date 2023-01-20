@@ -8,6 +8,7 @@ router.get('/signUp', services.UserSignUp);
 router.get('/login', services.UserLogin);
 router.get('/', services.homepage, services.exit);
 router.get('/exit', services.exit);
+router.get('/cancel', services.cancel);
 // API
 router.post('/api/signUp', userController.create);
 router.post('/api/login', userController.login);
@@ -19,5 +20,8 @@ router.get('/BillDashbord/BillPayment/:tenment', userController.billDetails);
 // router.post('/AddTenament/:id', userController.addTenment);
 // router.get('/AddTenament/:id', userController.Tenment);
 router.get('/BillDashbord/Download/:id', userController.downloadReceipe)
+
+router.post("/BillDashbord/payment/:id", userController.payment);
+router.get("/success/:id/:Transcation_ID/:Reference", userController.success);
 
 module.exports = router;

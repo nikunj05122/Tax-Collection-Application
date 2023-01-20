@@ -101,8 +101,8 @@
                                                 </thead>
                                                 <tbody>
                                                     <% for(var i=0; i<Payment.length; i++) {%>
-                                                        <% if(Payment[i][0].Status && Payment[i][0].paymentYear==(new
-                                                            Date().getFullYear())) { %>
+                                                        <% if(Payment[i].length && Payment[i][0].Status &&
+                                                            (Payment[i][0].paymentYear)==year) { %>
                                                             <tr>
                                                                 <th scope="row">
                                                                     <%= Payment[i][0].tenament %>

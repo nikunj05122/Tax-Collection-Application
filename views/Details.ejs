@@ -1,0 +1,330 @@
+<!-- Include Header -->
+<%- include('include/_header')%>
+    <!-- /Include Header -->
+
+    <!-- Include Main Navbar -->
+    <%- include('include/_Main-navbar')%>
+        <!-- /Include Main Navbar -->
+
+        <div class="bg-warning">
+            <div class="container">
+                <div class="nav-menu-user">
+                    <div class="person-intro">
+                        Welcome,
+                        <b id="person">
+                            <%= User.name %>
+                        </b>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <div class="banner">
+                <div class="hid"></div>
+                <div class="container pt-4 main-container ">
+                    <span>
+                        <strong class="purpel-text">Details</strong>
+                    </span>
+                    <hr>
+
+                    <!-- User Details -->
+                    <div class="userDetails">
+                        <div class="name">
+                            <strong>Name </strong>
+                            <div>
+                                <%= UserDetails.name %>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="email">
+                            <strong>Email </strong>
+                            <div>
+                                <%= UserDetails.email %>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="number">
+                            <strong>Phone number </strong>
+                            <div>
+                                <%= UserDetails.number %>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="code">
+                            <strong>Pincode </strong>
+                            <div>
+                                <%= UserDetails.code %>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="tenament">
+                            <strong>Tenment </strong>
+                            <div>
+                                <table class="table table-bordered table-striped-columns">
+                                    <thead>
+                                        <tr>
+                                            <% for(var i=0; i<UserDetails.tenment.length; i++) {%>
+                                                <th scope="col">
+                                                    <%= UserDetails.tenment[i] %>
+                                                </th>
+                                                <% } %>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /User Details -->
+
+                    <hr>
+                    <!-- Tenament Details -->
+                    <table class=" table table-bordered">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" colspan="4" scope="col">
+                                        <b style="font-size: 25px;">Current Year Property Tax Information</b>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="px-5">
+                                        <b>Tenement No.</b>
+                                        <p>
+                                            <%= TenmentDetails.tenament %>
+                                        </p>
+                                    </td>
+                                    <td class="amount" rowspan="8" class="p-5">
+                                        <b>Outstanding Amount</b>
+                                        <p>Rs.
+                                            <%= TenmentDetails.Total %>/-
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-5">
+                                        <b>Name</b>
+                                        <p>
+                                            <%= TenmentDetails.Name %>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-5">
+                                        <b>Postal Address</b>
+                                        <p>
+                                            <%= TenmentDetails.Postal_address %>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-5">
+                                        <b>Location Address</b>
+                                        <p>
+                                            <%= TenmentDetails.Local_address %>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-5">
+                                        <b>Usage</b>
+                                        <p>
+                                            <%= TenmentDetails.Usage %>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-5">
+                                        <b>OCCUPIER</b>
+                                        <p>
+                                            <%= TenmentDetails.Occupier %>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-5">
+                                        <b>Last Bill Issue Data</b>
+                                        <p>
+                                            31/10/<%= new Date().getFullYear();%>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-5">
+                                        <b>Last Bill Due Date</b>
+                                        <p>
+                                            31/12/<%= new Date().getFullYear();%>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-5" colspan="2">
+                                        <!-- iner table -->
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Particulars</th>
+                                                    <th scope="col">Rateable Sys. Arrears</th>
+                                                    <th scope="col">Areabase Arrears</th>
+                                                    <th scope="col">Areabase Current Tax</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">Property Tax</th>
+                                                    <td>0.00</td>
+                                                    <td>0.00</td>
+                                                    <td>
+                                                        <%= TenmentDetails.Property_tax %>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Water Charge</th>
+                                                    <td>0.00</td>
+                                                    <td>0.00</td>
+                                                    <td>
+                                                        <%= TenmentDetails.Water_tax %>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Drainage Charge</th>
+                                                    <td>0.00</td>
+                                                    <td>0.00</td>
+                                                    <td>
+                                                        <%= TenmentDetails.Drainage_tax %>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">SW Charge</th>
+                                                    <td>0.00</td>
+                                                    <td>0.00</td>
+                                                    <td>
+                                                        <%= TenmentDetails.SW_tax %>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Street Light Charge</th>
+                                                    <td>0.00</td>
+                                                    <td>0.00</td>
+                                                    <td>
+                                                        <%= TenmentDetails.Street_Light %>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Fire Charge</th>
+                                                    <td>0.00</td>
+                                                    <td>0.00</td>
+                                                    <td>
+                                                        <%= TenmentDetails.Fire_Charge %>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Env.Improve.Charge</th>
+                                                    <td>0.00</td>
+                                                    <td>0.00</td>
+                                                    <td>
+                                                        <%= TenmentDetails.Env_improve_charge %>
+                                                    </td>
+                                                </tr>
+                                                <tr class="rebate">
+                                                    <th scope="row">Rebate</th>
+                                                    <td>0.00</td>
+                                                    <td>0.00</td>
+                                                    <td>
+                                                        <%= TenmentDetails.Rebate %>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Education Cess</th>
+                                                    <td>0.00</td>
+                                                    <td>0.00</td>
+                                                    <td>
+                                                        <%= TenmentDetails.Education_Cess %>
+                                                    </td>
+                                                </tr>
+                                                <tr style="font-weight: bold">
+                                                    <th scope="row">
+                                                        <b>Total</b>
+                                                    </th>
+                                                    <td>0.00</td>
+                                                    <td>0.00</td>
+                                                    <td>
+                                                        <%= TenmentDetails.Total %> %>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </table>
+                    <!-- /Tenament Details -->
+
+                    <hr>
+                    <!-- Payment Details -->
+                    <% for(var i=0; i<PaymentDetails.length; i++) {%>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" colspan="4" scope="col">
+                                        <b style="font-size: 25px;">
+                                            Year - <%= PaymentDetails[i].paymentYear%> Payment Details
+                                        </b>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Tenament</th>
+                                    <td>
+                                        <%= PaymentDetails[i].tenament%>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Status</th>
+                                    <td>
+                                        <% if (PaymentDetails[i].Status) { %>
+                                            <img src="/img/ok.png" height="25px" />
+                                            <% } else { %>
+                                                <img src="/img/cancel.png" height="18px" />
+                                                <% } %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Date</th>
+                                    <td>
+                                        <%= PaymentDetails[i].Date%>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Transaction ID</th>
+                                    <td>
+                                        <%= PaymentDetails[i].Transcation_ID%>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Reference</th>
+                                    <td>
+                                        <%= PaymentDetails[i].Reference%>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Total</th>
+                                    <td>
+                                        <%= PaymentDetails[i].Total%>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <% } %>
+                            <!-- /Payment Details -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Include Footer -->
+        <%- include('include/_footer')%>
+            <!-- /Include Footer -->

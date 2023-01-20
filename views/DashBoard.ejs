@@ -28,10 +28,16 @@
                     </span>
                     <hr>
 
-                    <form class="d-flex p-3" role="search">
+                    <form method="GET" class="d-flex p-3 search" id="search" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
+
+                    <!-- Search Result -->
+                    <div id="search-result">
+
+                    </div>
+
                     <!-- list-payment holder -->
                     <div class="list-payment">
                         <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -108,7 +114,7 @@
                                                                             </td>
                                                                             <td>
                                                                                 <a class="Pay-btn shadow-sm"
-                                                                                    href="#">Details</a>
+                                                                                    href="/admin/dashBoard/details/<%= userBill.get(key)[i].tenament%>">Details</a>
                                                                             </td>
                                                                         </tr>
                                                                         <% } %>

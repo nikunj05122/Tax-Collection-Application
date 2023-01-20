@@ -153,7 +153,7 @@ const paymentSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    paymentYear: String,
+    paymentYear: Number,
     Date: String,
     Transcation_ID: Number,
     Reference: String

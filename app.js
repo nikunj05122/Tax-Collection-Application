@@ -3,6 +3,7 @@ const routesUser = require('./Server/routes/routesUser');
 const routesAdmin = require('./Server/routes/routesAdmin');
 const connectDB = require('./Server/database/connection');
 const bodyParser = require('body-parser');
+// const cors = require('corn');
 // const morgan = require('morgan');
 const path = require('path');
 const session = require('express-session');
@@ -20,6 +21,8 @@ connectDB();
 // For get body data
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
+// app.use(cors());
+
 
 // set view engine
 app.set('view engine', 'ejs');
