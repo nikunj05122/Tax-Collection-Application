@@ -1,0 +1,181 @@
+<!-- Include Header -->
+<%- include('include/_header')%>
+    <!-- /Include Header -->
+
+    <!-- Include Main Navbar -->
+    <%- include('include/_Main-navbar')%>
+        <!-- /Include Main Navbar -->
+
+        <div class="bg-warning">
+            <div class="container">
+                <div class="nav-menu-user">
+                    <div class="person-intro">
+                        Welcome,
+                        <a class="userEdit" href="#">
+                            <b id="person">
+                                <%= User.name%>
+                            </b>
+                        </a>
+
+                        <a href="/admin/dashBoard" class="User-details-for-admin"><i class="fa-solid fa-house"></i>
+                            DashBoard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <div class="banner">
+                <div class="hid"></div>
+                <div class="container pt-4 main-container ">
+                    <span>
+                        <strong class="purpel-text">User Details</strong>
+                    </span>
+                    <hr>
+
+                    <div class="search p-3">
+                        <input id="search-input" class="form-control me-2" type="text" name="email" placeholder="Search"
+                            aria-label="Search">
+                        <button id="search-btn" class="btn btn-outline-success" onclick="Search()"
+                            type="submit">Search</button>
+                    </div>
+
+                    <!-- Search Result -->
+                    <div class="search-result ">
+                    </div>
+
+                    <div class="userDetails container">
+                        <hr>
+                        <h5 class='Center-text'><strong>All User List</strong></h5>
+                        <% for(var i=0; i<userData.length; i++) {%>
+                            <hr>
+                            <div class="userdata"><strong>Name : </strong>
+                                <div>
+                                    <%= userData[i].name%>
+                                </div>
+                            </div>
+                            <div class="userdata"><strong>Email : </strong>
+                                <div>
+                                    <%= userData[i].email%>
+                                </div>
+                            </div>
+                            <div class="userdata"><strong>Phone Number : </strong>
+                                <div>
+                                    <%= userData[i].number%>
+                                </div>
+                            </div>
+                            <div class="userdata"><strong>Pin Code : </strong>
+                                <div>
+                                    <%= userData[i].code%>
+                                </div>
+                            </div>
+                            <div class="userdata"><strong>Tenment : </strong>
+                                <div>
+                                    <table class="table table-bordered table-striped-columns">
+                                        <thead>
+                                            <tr>
+                                                <% for(var j=0; j < userData[i].tenment.length; j++) {%>
+                                                    <th scope="col">
+                                                        <%= userData[i].tenment[j] %>
+                                                    </th>
+                                                    <% } %>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <% if (User.post=='Mamlatdar' ) { %>
+                                <div class="userdata signUp-btn">
+                                    <a href="/admin/dashBoard/userDetailsEdit/<%= userData[i]._id.valueOf() %>">Edit</a>
+                                </div>
+                                <% } %>
+                                    <% } %>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </main>
+
+        <script type="text/javascript">
+            function Search() {
+                const searchValue = document.getElementById('search-input').value;
+                const searchBtn = document.getElementById('search-btn');
+                // console.log(searchValue);
+                searchBtn.addEventListener('click', (() => {
+                    fetch('/admin/api/dashBoard/searchUser', {
+                        headers: { 'Content-Type': 'application/json' },
+                        method: 'POST',
+                        body: JSON.stringify({
+                            'email': searchValue
+                        })
+                    }).then(res => {
+                        return res.json();
+                    }).then((data) => {
+                        const Data = data;
+                        const DataArray = Object.keys(Data)
+                        const searchData = document.querySelector('.search-result');
+                        if (DataArray.length) {
+                            var post = '<%- User.post%>' == 'Mamlatdar' ? `<div class="userdata signUp-btn"><a href="/admin/dashBoard/userDetailsEdit/${Data.data._id.valueOf()}">Edit</a></div>` : '';
+                            var tenament = '';
+                            for (var i = 0; i < Data.data.tenment.length; i++)
+                                tenament += `<th scope="col">${Data.data.tenment[i]}</th>`;
+
+                            searchData.innerHTML = `<div class="userDetails container">
+                                    <hr>
+                                    <h5 class='Center-text'><strong>Search Result</strong></h5>
+                                    <hr>
+                                    <div class="userdata"><strong>Name : </strong>
+                                        <div>
+                                            ${Data.data.name}
+                                        </div>
+                                    </div>
+                                    <div class="userdata"><strong>Email : </strong>
+                                        <div>
+                                            ${Data.data.email}
+                                        </div>
+                                    </div>
+                                    <div class="userdata"><strong>Phone Number : </strong>
+                                        <div>
+                                            ${Data.data.number}
+                                        </div>
+                                    </div>
+                                    <div class="userdata"><strong>Pin Code : </strong>
+                                        <div>
+                                            ${Data.data.code}
+                                        </div>
+                                    </div>
+                                    <div class="userdata"><strong>Tenment : </strong>
+                                        <div>
+                                            <table class="table table-bordered table-striped-columns">
+                                                <thead>
+                                                    <tr>
+                                                        ${tenament}
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    ${post}
+                            </div>
+                            <hr>`;
+                        }
+                        else {
+                            searchData.classList.add('pb-2');
+                            searchData.classList.add('Center-text');
+                            searchData.innerHTML = "<strong>No Data Found</strong>";
+                        }
+                        document.getElementById('search-input').value = '';
+                        return true;
+                    }).catch(err => {
+                        console.log('ERROR : ', err);
+                    })
+                })()
+                );
+            }
+
+        </script>
+        <!-- Include Footer -->
+        <%- include('include/_footer')%>
+            <!-- /Include Footer -->

@@ -3,9 +3,15 @@ var { UserDB, TenamentDB, paymentDB } = require('./../model/model');
 const fs = require('fs');
 const pdf = require('pdf-creator-node');
 const path = require('path');
+// const axios = require('axios');
 const options = require('./../../assets/js/options');
 const stripe = require("stripe")("sk_test_51MRd1TSHnaTCqUYF365M2jUcfDbWZYEqU9QpdcviZQ67TfbRU8r3mLzizII4TGuHBI3SIcbCsI1K5BRN5EMU8JFn00918BRU15");
-const session = require('express-session');
+// const session = require('express-session');
+const nodemailer = require('nodemailer');
+const Mailgen = require('mailgen');
+
+// const LOCAL_URL = 'http://localhost:4000';
+const LOCAL_URL = 'https://tax-collection.onrender.com';
 
 exports.create = async (req, res) => {
     // validate request
@@ -118,10 +124,10 @@ exports.payment = async (req, res) => {
                     },
                 ],
                 mode: "payment",
-                success_url: `https://tax-collection.onrender.com/user/success/${req.params.id}/${Transcation_ID}/${Reference}`,
-                cancel_url: "https://tax-collection.onrender.com/user/cancel",
+                success_url: `${LOCAL_URL}/user/paymentSuccess/${req.params.id}/${Transcation_ID}/${Reference}`,
+                cancel_url: `${LOCAL_URL}/user/cancel`,
             });
-            res.json({ id: session.id });
+            res.status(200).json({ id: session.id });
         }
         else {
             res.status(500).json({
@@ -137,42 +143,210 @@ exports.payment = async (req, res) => {
     }
 }
 
+exports.PaymentMail = async (req, res) => {
+
+    try {
+        if (req.session.user) {
+            const tenmentData = await TenamentDB.findById(req.params.id);
+            // console.log(tenmentData);
+            const EMAIL = '303.nikeg@gmail.com';
+            const PASS = 'spkjjbaamiermgeu';
+            let config = {
+                service: 'gmail',
+                auth: {
+                    user: EMAIL,
+                    pass: PASS
+                }
+            }
+
+            let transporter = nodemailer.createTransport(config);
+            // console.log("transporter : ", transporter);
+            let MailGenerator = new Mailgen({
+                theme: "default",
+                product: {
+                    name: "Tax Payment",
+                    link: `${LOCAL_URL}`,
+                    // logo: '/img/DDO.jpg'
+                    copyright: 'Copyright © 2019. All rights reserved.'
+                }
+            })
+            // console.log("mailgenerator : ", MailGenerator);
+
+            let response = {
+                body: {
+                    name: `Your bill payed ${tenmentData.tenament}`,
+                    intro: "Your bill has arrived!",
+                    table: [
+                        {
+                            title: "Property Detailes",
+                            data: [
+                                {
+                                    item: "Tenament",
+                                    description: `${tenmentData.tenament}`,
+                                },
+                                {
+                                    item: "Taluka",
+                                    description: `${tenmentData.Taluka}`,
+                                },
+                                {
+                                    item: "Name",
+                                    description: `${tenmentData.Name}`,
+                                },
+                                {
+                                    item: "Postal Address",
+                                    description: `${tenmentData.Postal_address}`,
+                                },
+                                {
+                                    item: "Local Address",
+                                    description: `${tenmentData.Local_address}`,
+                                },
+                                {
+                                    item: "Usage",
+                                    description: `${tenmentData.Usage}`,
+                                },
+                                {
+                                    item: "Occupier",
+                                    description: `${tenmentData.Occupier}`,
+                                }
+                            ]
+                        },
+                        {
+                            title: "Tax Details",
+                            data: [
+                                {
+                                    item: "Property Tax",
+                                    price: `${tenmentData.Property_tax}`,
+                                },
+                                {
+                                    item: "Water Tax",
+                                    price: `${tenmentData.Water_tax}`,
+                                },
+                                {
+                                    item: "Drainage Tax",
+                                    price: `${tenmentData.Drainage_tax}`,
+                                },
+                                {
+                                    item: "SW Tax",
+                                    price: `${tenmentData.SW_tax}`,
+                                },
+                                {
+                                    item: "Street Light Tax",
+                                    price: `${tenmentData.Street_Light}`,
+                                },
+                                {
+                                    item: "Fire Charge",
+                                    price: `${tenmentData.Fire_Charge}`,
+                                },
+                                {
+                                    item: "Env Improve Charge",
+                                    price: `${tenmentData.Env_improve_charge}`,
+                                },
+                                {
+                                    item: "Rebate",
+                                    price: `${tenmentData.Rebate}`,
+                                },
+                                {
+                                    item: "Education Cess",
+                                    price: `${tenmentData.Education_Cess}`,
+                                },
+                                {
+                                    item: "Total",
+                                    price: `${tenmentData.Total}`,
+                                }
+                            ]
+                        },
+                        {
+                            title: "Payment Details",
+                            data: [
+                                {
+                                    item: "Transcation ID",
+                                    description: `${req.params.Transcation_ID}`,
+                                },
+                                {
+                                    item: "Reference",
+                                    description: `${req.params.Reference}`,
+                                }
+                            ]
+                        }
+                    ],
+                    action: {
+                        instructions: 'To Download the Payment Receipe, please click here:',
+                        button: {
+                            color: '#48cfad', // Optional action button color
+                            text: 'Download Receipe',
+                            link: `${LOCAL_URL}/user/BillDashbord/Download/${tenmentData.tenament}`
+                        }
+                    },
+                    outro: "Thank you for payment"
+                }
+            }
+            // console.log("response : ", response);
+
+            let mail = MailGenerator.generate(response);
+            // console.log("Mail : ", mail);
+
+            let message = {
+                from: EMAIL,
+                // to: req.session.user[0].email,
+                to: 'nikunjgajera104@gmail.com',
+                subject: "Your tax payment is successfully pay.",
+                html: mail
+            }
+
+            await transporter.sendMail(message);
+
+            res.status(200).redirect(`/user/success/${req.params.id}/${req.params.Transcation_ID}/${req.params.Reference}`);
+        }
+        else {
+            res.status(501).json({
+                status: "Fail",
+                message: "Please Re-Login..."
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            status: "Fail to send mail",
+            message: err
+        });
+    }
+}
+
 exports.success = async (req, res) => {
     try {
-        // if (req.session.user) {
-        // console.log(req.params, req.params.Transcation_ID * 1);
-        const TanmentData = await TenamentDB.findById(req.params.id);
-        // console.log(TanmentData, TanmentData._id);
+        if (req.session.user) {
+            // console.log(req.params, req.params.Transcation_ID * 1);
+            const TanmentData = await TenamentDB.findById(req.params.id);
+            // console.log(req.session.user[0]);
 
-        const paymentData = {
-            tenament: TanmentData.tenament,
-            Status: true,
-            Total: TanmentData.Total,
-            paymentYear: `${new Date().getFullYear()}`,
-            Date: `${new Date().getDay() + 11}/${new Date().getMonth() + 1}/${new Date().getFullYear()}  ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`,
-            Transcation_ID: req.params.Transcation_ID * 1,
-            Reference: req.params.Reference
+            const paymentData = {
+                tenament: TanmentData.tenament,
+                Status: true,
+                Total: TanmentData.Total,
+                paymentYear: `${new Date().getFullYear()}`,
+                Date: `${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}  ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`,
+                Transcation_ID: req.params.Transcation_ID,
+                Reference: req.params.Reference
+            }
+            const payment = await paymentDB.create(paymentData);
+            // console.log(payment);
+
+            const updateData = {
+                Status: true
+            }
+            const ten = await TenamentDB.findByIdAndUpdate(req.params.id, updateData, {
+                new: true,
+                runValidators: true
+            });
+            // console.log(ten);
+
+            res.render('mail', { title: "Payment Success", TransactionDetails: req.params });
         }
-        const payment = await paymentDB.create(paymentData);
-        // console.log(payment);
-
-        const updateData = {
-            Status: true
+        else {
+            res.status(500).json({
+                status: "Fail",
+                message: "Please Re-Login..."
+            });
         }
-        const ten = await TenamentDB.findByIdAndUpdate(req.params.id, updateData, {
-            new: true,
-            runValidators: true
-        });
-        // console.log(ten);
-
-        res.render('success', { title: "Payment Success", TransactionDetails: req.params, alert: false });
-        // }
-        // else {
-        //     res.status(500).json({
-        //         status: "Fail",
-        //         message: "Please Re-Login..."
-        //     });
-        // }
     } catch (err) {
         res.status(504).json({
             status: "Fail to payment",
@@ -224,7 +398,7 @@ exports.downloadReceipe = async (req, res) => {
         // console.log(document.data.tenment);
 
         const PDF = await pdf.create(document, options)
-        console.log(PDF);
+        // console.log(PDF);
 
     }
     catch (err) {

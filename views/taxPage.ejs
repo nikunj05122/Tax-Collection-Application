@@ -234,6 +234,11 @@
                 const checkoutButton = document.getElementById('payment-btn');
 
                 checkoutButton.addEventListener('click', function () {
+                    checkoutButton.innerHTML = "Loading...";
+                    checkoutButton.disabled = true;
+                    checkoutButton.classList.remove("tax-pay");
+                    checkoutButton.classList.add("tax-pay-click");
+
                     fetch('/user/BillDashbord/payment/<%= Tenment[0]._id %>', {
                         headers: { 'Content-Type': 'application/json' },
                         method: 'POST',

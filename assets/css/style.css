@@ -191,6 +191,16 @@ footer {
     padding: 10px calc(100% - 635px);
 }
 
+.tax-pay-click {
+    width: 100%;
+    color: white;
+    text-decoration: none;
+    border: 1px solid rgba(25, 135, 84, 0.5);
+    border-radius: 6px;
+    padding: 10px calc(100% - 635px);
+    background-color: rgba(25, 135, 84, 0.5);
+}
+
 .tax-pay:hover {
     color: white;
     background-color: rgb(25, 135, 84);
@@ -241,7 +251,7 @@ footer {
 
 .userdata > div,
 .userdata > strong {
-    padding: 10px;
+    padding: 3px;
 }
 
 .back-billboard {
@@ -285,7 +295,23 @@ footer {
     padding-left: 100px;
 }
 
+.search {
+    display: flex;
+}
+
+a.User-details-for-admin {
+    padding-left: calc(100% - 535px);
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+    position: absolute;
+}
+
+a.User-details-for-admin:hover {
+    color: rgb(74, 6, 162);
+}
+
 /* payment-success */
-.payment-success {
+.Center-text {
     text-align: center;
 }

@@ -4,11 +4,12 @@
         <div class="from-group">
             <label for="name" class="txt-dark">Name<span class="redTick"> *</span></label>
             <input type="hidden" name="id" value="">
-            <input type="text" name="name" value="<%= alert ? user.name : "" %>" placeholder="Elon Mask">
+            <input type="text" name="name" value="<%= alert ? user.name : "" %>" placeholder="Elon Mask" required>
         </div>
         <div class="from-group">
             <label for="email" class="txt-dark">Email<span class="redTick"> *</span></label>
-            <input type="text" name="email" value="<%= alert ? user.email : "" %>" placeholder="example@gmail.com">
+            <input type="text" name="email" value="<%= alert ? user.email : "" %>" placeholder="example@gmail.com"
+                required>
         </div>
         <div class="from-group admin-post ">
             <label for="post" class="txt-dark pe-4">Post<span class="redTick"> *</span></label>
@@ -28,12 +29,13 @@
         <div class="from-group">
             <label for="password" class="txt-dark">Create Password<span class="redTick">
                     *</span></label>
-            <input type="password" name="password" value="" placeholder="Enter the password">
+            <input type="password" name="password" value="" placeholder="Enter the password" minlength="8" required>
         </div>
         <div class="from-group">
             <label for="ConfirmPassword" class="txt-dark">Confirm Password<span class="redTick">
                     *</span></label>
-            <input type="password" name="ConfirmPassword" value="" placeholder="Enter the password">
+            <input type="password" name="ConfirmPassword" value="" placeholder="Enter the password" minlength="8"
+                required>
         </div>
         <div class="form-group form-check py-2">
             <input type="checkbox" class="form-check-input" name="termCondition" id="termCondition" required>

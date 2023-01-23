@@ -11,9 +11,14 @@
                 <div class="nav-menu-user">
                     <div class="person-intro">
                         Welcome,
-                        <b id="person">
-                            <%= User.name %>
-                        </b>
+                        <a class="userEdit" href="/admin/dashBoard/adminProfile">
+                            <b id="person">
+                                <%= User.name%>
+                            </b>
+                        </a>
+
+                        <a href="/admin/dashBoard/userDetails" class="User-details-for-admin"><i
+                                class="fa-solid fa-user"></i> User Details</a>
                     </div>
                 </div>
             </div>
@@ -28,15 +33,18 @@
                     </span>
                     <hr>
 
-                    <form method="GET" class="d-flex p-3 search" id="search" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                    <div class="search p-3">
+                        <input id="search-input" class="form-control me-2" type="text" name="tenment"
+                            placeholder="Search" aria-label="Search">
+                        <button id="search-btn" class="btn btn-outline-success" onclick="Search()"
+                            type="submit">Search</button>
+                    </div>
 
                     <!-- Search Result -->
-                    <div id="search-result">
-
+                    <div class="search-result ">
                     </div>
+
+                    <hr>
 
                     <!-- list-payment holder -->
                     <div class="list-payment">
@@ -114,7 +122,9 @@
                                                                             </td>
                                                                             <td>
                                                                                 <a class="Pay-btn shadow-sm"
-                                                                                    href="/admin/dashBoard/details/<%= userBill.get(key)[i].tenament%>">Details</a>
+                                                                                    href="/admin/dashBoard/details/<%= userBill.get(key)[i].tenament%>"><i
+                                                                                        class="fa-solid fa-circle-info"></i>
+                                                                                    Details</a>
                                                                             </td>
                                                                         </tr>
                                                                         <% } %>
@@ -234,6 +244,81 @@
 
             </div>
         </main>
+
+        <script type="text/javascript">
+            function Search() {
+                const searchValue = document.getElementById('search-input').value;
+                const searchBtn = document.getElementById('search-btn');
+                // console.log(searchValue);
+                searchBtn.addEventListener('click', (() => {
+                    fetch('/admin/api/dashBoard', {
+                        headers: { 'Content-Type': 'application/json' },
+                        method: 'POST',
+                        body: JSON.stringify({
+                            'tenament': searchValue
+                        })
+                    }).then(res => {
+                        return res.json();
+                    }).then((data) => {
+                        const Data = data;
+                        const DataArray = Object.keys(Data)
+                        const searchData = document.querySelector('.search-result');
+                        if (DataArray.length) {
+                            const status = Data.data.Status ? '<img src="/img/ok.png" height="25px" /> ' : ' <img src="/img/cancel.png" height="18px" /> '
+                            searchData.innerHTML = `<table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope=" col">Tenement No</th>
+                                        <th scope="col">User</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">Usage</th>
+                                        <th scope="col">Status </th>
+                                        <th scope="col">Total Bill</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="payment-pandding">
+                                        <th scope="row">
+                                            ${Data.data.tenament}
+                                        </th>
+                                        <td>
+                                            ${Data.data.Name}
+                                        </td>
+                                        <td>
+                                            ${Data.data.Postal_address}
+                                        </td>
+                                        <td>
+                                            ${Data.data.Usage}
+                                        </td>
+                                        <td>
+                                            ${status}
+                                        </td>
+                                        <td>
+                                            ${Data.data.Total}
+                                        </td>
+                                        <td>
+                                            <a class="Pay-btn shadow-sm" href='/admin/dashBoard/details/${Data.data.tenament}'>Details</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>`;
+                        }
+                        else {
+                            searchData.classList.add('pb-2');
+                            searchData.classList.add('Center-text');
+                            searchData.innerHTML = "<strong>No Data Found</strong>";
+                        }
+                        document.getElementById('search-input').value = "";
+                        return true;
+                    }).catch(err => {
+                        console.log('ERROR : ', err);
+                    })
+                })()
+                );
+            }
+
+        </script>
 
         <!-- Include Footer -->
         <%- include('include/_footer')%>

@@ -1,0 +1,115 @@
+<!-- Include Header -->
+<%- include('include/_header')%>
+    <!-- /Include Header -->
+
+    <!-- Include Main Navbar -->
+    <%- include('include/_Main-navbar')%>
+        <!-- /Include Main Navbar -->
+
+        <div class="bg-warning">
+            <div class="container">
+                <div class="nav-menu-user">
+                    <div class="person-intro">
+                        Welcome,
+                        <a class="userEdit" href="#">
+                            <b id="person">
+                                <%= User.name%>
+                            </b>
+                        </a>
+
+                        <a href="/admin/dashBoard" class="User-details-for-admin"><i class="fa-solid fa-house"></i>
+                            DashBoard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <div class="banner">
+                <div class="hid"></div>
+                <div class="container pt-4 main-container ">
+                    <span>
+                        <strong class="purpel-text">Add Tenment Details</strong>
+                    </span>
+                    <hr>
+
+                    <div class="contain">
+                        <div class="from-group">
+                            <form action="/admin/dashBoard/userDetailsAdd/<%= userData._id.valueOf() %> " method="POST"
+                                id="add_user">
+                                <div class="from-group contain pt-2">
+                                    <label for="tenament" class="txt-dark"><strong>Add Tenament : </strong></label>
+                                    <input type="text" name="tenament" value="" placeholder="111-A-11-1111-1-111">
+                                    <div class="from-group">
+                                        <button type="submit" class="btn btn-outline-warning">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <hr>
+                        <div class="from-group">
+                            <form action="/admin/dashBoard/userDetailsRemove/<%= userData._id.valueOf() %>"
+                                method="POST" id="add_user">
+                                <div class="from-group contain pt-2">
+                                    <label for="tenament" class="txt-dark"><strong>Remove Tenament : </strong></label>
+                                    <input type="text" name="tenament" value="" placeholder="111-A-11-1111-1-111">
+                                    <div class="from-group">
+                                        <button type="submit" class="btn btn-outline-warning">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="userDetails container">
+                        <hr>
+                        <div class="userdata"><strong>Name : </strong>
+                            <div>
+                                <%= userData.name%>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="userdata"><strong>Email : </strong>
+                            <div>
+                                <%= userData.email%>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="userdata"><strong>Phone Number : </strong>
+                            <div>
+                                <%= userData.number%>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="userdata"><strong>Pin Code : </strong>
+                            <div>
+                                <%= userData.code%>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="userdata"><strong>Tenment : </strong>
+                            <div>
+                                <table class="table table-bordered table-striped-columns">
+                                    <thead>
+                                        <tr>
+                                            <% for(var j=0; j < userData.tenment.length; j++) {%>
+                                                <th scope="col">
+                                                    <%= userData.tenment[j] %>
+                                                </th>
+                                                <% } %>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Include Footer -->
+        <%- include('include/_footer')%>
+            <!-- /Include Footer -->

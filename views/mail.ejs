@@ -1,0 +1,30 @@
+<!-- Include Header -->
+<%- include('include/_header')%>
+    <!-- /Include Header -->
+
+    <!-- Include Main Navbar -->
+    <%- include('include/_Main-navbar')%>
+        <!-- /Include Main Navbar -->
+
+        <main>
+            <div class="position-absolute top-50 start-50 translate-middle">
+                <h3 class="payment-success">Loading...</h3>
+                <div class="invisible">
+                    <form
+                        action="/user/successMail/<%= TransactionDetails.id %>/<%= TransactionDetails.Transcation_ID %>/<%= TransactionDetails.Reference %>"
+                        method="post">
+                        <button class="submit-btn" type="submit">submit</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            (function () {
+                document.querySelector('.submit-btn').click();
+            })();
+        </script>
+
+        <!-- Include Footer -->
+        <%- include('include/_footer')%>
+            <!-- /Include Footer -->

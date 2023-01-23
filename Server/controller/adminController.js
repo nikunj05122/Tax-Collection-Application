@@ -102,8 +102,14 @@ exports.dashBoard = async (req, res) => {
             }
         });
 
+        // // console.log(req.params.tenment);
+        // // const arr = [...req.query]
+        // const len = Object.values(req.query);
+        // // console.log(len);
+        // const searchTenament = len.length ? await TenamentDB.find(req.query) : undefined;
+        // // console.log(req.query, searchTenament, req.params.s);
         if (req.session.user) {
-            res.status(200).render('DashBoard', { title: "DashBoard", User: req.session.user, year: year, tenData: tenData, userBill: userBill })
+            res.status(200).render('DashBoard', { title: "DashBoard", User: req.session.user, year: year, tenData: tenData, userBill: userBill });
         } else {
             res.status(500).json({
                 status: 'Fail',
@@ -113,19 +119,77 @@ exports.dashBoard = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             status: 'Fail',
-            message: 'Please Re-Login... '
+            message: 'Login... Fail'
+        });
+    }
+}
+
+exports.search = async (req, res) => {
+    // console.log(req.body.tenment);
+    // res.status(200).redirect(`/admin/dashBoard/1?tenament=${req.body.tenment}`);
+
+    try {
+        if (req.session.user) {
+            // const { tenament } = req.body;
+            // console.log(req.body);
+
+            const searchData = await TenamentDB.find(req.body);
+            // console.log(searchData);
+            res.status(200).json({ data: searchData[0] });
+        }
+        else {
+            res.status(500).json({
+                status: "Fail",
+                message: "Please Re-Login..."
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            status: "Fail to get data for serch bar",
+            message: err
+        });
+    }
+}
+
+exports.searchUser = async (req, res) => {
+    try {
+        if (req.session.user) {
+            // const { tenament } = req.body;
+            // console.log(req.body);
+
+            const searchData = await UserDB.find(req.body);
+            // console.log(searchData);
+            res.status(200).json({ data: searchData[0] });
+        }
+        else {
+            res.status(500).json({
+                status: "Fail",
+                message: "Please Re-Login..."
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            status: "Fail to get data for serch bar",
+            message: err
         });
     }
 }
 
 exports.details = async (req, res) => {
     try {
-        const userData = await UserDB.find({ tenment: req.params.tenment });
-        const tenmentData = await TenamentDB.find({ tenament: req.params.tenment });
-        const paymentData = await paymentDB.find({ tenament: req.params.tenment })
+        if (req.session.user) {
+            const userData = await UserDB.find({ tenment: req.params.tenment });
+            const tenmentData = await TenamentDB.find({ tenament: req.params.tenment });
+            const paymentData = await paymentDB.find({ tenament: req.params.tenment })
 
-        console.log(userData, tenmentData, paymentData);
-        res.status(200).render('Details', { title: "Details", User: req.session.user, TenmentDetails: tenmentData[0], UserDetails: userData[0], PaymentDetails: paymentData })
+            res.status(200).render('Details', { title: "Details", User: req.session.user, TenmentDetails: tenmentData[0], UserDetails: userData[0], PaymentDetails: paymentData })
+        }
+        else {
+            res.status(500).json({
+                status: "Fail",
+                message: "Please Re-Login..."
+            });
+        }
 
     } catch (err) {
         res.status(500).json({
@@ -134,6 +198,199 @@ exports.details = async (req, res) => {
     }
 }
 
+exports.adminProfile = async (req, res) => {
+    try {
+        if (req.session.user) {
+            const id = req.session.user._id;
+
+            var data = await AdminDB.findById(id);
+            res.status(200).render('adminPage', { title: "User Details", User: data });
+        } else {
+            res.status(500).json({
+                status: "Fail",
+                message: "Please Re-Login..."
+            });
+        }
+    }
+    catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: 'Fail to get details',
+        });
+    }
+}
+
+exports.adminProfileEdit = async (req, res) => {
+    try {
+        if (req.session.user) {
+            const id = req.session.user._id;
+
+            var data = await AdminDB.findById(id);
+            res.status(200).render('adminEditPage', { title: "User Details", User: data });
+        } else {
+            res.status(500).json({
+                status: "Fail",
+                message: "Please Re-Login..."
+            });
+        }
+    }
+    catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: 'Fail to get details',
+        });
+    }
+}
+
+exports.adminProfileEditSubmit = async (req, res) => {
+    try {
+        if (req.session.user) {
+            const id = req.session.user._id;
+            const data = {
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password
+            }
+
+            // console.log(id, data);
+            const update = await AdminDB.findByIdAndUpdate(id, data, {
+                new: true,
+                runValidators: true
+            });
+
+            // console.log(update);
+
+            res.status(200).redirect(`/admin/dashBoard/adminProfile`);
+        }
+        else {
+            res.status(500).json({
+                status: "Fail",
+                message: "Please Re-Login..."
+            });
+        }
+    } catch (err) {
+        // console.log(err);
+        res.status(404).json({
+            status: 'fail',
+            message: 'Fail to update details',
+        });
+    }
+}
+
+exports.userDetails = async (req, res) => {
+    try {
+        if (req.session.user) {
+            const userData = await UserDB.find();
+            // console.log(userData[0]._id.valueOf());
+            res.status(200).render('User_Details', { title: "User Details", User: req.session.user, userData: userData });
+        }
+        else {
+            res.status(500).json({
+                status: "Fail",
+                message: "Please Re-Login..."
+            });
+        }
+
+    } catch (err) {
+        res.status(500).json({
+            message: 'Details is not get from the database'
+        });
+    }
+}
+
+exports.userDetailsEdit = async (req, res) => {
+    try {
+        if (req.session.user) {
+            const id = req.params.id;
+            const userData = await UserDB.findById(id);
+            // console.log(userData);
+            res.status(200).render('User_Details_Edit', { title: "Add Tenment Details", User: req.session.user, userData: userData });
+        }
+        else {
+            res.status(500).json({
+                status: "Fail",
+                message: "Please Re-Login..."
+            });
+        }
+
+    } catch (err) {
+        res.status(500).json({
+            message: 'Edit page not reneder'
+        });
+    }
+}
+
+exports.userDetailsAdd = async (req, res) => {
+    try {
+        if (req.session.user) {
+            const id = req.params.id;
+
+            const oldUserData = await UserDB.findById(id);
+            // console.log(oldUserData);
+            const Tenment = oldUserData.tenment;
+            Tenment.push(req.body.tenament);
+
+            const data = {
+                tenment: Tenment
+            }
+            const updateData = await UserDB.findByIdAndUpdate(id, data, {
+                new: true,
+                runValidators: true
+            });
+
+            res.status(200).redirect(`/admin/dashBoard/userDetailsEdit/${id}`);
+        }
+        else {
+            res.status(500).json({
+                status: "Fail",
+                message: "Please Re-Login..."
+            });
+        }
+
+    } catch (err) {
+        res.status(500).json({
+            message: 'User Details is not updated'
+        });
+    }
+}
+
+exports.userDetailsRemove = async (req, res) => {
+    try {
+        if (req.session.user) {
+            const id = req.params.id;
+
+            const oldUserData = await UserDB.findById(id);
+            // console.log(oldUserData.tenment);
+            const Tenment = [];
+
+            for (var i = 0; i < oldUserData.tenment.length; i++)
+                if (oldUserData.tenment[i] != req.body.tenament)
+                    Tenment.push(oldUserData.tenment[i]);
+
+            console.log(Tenment);
+            const data = {
+                tenment: Tenment
+            }
+            const updateData = await UserDB.findByIdAndUpdate(id, data, {
+                new: true,
+                runValidators: true
+            });
+
+            res.status(200).redirect(`/admin/dashBoard/userDetailsEdit/${id}`);
+        }
+        else {
+            res.status(500).json({
+                status: "Fail",
+                message: "Please Re-Login..."
+            });
+        }
+
+    } catch (err) {
+        res.status(500).json({
+            message: 'User Details is not updated'
+        });
+    }
+}
 // exports.addPayment = async (req, res) => {
 //     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 

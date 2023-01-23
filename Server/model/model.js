@@ -155,7 +155,7 @@ const paymentSchema = mongoose.Schema({
     },
     paymentYear: Number,
     Date: String,
-    Transcation_ID: Number,
+    Transcation_ID: String,
     Reference: String
 });
 

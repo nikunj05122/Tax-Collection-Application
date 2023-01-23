@@ -29,6 +29,10 @@ exports.cancel = (req, res) => {
     res.render('Fail', { title: "Payment Fail", alert: false });
 }
 
+exports.successPage = (req, res) => {
+    res.status(200).render('success', { title: "Payment Success", TransactionDetails: req.params });
+}
+
 // ------------------------------------- Admin ------------------------------------------
 exports.AdminSignUp = (req, res) => {
     res.render('Admin_SignUp', { title: "Sign Up", alert: false });
