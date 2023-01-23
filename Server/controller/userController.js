@@ -10,8 +10,8 @@ const stripe = require("stripe")("sk_test_51MRd1TSHnaTCqUYF365M2jUcfDbWZYEqU9Qpd
 const nodemailer = require('nodemailer');
 const Mailgen = require('mailgen');
 
-const LOCAL_URL = 'http://localhost:4000';
-// const LOCAL_URL = 'https://tax-collection.onrender.com';
+// const LOCAL_URL = 'http://localhost:4000';
+const LOCAL_URL = 'https://tax-collection.onrender.com';
 
 exports.create = async (req, res) => {
     // validate request
