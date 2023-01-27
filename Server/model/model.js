@@ -56,7 +56,8 @@ const AdminDB = mongoose.model("AdminDB", AdminSchema);
 var TenamentSchema = mongoose.Schema({
     tenament: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     Taluka: {
         type: String,
@@ -83,7 +84,11 @@ var TenamentSchema = mongoose.Schema({
         require: true
         // default: ['Self', 'Tenant']
     },
-    Property_size: {
+    Property_Width: {
+        type: Number,
+        required: true
+    },
+    Property_Length: {
         type: Number,
         required: true
     },

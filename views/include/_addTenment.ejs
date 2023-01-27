@@ -1,14 +1,46 @@
 <!-- Form Handaling -->
-<form action="/user/AddTenament/<%= User._id %> " method="POST" id="add_user">
+<form action="/admin/api/tenmentEntry" method="POST" id="add_user">
     <div class="new_user">
         <div class="from-group">
-            <label for="Tenment" class="txt-dark">Add New Tenment<span class="redTick"> *</span></label>
-            <input type="text" name="Tenment" value="" placeholder="111-A-11-1111-1-111">
+            <label for="Tenment" class="txt-dark form-label">New Tenment<span class="redTick"> *</span></label>
+            <input type="text" class="form-control" name="Tenment" value="" placeholder="111-A-11-1111-1-111">
         </div>
         <div class="from-group">
-            <!-- <div class="signUp-btn mt-3">
-                <a class="shadow-sm" href="/user/api/AddTenament">Submit</a>
-            </div> -->
+            <label for="Tenment" class="txt-dark form-label">Taluka<span class="redTick"> *</span></label>
+            <input type="text" class="form-control" name="Taluka" value="" placeholder="Daskroi">
+        </div>
+        <div class="from-group">
+            <label for="Tenment" class="txt-dark form-label">Name<span class="redTick"> *</span></label>
+            <input type="text" class="form-control" name="Name" value="" placeholder="Shanti Soc. Hol">
+        </div>
+        <div class="from-group">
+            <label for="Tenment" class="txt-dark form-label">Postal Address<span class="redTick"> *</span></label>
+            <input type="text" class="form-control" name="Postal_address" value=""
+                placeholder="PL.NO-69,  Shanti Soc., Daskroi, Ahmadabad">
+        </div>
+        <div class="from-group">
+            <label for="Tenment" class="txt-dark form-label">Local Address<span class="redTick"> *</span></label>
+            <input type="text" class="form-control" name="Local_address" value=""
+                placeholder="Shanti Soc., Daskroi, Ahmadabad">
+        </div>
+        <div class="from-group">
+            <label for="Tenment" class="txt-dark form-label">Usage<span class="redTick"> *</span></label>
+            <input type="text" class="form-control" name="Usage" value="" placeholder="Residence">
+        </div>
+        <div class="from-group">
+            <label for="Tenment" class="txt-dark form-label">Occupier<span class="redTick"> *</span></label>
+            <input type="text" class="form-control" name="Occupier" value="" placeholder="Self">
+        </div>
+        <div class="from-groups">
+            <label for="Tenment" class="txt-dark form-label">Property Size<span class="redTick"> *</span></label>
+            <div class="from-group container">
+                <label for="Tenment" class="txt-dark form-label">Width<span class="redTick">*</span></label>
+                <input type="number" class="form-control" name="PropertyWidth" value="" placeholder="13">
+                <label for="Tenment" class="txt-dark form-labelv">Length<span class="redTick"> *</span></label>
+                <input type="number" class="form-control" name="PropertyLength" value="" placeholder="35">
+            </div>
+        </div>
+        <div class="from-group">
             <button type="submit" class="btn btn-outline-warning">Submit</button>
         </div>
     </div>

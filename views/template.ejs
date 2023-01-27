@@ -6,253 +6,253 @@
     <%- include('include/_Main-navbar')%>
         <!-- /Include Main Navbar -->
 
-        <div class="bg-warning">
-            <div class="container">
-                <div class="nav-menu-user">
-                    <div class="person-intro">
-                        Welcome,
-                        <b id="person">
-                            <%= User.name %>
-                        </b>
+        <% if (withLogin) { %>
+
+            <div class="bg-warning">
+                <div class="container">
+                    <div class="nav-menu-user">
+                        <div class="person-intro">
+                            Welcome,
+                            <a class="userEdit" href="/user/BillDashbord/userProfile">
+                                <b id="person">
+                                    <%= User.name%>
+                                </b>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <% } %>
 
-        <!-- property tex area -->
-        <div class="banner ">
-            <div class="container pt-5">
-                <div class="container py-3 bg-light text-dark">
-                    <span>
-                        <strong class="p-5 my-2" style="color: #4e109f; font-size: 30px">ONLINE PROPERTY TAX
-                            INFORMATION</strong>
-                    </span>
-                    <!-- alert -->
-                    <div class="alert alert-primary px-4 my-3 mx-5" role="alert">
-                        <b>NOTE: </b>The Online Service will be unavailable due to
-                        maintenance during 23.30 to 00.30 hours daily
+                <!-- property tex area -->
+                <div class="banner ">
+                    <div class="container pt-5">
+                        <div class="container py-3 bg-light text-dark">
+                            <span>
+                                <strong class="p-5 my-2" style="color: #4e109f; font-size: 30px">ONLINE PROPERTY TAX
+                                    INFORMATION</strong>
+                            </span>
+                            <!-- alert -->
+                            <div class="alert alert-primary px-4 my-3 mx-5" role="alert">
+                                <b>NOTE: </b>The Online Service will be unavailable due to
+                                maintenance during 23.30 to 00.30 hours daily
+                            </div>
+
+                            <!-- table -->
+                            <table class=" table table-bordered">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" colspan="4" scope="col">
+                                                <b style="font-size: 25px;">Property Tax Information</b>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="px-5">
+                                                <b>Tenement No.</b>
+                                                <p>
+                                                    <%= Tenment.tenament %>
+                                                </p>
+                                            </td>
+                                            <td class="amount" rowspan="8" class="p-5">
+                                                <b>Outstanding Amount</b>
+                                                <p>Rs.
+                                                    <%= Tenment.Total %>/-
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-5">
+                                                <b>Name</b>
+                                                <p>
+                                                    <%= Tenment.Name %>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-5">
+                                                <b>Postal Address</b>
+                                                <p>
+                                                    <%= Tenment.Postal_address %>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-5">
+                                                <b>Location Address</b>
+                                                <p>
+                                                    <%= Tenment.Local_address %>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-5">
+                                                <b>Usage</b>
+                                                <p>
+                                                    <%= Tenment.Usage %>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-5">
+                                                <b>OCCUPIER</b>
+                                                <p>
+                                                    <%= Tenment.Occupier %>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-5">
+                                                <b>Last Bill Issue Data</b>
+                                                <p>
+                                                    01/10/<%= year %>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-5">
+                                                <b>Last Bill Due Date</b>
+                                                <p>
+                                                    31/12/<%= year %>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-5" colspan="2">
+                                                <!-- iner table -->
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Particulars</th>
+                                                            <th scope="col">Rateable Sys. Arrears</th>
+                                                            <th scope="col">Areabase Arrears</th>
+                                                            <th scope="col">Areabase Current Tax</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">Property Tax</th>
+                                                            <td>0.00</td>
+                                                            <td>0.00</td>
+                                                            <td>
+                                                                <%= Tenment.Property_tax %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Water Charge</th>
+                                                            <td>0.00</td>
+                                                            <td>0.00</td>
+                                                            <td>
+                                                                <%= Tenment.Water_tax %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Drainage Charge</th>
+                                                            <td>0.00</td>
+                                                            <td>0.00</td>
+                                                            <td>
+                                                                <%= Tenment.Drainage_tax %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">SW Charge</th>
+                                                            <td>0.00</td>
+                                                            <td>0.00</td>
+                                                            <td>
+                                                                <%= Tenment.SW_tax %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Street Light Charge</th>
+                                                            <td>0.00</td>
+                                                            <td>0.00</td>
+                                                            <td>
+                                                                <%= Tenment.Street_Light %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Fire Charge</th>
+                                                            <td>0.00</td>
+                                                            <td>0.00</td>
+                                                            <td>
+                                                                <%= Tenment.Fire_Charge %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Env.Improve.Charge</th>
+                                                            <td>0.00</td>
+                                                            <td>0.00</td>
+                                                            <td>
+                                                                <%= Tenment.Env_improve_charge %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="rebate">
+                                                            <th scope="row">Rebate</th>
+                                                            <td>0.00</td>
+                                                            <td>0.00</td>
+                                                            <td>
+                                                                <%= Tenment.Rebate %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Education Cess</th>
+                                                            <td>0.00</td>
+                                                            <td>0.00</td>
+                                                            <td>
+                                                                <%= Tenment.Education_Cess %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="font-weight: bold">
+                                                            <th scope="row">
+                                                                <b>Total</b>
+                                                            </th>
+                                                            <td>0.00</td>
+                                                            <td>0.00</td>
+                                                            <td>
+                                                                <%= Tenment.Total %> %>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table class="table table-bordered">
+                                                    <tr>
+                                                        <th colspan="3" class="text-center"><b>Payment Details</b></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="col">Date</th>
+                                                        <th scope="col">Transcation ID</th>
+                                                        <th scope="col">Reference</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <%=Payment.Date %>
+                                                        </td>
+                                                        <td>
+                                                            <%=Payment.Transcation_ID %>
+                                                        </td>
+                                                        <td>
+                                                            <%=Payment.Reference %>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                                <!-- Botton login and register -->
+                                                <div class="tax-pay-btn py-3">
+                                                    <a class="tax-pay"
+                                                        href="/../Download/<%=Tenment.tenament %>_Payment.pdf"
+                                                        download><i class="fa-solid fa-download"></i> Download</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </table>
+                        </div>
                     </div>
-
-                    <!-- table -->
-                    <table class=" table table-bordered">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th class="text-center" colspan="4" scope="col">
-                                        <b style="font-size: 25px;">Property Tax Information</b>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="px-5">
-                                        <b>Tenement No.</b>
-                                        <p>
-                                            <%= Tenment.tenament %>
-                                        </p>
-                                    </td>
-                                    <td class="amount" rowspan="8" class="p-5">
-                                        <b>Outstanding Amount</b>
-                                        <p>Rs.
-                                            <%= Tenment.Total %>/-
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-5">
-                                        <b>Name</b>
-                                        <p>
-                                            <%= Tenment.Name %>
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-5">
-                                        <b>Postal Address</b>
-                                        <p>
-                                            <%= Tenment.Postal_address %>
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-5">
-                                        <b>Location Address</b>
-                                        <p>
-                                            <%= Tenment.Local_address %>
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-5">
-                                        <b>Usage</b>
-                                        <p>
-                                            <%= Tenment.Usage %>
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-5">
-                                        <b>OCCUPIER</b>
-                                        <p>
-                                            <%= Tenment.Occupier %>
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-5">
-                                        <b>Last Bill Issue Data</b>
-                                        <p>
-                                            <%= Tenment.Last_Bill_Issue_Date %>
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-5">
-                                        <b>Last Bill Due Date</b>
-                                        <p>
-                                            <%= Tenment.Last_Bill_Due_Date %>
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-5" colspan="2">
-                                        <!-- iner table -->
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Particulars</th>
-                                                    <th scope="col">Rateable Sys. Arrears</th>
-                                                    <th scope="col">Areabase Arrears</th>
-                                                    <th scope="col">Areabase Current Tax</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">Property Tax</th>
-                                                    <td>0.00</td>
-                                                    <td>0.00</td>
-                                                    <td>
-                                                        <%= Tenment.Property_tax %>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Water Charge</th>
-                                                    <td>0.00</td>
-                                                    <td>0.00</td>
-                                                    <td>
-                                                        <%= Tenment.Water_tax %>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Drainage Charge</th>
-                                                    <td>0.00</td>
-                                                    <td>0.00</td>
-                                                    <td>
-                                                        <%= Tenment.Drainage_tax %>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">SW Charge</th>
-                                                    <td>0.00</td>
-                                                    <td>0.00</td>
-                                                    <td>
-                                                        <%= Tenment.SW_tax %>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Street Light Charge</th>
-                                                    <td>0.00</td>
-                                                    <td>0.00</td>
-                                                    <td>
-                                                        <%= Tenment.Street_Light %>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Fire Charge</th>
-                                                    <td>0.00</td>
-                                                    <td>0.00</td>
-                                                    <td>
-                                                        <%= Tenment.Fire_Charge %>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Env.Improve.Charge</th>
-                                                    <td>0.00</td>
-                                                    <td>0.00</td>
-                                                    <td>
-                                                        <%= Tenment.Env_improve_charge %>
-                                                    </td>
-                                                </tr>
-                                                <tr class="rebate">
-                                                    <th scope="row">Rebate</th>
-                                                    <td>0.00</td>
-                                                    <td>0.00</td>
-                                                    <td>
-                                                        <%= Tenment.Rebate %>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">Education Cess</th>
-                                                    <td>0.00</td>
-                                                    <td>0.00</td>
-                                                    <td>
-                                                        <%= Tenment.Education_Cess %>
-                                                    </td>
-                                                </tr>
-                                                <tr style="font-weight: bold">
-                                                    <th scope="row">
-                                                        <b>Total</b>
-                                                    </th>
-                                                    <td>0.00</td>
-                                                    <td>0.00</td>
-                                                    <td>
-                                                        <%= Tenment.Total %> %>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <table class="table table-bordered">
-                                            <tr>
-                                                <th colspan="3" class="text-center"><b>Payment Details</b></th>
-                                            </tr>
-                                            <tr>
-                                                <th scope="col">Date</th>
-                                                <th scope="col">Transcation ID</th>
-                                                <th scope="col">Reference</th>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <%=Payment.Date %>
-                                                </td>
-                                                <td>
-                                                    <%=Payment.Transcation_ID %>
-                                                </td>
-                                                <td>
-                                                    <%=Payment.Reference %>
-                                                </td>
-                                            </tr>
-                                        </table>
-
-                                        <!-- Botton login and register -->
-                                        <div class="tax-pay-btn py-3 disable">
-                                            <a class="tax-pay" href="/../Download/<%=Tenment.tenament %>_Payment.pdf"
-                                                download><i class="fa-solid fa-download"></i> Download</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </table>
                 </div>
-            </div>
-        </div>
 
-        <script>
-            setTimeout(() => {
-                document.querySelector(".tax-pay-btn").classList.remove("disable");;
-            }, 1500);
-        </script>
-
-        <!-- Include Footer -->
-        <%- include('include/_footer')%>
-            <!-- /Include Footer -->
+                <!-- Include Footer -->
+                <%- include('include/_footer')%>
+                    <!-- /Include Footer -->

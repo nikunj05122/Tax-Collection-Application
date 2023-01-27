@@ -8,7 +8,12 @@
 
         <main>
             <div class="position-absolute top-50 start-50 translate-middle">
-                <h3 class="payment-success">Loading...</h3>
+                <div class="d-flex flex-row mb-3">
+                    <div class="spinner-border text-dark" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <h3 class="payment-success">Loading...</h3>
+                </div>
                 <div class="invisible">
                     <form
                         action="/user/successMail/<%= TransactionDetails.id %>/<%= TransactionDetails.Transcation_ID %>/<%= TransactionDetails.Reference %>"

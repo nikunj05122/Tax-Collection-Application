@@ -1,0 +1,45 @@
+<!-- Include Header -->
+<%- include('include/_header')%>
+    <!-- /Include Header -->
+
+    <!-- Include Main Navbar -->
+    <%- include('include/_Main-navbar')%>
+        <!-- /Include Main Navbar -->
+
+        <div class="bg-warning">
+            <div class="container">
+                <div class="nav-menu-user">
+                    <div class="person-intro">
+                        Welcome,
+                        <a class="userEdit" href="/admin/dashBoard/adminProfile">
+                            <b id="person">
+                                <%= User.name%>
+                            </b>
+                        </a>
+                        <div class="space-1000"></div>
+                        <a href="/admin/dashBoard" class="User-details-for-admin"><i class="fa-solid fa-house"></i>
+                            DashBoard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <div class="banner">
+                <div class="hid"></div>
+                <div class="container pt-5 main-container ">
+                    <span>
+                        <strong class="purpel-text">Add Property Detailes</strong>
+                    </span>
+                    <hr>
+                    <!-- Include Form -->
+                    <%- include('include/_addTenment')%>
+                        <!-- /Include Form -->
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Include Footer -->
+        <%- include('include/_footer')%>
+            <!-- /Include Footer -->

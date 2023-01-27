@@ -2,35 +2,37 @@
 <form action="/user/api/signUp" method="POST" id="add_user">
     <div class="new_user">
         <div class="from-group">
-            <label for="name" class="txt-dark">Name<span class="redTick"> *</span></label>
+            <label for="name" class="txt-dark form-label">Name<span class="redTick"> *</span></label>
             <input type="hidden" name="id" value="">
-            <input type="text" name="name" value="<%= alert ? user.name : "" %>" placeholder="Elon Mask" required>
+            <input type="text" class="form-control" name="name" value="<%= alert ? user.name : "" %>"
+                placeholder="Elon Mask" required>
         </div>
         <div class="from-group">
-            <label for="email" class="txt-dark">Email<span class="redTick"> *</span></label>
-            <input type="text" name="email" value="<%= alert ? user.email : "" %>" placeholder="example@gmail.com"
-                required>
+            <label for="email" class="txt-dark form-label">Email<span class="redTick"> *</span></label>
+            <input type="text" class="form-control" name="email" value="<%= alert ? user.email : "" %>"
+                placeholder="example@gmail.com" required>
         </div>
         <div class="from-group">
-            <label for="number" class="txt-dark">Mobile Number<span class="redTick"> *</span></label>
-            <input type="number" name="number" value="<%= alert ? user.number : "" %>" placeholder="0123456789"
-                minlength="10" maxlength="10" required>
+            <label for="number" class="txt-dark form-label">Mobile Number<span class="redTick"> *</span></label>
+            <input type="number" class="form-control" name="number" value="<%= alert ? user.number : "" %>"
+                placeholder="0123456789" minlength="10" maxlength="10" required>
         </div>
         <div class="from-group">
-            <label for="code" class="txt-dark">Enter Area Code<span class="redTick"> *</span></label>
-            <input type="number" name="code" value="<%= alert ? user.code : "" %>" placeholder="123456" minlength="6"
-                maxlength="6" required>
+            <label for="code" class="txt-dark form-label">Enter Area Code<span class="redTick"> *</span></label>
+            <input type="number" class="form-control" name="code" value="<%= alert ? user.code : "" %>"
+                placeholder="123456" minlength="6" maxlength="6" required>
         </div>
         <div class="from-group">
-            <label for="password" class="txt-dark">Create Password<span class="redTick">
+            <label for="password" class="txt-dark form-label">Create Password<span class="redTick">
                     *</span></label>
-            <input type="password" name="password" value="" placeholder="Enter the password" minlength="8" required>
+            <input type="password" class="form-control" name="password" value="" placeholder="Enter the password"
+                minlength="8" required>
         </div>
         <div class="from-group">
-            <label for="ConfirmPassword" class="txt-dark">Confirm Password<span class="redTick">
+            <label for="ConfirmPassword" class="txt-dark form-label">Confirm Password<span class="redTick">
                     *</span></label>
-            <input type="password" name="ConfirmPassword" value="" placeholder="Enter the password" minlength="8"
-                required>
+            <input type="password" class="form-control" name="ConfirmPassword" value=""
+                placeholder="Confirm the password" minlength="8" required>
         </div>
         <div class="form-group form-check py-2">
             <input type="checkbox" class="form-check-input" name="termCondition" id="termCondition" required>

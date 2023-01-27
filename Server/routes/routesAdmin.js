@@ -4,24 +4,47 @@ const adminController = require('./../controller/adminController');
 
 const router = express.Router();
 
+// ! render
+// login and Sign up page
 router.get('/SignUp', services.AdminSignUp);
 router.get('/Login', services.AdminLogin);
 
-// API
+// ! API
+// Login and Sign up APIs
 router.post('/api/SignUp', adminController.create);
 router.post('/api/Login', adminController.login);
+
+// Forgot Password
+router.post('/api/forgot', adminController.forgot);
+router.get('/forgot/:id', adminController.passwordEdit);
+router.post('/api/forgotPassword/:id', adminController.passwordEditSubmit);
+
+// Admin DashBoard
 router.get('/dashBoard', adminController.dashBoard);
+
+// Tenament Detailes
+router.get('/dashBoard/details/:tenment', adminController.details);
+
+// Admin Profile edit
 router.get('/dashBoard/adminProfile', adminController.adminProfile);
 router.get('/dashBoard/adminProfile/adminProfileEdit', adminController.adminProfileEdit);
 router.post('/dashBoard/adminProfile/adminProfileEdit/adminProfileEditSubmit', adminController.adminProfileEditSubmit);
+
+// Admin GET user list
 router.get('/dashBoard/userDetails', adminController.userDetails);
 router.get('/dashBoard/userDetailsEdit/:id', adminController.userDetailsEdit);
 router.post('/dashBoard/userDetailsAdd/:id', adminController.userDetailsAdd);
 router.post('/dashBoard/userDetailsRemove/:id', adminController.userDetailsRemove);
+
+// Search bar in Dashboard
 router.post('/api/dashBoard', adminController.search);
+
+// Search bar in user list
 router.post('/api/dashBoard/searchUser', adminController.searchUser);
-router.get('/dashBoard/details/:tenment', adminController.details);
-// router.post('/api/tenmentAndPayment', adminController.tenmentAndPaymentEntry);
+
+// Adding Propert6y Detailes
+router.get('/dashBoard/addTenment', adminController.TenamentEntry);
+router.post('/api/tenmentEntry', adminController.tenmentEntry);
 // router.post('/api/addPayment', adminController.addPayment);
 
 module.exports = router;

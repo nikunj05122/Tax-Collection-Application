@@ -1,6 +1,7 @@
 const express = require('express');
 const routesUser = require('./Server/routes/routesUser');
 const routesAdmin = require('./Server/routes/routesAdmin');
+const routesWeb = require('./Server/routes/routesWeb');
 const connectDB = require('./Server/database/connection');
 const bodyParser = require('body-parser');
 // const cors = require('corn');
@@ -43,6 +44,6 @@ app.use(session({
 // Routes for user
 app.use('/user', routesUser);
 app.use('/admin', routesAdmin);
-app.use('/', routesUser);
+app.use('/', routesWeb);
 
 module.exports = app;

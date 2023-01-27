@@ -128,6 +128,16 @@ footer {
     background-color: rgb(13, 110, 253);
 }
 
+.forgot {
+    color: rgb(149, 78, 255);
+    text-decoration: none;
+}
+
+.forgot:hover {
+    color: rgb(149, 78, 255);
+    text-decoration: underline;
+}
+
 /* Index Page Footer */
 .index-footer {
     max-width: 80%;
@@ -157,6 +167,31 @@ footer {
 }
 
 .Pay-btn:hover {
+    color: white;
+    background-color: rgb(25, 135, 84);
+}
+
+.pay {
+    position: relative;
+    padding: 4px;
+}
+
+.pay-text {
+    font-size: 20px;
+    margin-top: 6px;
+    text-align: center;
+}
+
+.pay-all {
+    color: rgb(25, 135, 84);
+    text-decoration: none;
+    border: 1px solid rgb(25, 135, 84);
+    border-radius: 6px;
+    padding: 5px 16px;
+    margin: 4px 4px;
+}
+
+.pay-all:hover {
     color: white;
     background-color: rgb(25, 135, 84);
 }
@@ -295,19 +330,43 @@ footer {
     padding-left: 100px;
 }
 
+.userDetails {
+    font-size: 25px;
+}
+
 .search {
     display: flex;
 }
+.person-intro {
+    display: flex;
+}
+
+.space-850 {
+    width: 850px;
+}
+
+.space-1000 {
+    width: 1000px;
+}
 
 a.User-details-for-admin {
-    padding-left: calc(100% - 535px);
     text-decoration: none;
     font-weight: bold;
     color: black;
-    position: absolute;
 }
 
 a.User-details-for-admin:hover {
+    color: rgb(74, 6, 162);
+}
+
+a.Tenament-add {
+    padding-right: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
+
+a.Tenament-add:hover {
     color: rgb(74, 6, 162);
 }
 

@@ -33,6 +33,10 @@ exports.successPage = (req, res) => {
     res.status(200).render('success', { title: "Payment Success", TransactionDetails: req.params });
 }
 
+exports.forgot = async (req, res) => {
+    res.status(200).render('forgot', { title: 'Forgot Page', UserForgot: req.params.UserForgot * 1, send: false, alert: false });
+}
+
 // ------------------------------------- Admin ------------------------------------------
 exports.AdminSignUp = (req, res) => {
     res.render('Admin_SignUp', { title: "Sign Up", alert: false });

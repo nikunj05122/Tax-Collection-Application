@@ -13,6 +13,9 @@ const Mailgen = require('mailgen');
 // const LOCAL_URL = 'http://localhost:4000';
 const LOCAL_URL = 'https://tax-collection.onrender.com';
 
+const EMAIL = '303.nikeg@gmail.com';
+const PASS = 'spkjjbaamiermgeu';
+
 exports.create = async (req, res) => {
     // validate request
     if (JSON.stringify(req.body) === '{}') {
@@ -57,14 +60,23 @@ exports.billboard = async (req, res) => {
         if (req.session.user) {
             const Tenmentdata = [];
             const Paymentdata = [];
-            const year = new Date().getFullYear()
-            for (var i = 0; i < (req.session.user)[0].tenment.length; i++) {
-                Tenmentdata.push(await TenamentDB.find({ tenament: (req.session.user)[0].tenment[i] }));
-                Paymentdata.push(await paymentDB.find({ $and: [{ tenament: (req.session.user)[0].tenment[i] }, { paymentYear: year }] }));
+            const year = new Date().getFullYear();
+
+            let userData = await UserDB.findById(req.session.user[0]._id);
+            let sortedTenment = userData.tenment.sort();
+            userData.tenment = sortedTenment;
+
+
+            let Total = 0;
+            for (var i = 0; i < userData.tenment.length; i++) {
+                let Tenament = await TenamentDB.find({ tenament: userData.tenment[i] });
+                if (Tenament[0].Status == false)
+                    Total += Tenament[0].Total;
+                Tenmentdata.push(Tenament);
+                Paymentdata.push(await paymentDB.find({ $and: [{ tenament: userData.tenment[i] }, { paymentYear: year }] }));
             }
-            // for (var i = 0; i < Paymentdata.length; i++)
-            //     console.log(Paymentdata[i].length, Paymentdata[i]);
-            res.status(200).render('bills', { title: "Bill Dashboard", User: (req.session.user)[0], Tenment: Tenmentdata, Payment: Paymentdata, year: year });
+
+            res.status(200).render('bills', { title: "Bill Dashboard", User: userData, Tenment: Tenmentdata, Payment: Paymentdata, year: year, TotalPay: Total });
         }
         else {
             res.status(500).json({
@@ -116,7 +128,10 @@ exports.payment = async (req, res) => {
                             currency: "inr",
                             product_data: {
                                 name: `Owner: ${req.session.user[0].name}`,
-                                description: `Address: ${product.name} Tenament: ${product.description} Transcation ID: ${Transcation_ID} Reference: ${Reference}`
+                                description: `Address: ${product.name}
+                                              Tenament: ${product.description}
+                                              Transcation ID: ${Transcation_ID}
+                                              Reference: ${Reference}`
                             },
                             unit_amount: product.amount * 100,
                         },
@@ -149,8 +164,6 @@ exports.PaymentMail = async (req, res) => {
         if (req.session.user) {
             const tenmentData = await TenamentDB.findById(req.params.id);
             // console.log(tenmentData);
-            const EMAIL = '303.nikeg@gmail.com';
-            const PASS = 'spkjjbaamiermgeu';
             let config = {
                 service: 'gmail',
                 auth: {
@@ -273,8 +286,9 @@ exports.PaymentMail = async (req, res) => {
                         instructions: 'To Download the Payment Receipe, please click here:',
                         button: {
                             color: '#48cfad', // Optional action button color
-                            text: 'Download Receipe',
-                            link: `${LOCAL_URL}/user/BillDashbord/Download/${tenmentData.tenament}`
+                            text: `Download Receipe`,
+                            link: `${LOCAL_URL}/Download/${req.params.id}`
+                            // link: '#'
                         }
                     },
                     outro: "Thank you for payment"
@@ -287,8 +301,8 @@ exports.PaymentMail = async (req, res) => {
 
             let message = {
                 from: EMAIL,
-                // to: req.session.user[0].email,
-                to: 'nikunjgajera104@gmail.com',
+                to: req.session.user[0].email,
+                // to: 'nikunjgajera104@gmail.com',
                 subject: "Your tax payment is successfully pay.",
                 html: mail
             }
@@ -339,7 +353,60 @@ exports.success = async (req, res) => {
             });
             // console.log(ten);
 
+
+            // ! PDF generater
+            // const html = fs.readFile(path.join(__dirname, './../../views/template.html'), 'utf-8', (err, data) => {
+            //     if (err) {
+            //         console.log(err);
+            //         return;
+            //     }
+            //     console.log(data);
+            //     return data;
+            // });
+            // res.status(200).json({
+            //     Data: html
+            // });
+
+            const html = fs.readFileSync(path.join(__dirname, './../../views/template.html'), 'utf-8');
+
+            const filename = TanmentData.tenament + '_Payment' + '.pdf';
+
+            var year = new Date().getFullYear();
+            var document = {
+                html: html,
+                data: {
+                    tenament: TanmentData.tenament,
+                    Total: TanmentData.Total,
+                    Name: TanmentData.Name,
+                    Postal_address: TanmentData.Postal_address,
+                    Local_address: TanmentData.Local_address,
+                    Usage: TanmentData.Usage,
+                    Occupier: TanmentData.Occupier,
+                    Last_Bill_Issue_Date: `1/10/${year}`,
+                    Last_Bill_Due_Date: `31/12/${year}`,
+                    Property_tax: TanmentData.Property_tax,
+                    Water_tax: TanmentData.Water_tax,
+                    Drainage_tax: TanmentData.Drainage_tax,
+                    SW_tax: TanmentData.SW_tax,
+                    Street_Light: TanmentData.Street_Light,
+                    Fire_Charge: TanmentData.Fire_Charge,
+                    Env_improve_charge: TanmentData.Env_improve_charge,
+                    Rebate: TanmentData.Rebate,
+                    Education_Cess: TanmentData.Education_Cess,
+                    Total: TanmentData.Total,
+                    Date: paymentData.Date,
+                    Transcation_ID: paymentData.Transcation_ID,
+                    Reference: paymentData.Reference
+                },
+                path: './Download/' + filename,
+                type: ""
+            };
+
             res.render('mail', { title: "Payment Success", TransactionDetails: req.params });
+
+            const PDF = await pdf.create(document, options);
+            // console.log(PDF);
+
         }
         else {
             res.status(500).json({
@@ -357,49 +424,12 @@ exports.success = async (req, res) => {
 
 exports.downloadReceipe = async (req, res) => {
     try {
-        const html = fs.readFileSync(path.join(__dirname, './../../views/template.html'), 'utf-8');
-        const filename = req.params.id + '_Payment' + '.pdf';
-
         var year = new Date().getFullYear();
-        var tenment = await TenamentDB.find({ tenament: req.params.id });
+        var Tenment = await TenamentDB.find({ tenament: req.params.id });
         var Payment = await paymentDB.find({ $and: [{ tenament: req.params.id }, { paymentYear: year }] });
 
-        var document = {
-            html: html,
-            data: {
-                tenament: tenment[0].tenament,
-                Total: tenment[0].Total,
-                Name: tenment[0].Name,
-                Postal_address: tenment[0].Postal_address,
-                Local_address: tenment[0].Local_address,
-                Usage: tenment[0].Usage,
-                Occupier: tenment[0].Occupier,
-                Last_Bill_Issue_Date: tenment[0].Last_Bill_Issue_Date,
-                Last_Bill_Due_Date: tenment[0].Last_Bill_Due_Date,
-                Property_tax: tenment[0].Property_tax,
-                Water_tax: tenment[0].Water_tax,
-                Drainage_tax: tenment[0].Drainage_tax,
-                SW_tax: tenment[0].SW_tax,
-                Street_Light: tenment[0].Street_Light,
-                Fire_Charge: tenment[0].Fire_Charge,
-                Env_improve_charge: tenment[0].Env_improve_charge,
-                Rebate: tenment[0].Rebate,
-                Education_Cess: tenment[0].Education_Cess,
-                Total: tenment[0].Total,
-                Date: Payment[0].Date,
-                Transcation_ID: Payment[0].Transcation_ID,
-                Reference: Payment[0].Reference
-            },
-            path: './Download/' + filename,
-            type: ""
-        };
 
-        res.status(200).render('template.ejs', { title: "Bill Recipe", User: (req.session.user)[0], Tenment: tenment[0], Payment: Payment[0] });
-        // console.log(document.data.tenment);
-
-        const PDF = await pdf.create(document, options)
-        // console.log(PDF);
-
+        res.status(200).render('template.ejs', { title: "Bill Recipe", User: (req.session.user)[0], Tenment: Tenment[0], Payment: Payment[0], year: year, withLogin: true });
     }
     catch (err) {
         res.status(404).json({
@@ -492,6 +522,117 @@ exports.userEditSubmit = async (req, res) => {
     }
 }
 
+exports.forgot = async (req, res) => {
+    try {
+        // console.log(req.body);
+        const userData = await UserDB.find(req.body);
+
+        if (userData.length) {
+            let config = {
+                service: 'gmail',
+                auth: {
+                    user: EMAIL,
+                    pass: PASS
+                }
+            }
+
+            let transporter = nodemailer.createTransport(config);
+            // console.log("transporter : ", transporter);
+            let MailGenerator = new Mailgen({
+                theme: "default",
+                product: {
+                    name: "Tax Payment",
+                    link: `${LOCAL_URL}`,
+                    // logo: '/img/DDO.jpg'
+                    copyright: 'Copyright © 2019. All rights reserved.'
+                }
+            });
+
+            var response = {
+                body: {
+                    name: `${userData[0].name}`,
+                    intro: 'You have received this email because a password reset request for your account was received.',
+                    action: {
+                        instructions: 'Click the button below to reset your password:',
+                        button: {
+                            color: '#ed3266', // Optional action button color
+                            text: 'Reset your password',
+                            link: `${LOCAL_URL}/user/forgot/${userData[0]._id.valueOf()}`
+                        }
+                    },
+                    outro: 'If you did not request a password reset, no further action is required on your part.'
+                }
+            };
+
+            let mail = MailGenerator.generate(response);
+            // console.log("Mail : ", mail);
+
+            let message = {
+                from: EMAIL,
+                to: userData[0].email,
+                // to: 'nikunjgajera104@gmail.com',
+                subject: "Forgot your password.",
+                html: mail
+            }
+
+            await transporter.sendMail(message);
+            // console.log(userData[0]._id.valueOf());
+            res.status(200).render('forgot', { title: 'Forgot Page', UserForgot: true, send: true, alert: false });
+        } else {
+            res.status(200).render('forgot', { title: 'Forgot Page', UserForgot: true, send: false, alert: true });
+        }
+
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: 'Fail to send mail for forgot password user',
+        });
+    }
+}
+
+exports.passwordEdit = async (req, res) => {
+    try {
+        const id = req.params.id;
+        res.status(200).render('passwordPage', { title: "User Details Edit", id: id, UserForgot: true, alert: false });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: 'Fail to get details',
+        });
+    }
+}
+
+exports.passwordEditSubmit = async (req, res) => {
+    try {
+        const id = req.params.id;
+        if (req.body.password === req.body.ConfirmPassword) {
+            const data = {
+                password: req.body.password
+            }
+
+            const update = await UserDB.findByIdAndUpdate(id, data, {
+                new: true,
+                runValidators: true
+            });
+
+            // setTimeout(() => {
+
+            // }, 10000);
+            res.status(200).redirect(`/user/login`);
+        } else {
+            const UserForgot = req.params.UserForgot * 1;
+            res.status(200).render('passwordPage', { title: "User Details Edit", id: id, UserForgot: true, alert: true });
+        }
+
+    } catch (err) {
+        // console.log(err);
+        res.status(404).json({
+            status: 'fail',
+            message: 'Fail to update details',
+        });
+    }
+}
+
 
 // exports.addTenment = async (req, res) => {
 //     try {
@@ -523,7 +664,7 @@ exports.userEditSubmit = async (req, res) => {
 //             for (var i = 0; i < (req.session.user)[0].tenment.length; i++) {
 //                 Tenmentdata.push(await TenamentDB.find({ tenament: (req.session.user)[0].tenment[i] }));
 //             }
-//             res.status(200).render('addTenment', { title: "Add Tenment Dashboard", User: (req.session.user)[0], Tenment: Tenmentdata });
+//             res.status(200).render('--addTenment', { title: "Add Tenment Dashboard", User: (req.session.user)[0], Tenment: Tenmentdata });
 //         }
 //         else {
 //             res.status(500).json({

@@ -16,18 +16,17 @@
                     <div class="bg-light text-dark pt-4">
                         <div>
                             <strong class="p-5 purpel-text">PROPERTY TAX</strong>
-                            <a href="/" class="back-to-page">&lt;Back to Online Service</a>
                         </div>
 
                         <!-- My Registration and My Transaction -->
                         <div class="container pt-3">
                             <div class=" accordion" id="accordionPanelsStayOpenExample">
-                                <div class="container pt-3 accordion-item">
+                                <div class="container m-1 p-3 accordion-item">
                                     <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                                         <button class="accordion-button alert alert-primary" type="button"
                                             data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne"
                                             aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                            My Registration
+                                            My properties
                                         </button>
                                     </h2>
                                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
@@ -39,9 +38,9 @@
                                                         <th scope=" col">Tenement No</th>
                                                         <th scope="col">Address</th>
                                                         <th scope="col">Usage</th>
-                                                        <th scope="col">Last bill due date </th>
-                                                        <th scope="col">Total Bill</th>
-                                                        <th scope="col">Action</th>
+                                                        <th scope="col" class="Center-text">Last bill due date </th>
+                                                        <th scope="col" class="Center-text">Total Bill</th>
+                                                        <th scope="col" class="Center-text">Pay</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -57,13 +56,13 @@
                                                                 <td>
                                                                     <%= Tenment[i][0].Usage%>
                                                                 </td>
-                                                                <td>
+                                                                <td class="Center-text">
                                                                     31/12/<%= new Date().getFullYear();%>
                                                                 </td>
-                                                                <td>
+                                                                <td class="Center-text">
                                                                     <%= Tenment[i][0].Total%>
                                                                 </td>
-                                                                <td>
+                                                                <td class="Center-text">
                                                                     <a class="Pay-btn shadow-sm"
                                                                         href="/user/BillDashbord/BillPayment/<%= Tenment[i][0].tenament %>"><i
                                                                             class="fa-solid fa-credit-card"></i> Pay
@@ -72,13 +71,30 @@
                                                             </tr>
                                                             <% } %>
                                                                 <% } %>
+                                                                    <tr class="payment-pandding pay">
+                                                                        <td class="pay-text" colspan="3">
+                                                                            <strong>Pay all the
+                                                                                bills.</strong>
+                                                                        </td>
+                                                                        <td class="Center-text">
+                                                                            31/12/<%= new Date().getFullYear();%>
+                                                                        </td>
+                                                                        <td class="Center-text">
+                                                                            <%= TotalPay %>
+                                                                        </td>
+                                                                        <td class="Center-text">
+                                                                            <a class="shadow-sm pay-all" href="#"><i
+                                                                                    class="fa-solid fa-credit-card"></i>
+                                                                                Pay All</a>
+                                                                        </td>
+                                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- My Transaction  -->
-                                <div class="container accordion-item pt-3">
+                                <div class="container accordion-item m-1 mt-2 pt-3">
                                     <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
                                         <button class="accordion-button collapsed alert alert-primary" type="button"
                                             data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
@@ -96,8 +112,9 @@
                                                         <th scope=" col">Transaction id</th>
                                                         <th scope="col">Transaction Date</th>
                                                         <th scope="col">Ref. No</th>
-                                                        <th scope="col">Status</th>
-                                                        <th scope="col">Print</th>
+                                                        <th scope="col" class="Center-text">Total Payed</th>
+                                                        <th scope="col" class="Center-text">Status</th>
+                                                        <th scope="col" class="Center-text">Print</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -117,11 +134,14 @@
                                                                 <td>
                                                                     <%= Payment[i][0].Reference %>
                                                                 </td>
-                                                                <td>
+                                                                <td class="Center-text">
+                                                                    <%= Payment[i][0].Total %>
+                                                                </td>
+                                                                <td class="Center-text">
                                                                     <img src="/img/ok.png" height="25px" />
                                                                 </td>
                                                                 <td>
-                                                                    <div class="login-btn">
+                                                                    <div class="login-btn Center-text">
                                                                         <a class="login shadow-sm"
                                                                             href="/user/BillDashbord/Download/<%= Payment[i][0].tenament %>"><i
                                                                                 class="fa-solid fa-file-pdf"></i>

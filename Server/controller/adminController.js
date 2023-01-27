@@ -1,5 +1,12 @@
 var { AdminDB, TenamentDB, paymentDB, UserDB } = require('./../model/model');
+const nodemailer = require('nodemailer');
+const Mailgen = require('mailgen');
 
+// const LOCAL_URL = 'http://localhost:4000';
+const LOCAL_URL = 'https://tax-collection.onrender.com';
+
+const EMAIL = '303.nikeg@gmail.com';
+const PASS = 'spkjjbaamiermgeu';
 
 exports.create = async (req, res) => {
 
@@ -40,6 +47,117 @@ exports.login = async (req, res) => {
         res.status(500).json({
             status: 'Fail',
             message: 'Please Re-Login... '
+        });
+    }
+}
+
+exports.forgot = async (req, res) => {
+    try {
+
+        const AdminData = await AdminDB.find(req.body);
+        // console.log(AdminData, AdminData.length);
+
+        if (AdminData.length) {
+            let config = {
+                service: 'gmail',
+                auth: {
+                    user: EMAIL,
+                    pass: PASS
+                }
+            }
+
+            let transporter = nodemailer.createTransport(config);
+
+            let MailGenerator = new Mailgen({
+                theme: "default",
+                product: {
+                    name: "Tax Payment",
+                    link: `${LOCAL_URL}`,
+                    // logo: '/img/DDO.jpg'
+                    copyright: 'Copyright © 2019. All rights reserved.'
+                }
+            });
+
+            var response = {
+                body: {
+                    name: `${AdminData[0].name}`,
+                    intro: 'You have received this email because a password reset request for your account was received.',
+                    action: {
+                        instructions: 'Click the button below to reset your password:',
+                        button: {
+                            color: '#ed3266', // Optional action button color
+                            text: 'Reset your password',
+                            link: `${LOCAL_URL}/admin/forgot/${AdminData[0]._id.valueOf()}`
+                        }
+                    },
+                    outro: 'If you did not request a password reset, no further action is required on your part.'
+                }
+            };
+
+            let mail = MailGenerator.generate(response);
+
+            let message = {
+                from: EMAIL,
+                to: AdminData[0].email,
+                // to: 'nikunjgajera104@gmail.com',
+                subject: "Forgot your admin password.",
+                html: mail
+            }
+
+            await transporter.sendMail(message);
+
+            res.status(200).render('forgot', { title: 'Admin Forgot Page', UserForgot: false, send: true, alert: false });
+        } else {
+            res.status(200).render('forgot', { title: 'Admin Forgot Page', UserForgot: false, send: false, alert: true });
+        }
+
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: 'Fail to send mail for forgot password admin',
+        });
+    }
+}
+
+exports.passwordEdit = async (req, res) => {
+    try {
+        const id = req.params.id;
+        res.status(200).render('passwordPage', { title: "User Details Edit", id: id, UserForgot: false, alert: false });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: 'Fail to get details',
+        });
+    }
+}
+
+exports.passwordEditSubmit = async (req, res) => {
+    try {
+        const id = req.params.id;
+        if (req.body.password === req.body.ConfirmPassword) {
+            const data = {
+                password: req.body.password
+            }
+
+            const update = await AdminDB.findByIdAndUpdate(id, data, {
+                new: true,
+                runValidators: true
+            });
+
+            // setTimeout(() => {
+
+            // }, 10000);
+            res.status(200).redirect(`/admin/login`);
+        } else {
+            const UserForgot = req.params.UserForgot * 1;
+            res.status(200).render('passwordPage', { title: "User Details Edit", id: id, UserForgot: false, alert: true });
+        }
+
+    } catch (err) {
+        // console.log(err);
+        res.status(404).json({
+            status: 'fail',
+            message: 'Fail to update details',
         });
     }
 }
@@ -157,7 +275,9 @@ exports.searchUser = async (req, res) => {
             // const { tenament } = req.body;
             // console.log(req.body);
 
-            const searchData = await UserDB.find(req.body);
+            let searchData = await UserDB.find(req.body);
+            let sortedTenment = searchData[0].tenment.sort();
+            searchData[0].tenment = sortedTenment;
             // console.log(searchData);
             res.status(200).json({ data: searchData[0] });
         }
@@ -182,7 +302,7 @@ exports.details = async (req, res) => {
             const tenmentData = await TenamentDB.find({ tenament: req.params.tenment });
             const paymentData = await paymentDB.find({ tenament: req.params.tenment })
 
-            res.status(200).render('Details', { title: "Details", User: req.session.user, TenmentDetails: tenmentData[0], UserDetails: userData[0], PaymentDetails: paymentData })
+            res.status(200).render('Details', { title: "Details", User: req.session.user, TenmentDetails: tenmentData[0], UserDetails: userData, PaymentDetails: paymentData })
         }
         else {
             res.status(500).json({
@@ -280,8 +400,12 @@ exports.adminProfileEditSubmit = async (req, res) => {
 exports.userDetails = async (req, res) => {
     try {
         if (req.session.user) {
-            const userData = await UserDB.find();
-            // console.log(userData[0]._id.valueOf());
+            let userData = await UserDB.find();
+            // console.log(userData);
+            for (let i = 0; i < userData.length; i++) {
+                let sortedTenment = userData[i].tenment.sort();
+                userData[i].tenment = sortedTenment;
+            }
             res.status(200).render('User_Details', { title: "User Details", User: req.session.user, userData: userData });
         }
         else {
@@ -302,7 +426,9 @@ exports.userDetailsEdit = async (req, res) => {
     try {
         if (req.session.user) {
             const id = req.params.id;
-            const userData = await UserDB.findById(id);
+            let userData = await UserDB.findById(id);
+            let sortedTenment = userData.tenment.sort();
+            userData.tenment = sortedTenment;
             // console.log(userData);
             res.status(200).render('User_Details_Edit', { title: "Add Tenment Details", User: req.session.user, userData: userData });
         }
@@ -391,6 +517,77 @@ exports.userDetailsRemove = async (req, res) => {
         });
     }
 }
+
+exports.TenamentEntry = (req, res) => {
+    if (req.session.user) {
+        res.render('addTenament', { title: "Add Property Details", User: req.session.user });
+    } else {
+        res.status(500).json({
+            status: "Fail",
+            message: "Please Re-Login..."
+        });
+    }
+}
+
+exports.tenmentEntry = async (req, res) => {
+
+    try {
+
+        if (req.session.user) {
+
+            const tenament = req.body.Tenment;
+            const Taluka = req.body.Taluka;
+            const Name = req.body.Name;
+            const Postal_address = req.body.Postal_address;
+            const Local_address = req.body.Local_address;
+            const Usage = req.body.Usage;
+            const Occupier = req.body.Occupier;
+            const Property_Width = req.body.PropertyWidth * 1;
+            const Property_Length = req.body.PropertyLength * 1;
+            const Property_tax = Property_Width * Property_Length * 6;
+            const Water_tax = (Math.random() * 800) + 150;
+            const Drainage_tax = (Math.random() * 400) + 50;
+            const SW_tax = (Math.random() * 800) + 150;
+            const Rebate = ((-1) * (Math.random() * 50) + 0);
+            const Education_Cess = (Property_tax + Water_tax + Drainage_tax + SW_tax + 100 + 1245 + 30) * (0.05);
+            const Total = Property_tax + Water_tax + Drainage_tax + SW_tax + 150 + 1245 + 100 + Rebate + Education_Cess;
+            // const Status = req.body.Status;
+
+            const tenmentData = {
+                tenament: tenament,
+                Taluka: Taluka,
+                Name: Name,
+                Postal_address: Postal_address,
+                Local_address: Local_address,
+                Usage: Usage,
+                Occupier: Occupier,
+                Property_Width: Property_Width,
+                Property_Length: Property_Length,
+                Property_tax: Property_Width * Property_Length * 6,
+                Water_tax: Water_tax.toFixed(2) * 1,
+                Drainage_tax: Drainage_tax.toFixed(2) * 1,
+                SW_tax: SW_tax.toFixed(2) * 1,
+                Rebate: Rebate.toFixed(2) * 1,
+                Education_Cess: Education_Cess.toFixed(2) * 1,
+                Total: Total.toFixed(0) * 1,
+            }
+
+            const Tenment = await TenamentDB.create(tenmentData);
+            res.status(200).redirect('/admin/dashBoard');
+        } else {
+            res.status(500).json({
+                status: "Fail",
+                message: "Please Re-Login..."
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            message: 'Data not inserted in the Tenament Database',
+            error: err
+        });
+    }
+}
+
 // exports.addPayment = async (req, res) => {
 //     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -421,73 +618,6 @@ exports.userDetailsRemove = async (req, res) => {
 //         res.status(500).json({
 //             status: 'Fail',
 //             message: 'Payment entry fail'
-//         });
-//     }
-// }
-
-// exports.tenmentAndPaymentEntry = async (req, res) => {
-//     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-//     const tenament = req.body.tenament;
-//     const Taluka = req.body.Taluka;
-//     const Name = req.body.Name;
-//     const Postal_address = req.body.Postal_address;
-//     const Local_address = req.body.Local_address;
-//     const Usage = req.body.Usage;
-//     const Occupier = req.body.Occupier;
-//     const Property_size = req.body.Property_size * 1;
-//     const Property_tax = req.body.Property_size * 4;
-//     const Water_tax = (Math.random() * 800) + 150;
-//     const Drainage_tax = (Math.random() * 400) + 50;
-//     const SW_tax = (Math.random() * 800) + 150;
-//     const Rebate = ((-1) * (Math.random() * 50) + 0);
-//     const Education_Cess = (Property_tax + Water_tax + Drainage_tax + SW_tax + 100 + 1245 + 30) * (0.05);
-//     const Total = Property_tax + Water_tax + Drainage_tax + SW_tax + 150 + 1245 + 100 + Rebate + Education_Cess;
-//     const Status = req.body.Status;
-//     const Transcation_ID = (Math.random() * 999999999999999999) + 111111111111111111;
-//     const Reference = "" + characters.charAt(Math.floor(Math.random() * 26)) + (Math.floor(Math.random() * 100) + 10) + characters.charAt(Math.floor(Math.random() * 26)) + (Math.floor(Math.random() * 1000) + 100) + characters.charAt(Math.floor(Math.random() * 26)) + characters.charAt(Math.floor(Math.random() * 26)) + (Math.floor(Math.random() * 10) + 1);
-//     const paymentYear = (new Date().getFullYear());
-
-//     const tenmentData = {
-//         tenament: tenament,
-//         Taluka: Taluka,
-//         Name: Name,
-//         Postal_address: Postal_address,
-//         Local_address: Local_address,
-//         Usage: Usage,
-//         Occupier: Occupier,
-//         Property_size: Property_size,
-//         Property_tax: Property_size * 8,
-//         Water_tax: Water_tax.toFixed(2) * 1,
-//         Drainage_tax: Drainage_tax.toFixed(2) * 1,
-//         SW_tax: SW_tax.toFixed(2) * 1,
-//         Rebate: Rebate.toFixed(2) * 1,
-//         Education_Cess: Education_Cess.toFixed(2) * 1,
-//         Total: Total.toFixed(0) * 1,
-//         Status: Status
-//     }
-
-//     const paymentData = {
-//         tenament: tenament,
-//         Status: Status,
-//         Total: Total.toFixed(0) * 1,
-//         paymentYear: paymentYear,
-//         Date: (Status) ? `${new Date().getDay() + 11}/${new Date().getMonth() + 1}/${new Date().getFullYear()}  ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}` : 'Payment is Panding..',
-//         Transcation_ID: (Status) ? Transcation_ID : 0,
-//         Reference: (Status) ? Reference : "Payment is Panding.."
-//     }
-//     try {
-//         const Tenment = await TenamentDB.create(tenmentData);
-//         const payment = await paymentDB.create(paymentData);
-//         res.status(200).json({
-//             message: {
-//                 Tenment,
-//                 payment
-//             }
-//         });
-//     } catch (err) {
-//         res.status(500).json({
-//             message: 'Data not inserted in the Tenament Database'
 //         });
 //     }
 // }
