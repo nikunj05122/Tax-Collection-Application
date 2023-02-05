@@ -11,8 +11,9 @@ const dotenv = require('dotenv');
 dotenv.config({ path: `${__dirname}/../../config.env` });
 
 const stripe = require("stripe")(process.env.SECRET_KEY);
-const LOCAL_URL = 'http://localhost:4000';
-// const LOCAL_URL = 'https://tax-collection.onrender.com';
+
+// const LOCAL_URL = 'http://localhost:4000';
+const LOCAL_URL = 'https://tax-collection.onrender.com';
 
 const EMAIL = process.env.EMAIL;
 const PASS = process.env.PASS;

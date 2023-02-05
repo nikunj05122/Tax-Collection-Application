@@ -1,8 +1,4 @@
 var { TenamentDB, paymentDB } = require('./../model/model');
-const path = require('path');
-
-const LOCAL_URL = 'http://localhost:4000';
-// const LOCAL_URL = 'https://tax-collection.onrender.com';
 
 exports.TenamentDBPDFDownloadInMail = async (req, res) => {
     try {
