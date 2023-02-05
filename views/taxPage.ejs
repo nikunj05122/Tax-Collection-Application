@@ -230,7 +230,7 @@
             </div>
             <script src="https://js.stripe.com/v3/"></script>
             <script type="text/javascript">
-                const stripe = Stripe('pk_test_51MRd1TSHnaTCqUYFpfGgYDpi0fimglGzvaMpnFLpNbLuykagjbGfduLqizMKTpcE6l63yGxzGRerSL4Sf1jWLzLK003y0XERXL');
+                const stripe = Stripe('<%-PUBLISHABLE_KEY%>');
                 const checkoutButton = document.getElementById('payment-btn');
 
                 checkoutButton.addEventListener('click', function () {

@@ -11,6 +11,8 @@ router.get('/Login', services.AdminLogin);
 
 // ! API
 // Login and Sign up APIs
+router.post('/api/SignUpOTP', adminController.SignUpOTP);
+router.get('/SignUpOTP/:id', adminController.verifyOTP);
 router.post('/api/SignUp', adminController.create);
 router.post('/api/Login', adminController.login);
 
@@ -21,6 +23,9 @@ router.post('/api/forgotPassword/:id', adminController.passwordEditSubmit);
 
 // Admin DashBoard
 router.get('/dashBoard', adminController.dashBoard);
+
+// Report for Admin
+router.get('/dashBoard/Report', adminController.ReportDownload, adminController.Report);
 
 // Tenament Detailes
 router.get('/dashBoard/details/:tenment', adminController.details);
@@ -42,9 +47,8 @@ router.post('/api/dashBoard', adminController.search);
 // Search bar in user list
 router.post('/api/dashBoard/searchUser', adminController.searchUser);
 
-// Adding Propert6y Detailes
+// Adding Property Detailes
 router.get('/dashBoard/addTenment', adminController.TenamentEntry);
 router.post('/api/tenmentEntry', adminController.tenmentEntry);
-// router.post('/api/addPayment', adminController.addPayment);
 
 module.exports = router;

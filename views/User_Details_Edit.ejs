@@ -16,7 +16,7 @@
                                 <%= User.name%>
                             </b>
                         </a>
-
+                        <div class="space-1000"></div>
                         <a href="/admin/dashBoard" class="User-details-for-admin"><i class="fa-solid fa-house"></i>
                             DashBoard</a>
                     </div>
@@ -33,32 +33,104 @@
                     </span>
                     <hr>
 
-                    <div class="contain">
-                        <div class="from-group">
-                            <form action="/admin/dashBoard/userDetailsAdd/<%= userData._id.valueOf() %> " method="POST"
-                                id="add_user">
-                                <div class="from-group contain pt-2">
-                                    <label for="tenament" class="txt-dark"><strong>Add Tenament : </strong></label>
-                                    <input type="text" name="tenament" value="" placeholder="111-A-11-1111-1-111">
-                                    <div class="from-group">
-                                        <button type="submit" class="btn btn-outline-warning">Submit</button>
+                    <div class="container">
+                        <% if (dataIsEmpty) { %>
+                            <div class="alert alert-danger" role="alert">
+                                <strong>⚠️ First add the Property on Database.</strong>
+                            </div>
+                            <% } else { %>
+                                <% if (alert) { %>
+                                    <div class="alert alert-danger" role="alert">
+                                        <hr>
+                                        <strong>⚠️ This tenament Number already asign to other User. first remove
+                                            it.</strong>
+                                        <hr>
+                                        <!-- table -->
+                                        <table class="table table-striped table-hover alert-table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope=" col">Tenement No</th>
+                                                    <th scope="col">User</th>
+                                                    <th scope="col">Address</th>
+                                                    <th scope="col">Usage</th>
+                                                    <th scope="col" class="Center-text">Status </th>
+                                                    <th scope="col" class="Center-text">Total Bill
+                                                    </th>
+                                                    <th scope="col" class="Center-text">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="payment-pandding">
+                                                    <th scope="row">
+                                                        <%= tenamentData.tenament%>
+                                                    </th>
+                                                    <td>
+                                                        <%= tenamentData.Name%>
+                                                    </td>
+                                                    <td>
+                                                        <%= tenamentData.Postal_address%>
+                                                    </td>
+                                                    <td>
+                                                        <%= tenamentData.Usage%>
+                                                    </td>
+                                                    <td class="Center-text">
+                                                        <% if (tenamentData.Status) { %>
+                                                            <img src="/img/ok.png" height="25px" />
+                                                            <% } else { %>
+                                                                <img src="/img/cancel.png" height="18px" />
+                                                                <% } %>
+                                                    </td>
+                                                    <td class="Center-text">
+                                                        <%= tenamentData.Total%>
+                                                    </td>
+                                                    <td class="Center-text">
+                                                        <a class="Pay-btn shadow-sm"
+                                                            href="/admin/dashBoard/details/<%= tenamentData.tenament%>"><i
+                                                                class="fa-solid fa-circle-info"></i>
+                                                            Details</a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- /table -->
+
                                     </div>
-                                </div>
-                            </form>
-                        </div>
-                        <hr>
-                        <div class="from-group">
-                            <form action="/admin/dashBoard/userDetailsRemove/<%= userData._id.valueOf() %>"
-                                method="POST" id="add_user">
-                                <div class="from-group contain pt-2">
-                                    <label for="tenament" class="txt-dark"><strong>Remove Tenament : </strong></label>
-                                    <input type="text" name="tenament" value="" placeholder="111-A-11-1111-1-111">
-                                    <div class="from-group">
-                                        <button type="submit" class="btn btn-outline-warning">Submit</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                                    <% } %>
+                                        <% } %>
+
+                                            <div class="from-group">
+                                                <form
+                                                    action="/admin/dashBoard/userDetailsAdd/<%= userData._id.valueOf() %> "
+                                                    method="POST" id="add_user">
+                                                    <div class="from-group contain pt-2">
+                                                        <label for="tenament" class="txt-dark"><strong>Add Tenament :
+                                                            </strong></label>
+                                                        <input type="text" name="tenament" value=""
+                                                            placeholder="111-A-11-1111-1-111">
+                                                        <div class="from-group">
+                                                            <button type="submit"
+                                                                class="btn btn-outline-warning">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <hr>
+                                            <div class="from-group">
+                                                <form
+                                                    action="/admin/dashBoard/userDetailsRemove/<%= userData._id.valueOf() %>"
+                                                    method="POST" id="add_user">
+                                                    <div class="from-group contain pt-2">
+                                                        <label for="tenament" class="txt-dark"><strong>Remove Tenament :
+                                                            </strong></label>
+                                                        <input type="text" name="tenament" value=""
+                                                            placeholder="111-A-11-1111-1-111">
+                                                        <div class="from-group">
+                                                            <button type="submit"
+                                                                class="btn btn-outline-warning">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
                     </div>
                     <hr>
                     <div class="userDetails container">

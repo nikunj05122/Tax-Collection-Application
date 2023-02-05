@@ -1,9 +1,9 @@
 module.exports = {
-    formate: 'A3',
+    formate: 'A4',
     orientation: 'portrait',
     border: '1mm',
     header: {
-        height: '4mm',
+        height: '0mm',
         contents: ''
     },
     footer: {

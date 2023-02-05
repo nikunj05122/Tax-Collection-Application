@@ -1,61 +1,71 @@
 <!-- Form Handaling -->
-<form action="/user/api/signUp" method="POST" id="add_user">
+<form action="<%= action %> " method="POST" id="add_user">
     <div class="new_user">
         <div class="from-group">
             <label for="name" class="txt-dark form-label">Name<span class="redTick"> *</span></label>
-            <input type="hidden" name="id" value="">
-            <input type="text" class="form-control" name="name" value="<%= alert ? user.name : "" %>"
+            <input type="hidden" name="id" value="<%= !OTPalert && submit ? user._id.valueOf() : "" %>">
+            <input type="text" class="form-control" name="name" value="<%= alert || submit ? user.name : "" %>"
                 placeholder="Elon Mask" required>
         </div>
         <div class="from-group">
             <label for="email" class="txt-dark form-label">Email<span class="redTick"> *</span></label>
-            <input type="text" class="form-control" name="email" value="<%= alert ? user.email : "" %>"
+            <input type="text" class="form-control" name="email" value="<%= alert || submit ? user.email : "" %>"
                 placeholder="example@gmail.com" required>
         </div>
         <div class="from-group">
             <label for="number" class="txt-dark form-label">Mobile Number<span class="redTick"> *</span></label>
-            <input type="number" class="form-control" name="number" value="<%= alert ? user.number : "" %>"
+            <input type="number" class="form-control" name="number" value="<%= alert || submit ? user.number : "" %>"
                 placeholder="0123456789" minlength="10" maxlength="10" required>
         </div>
         <div class="from-group">
             <label for="code" class="txt-dark form-label">Enter Area Code<span class="redTick"> *</span></label>
-            <input type="number" class="form-control" name="code" value="<%= alert ? user.code : "" %>"
+            <input type="number" class="form-control" name="code" value="<%= alert || submit ? user.code : "" %>"
                 placeholder="123456" minlength="6" maxlength="6" required>
         </div>
         <div class="from-group">
             <label for="password" class="txt-dark form-label">Create Password<span class="redTick">
                     *</span></label>
-            <input type="password" class="form-control" name="password" value="" placeholder="Enter the password"
-                minlength="8" required>
+            <input type="password" class="form-control" name="password" value="<%= submit ? user.password : "" %>"
+                placeholder="Enter the password" minlength="8" required>
         </div>
         <div class="from-group">
             <label for="ConfirmPassword" class="txt-dark form-label">Confirm Password<span class="redTick">
                     *</span></label>
-            <input type="password" class="form-control" name="ConfirmPassword" value=""
-                placeholder="Confirm the password" minlength="8" required>
+            <input type="password" class="form-control" name="ConfirmPassword"
+                value="<%= submit ? user.password : "" %>" placeholder="Confirm the password" minlength="8" required>
         </div>
-        <div class="form-group form-check py-2">
-            <input type="checkbox" class="form-check-input" name="termCondition" id="termCondition" required>
-            <label class="form-check-label" for="termCondition"><span class="redTick">*</span>By
-                creating an account you agree to our Terms of Service and our Privacy Policy</label>
-        </div>
-        <!-- <div class="from-group">
-            <button type="OTP" id="OTP-btn" class="btn btn-outline-success">Get OTP</button>
-        </div>
-        <hr>
-        <div class="from-group">
-            <label for="OTP" class="txt-dark">Enter OTP<span class="redTick">
-                    *</span></label>
-            <input type="number" name="OTP" value="" placeholder="Enter the OTP">
-        </div> -->
-        <% if (alert) { %>
-            <div class="alert alert-danger" role="alert">
-                Please enter proper password
+        <% if (!submit) { %>
+
+            <div class="form-group form-check py-2">
+                <input type="checkbox" class="form-check-input" name="termCondition" id="termCondition" required>
+                <label class="form-check-label" for="termCondition"><span class="redTick">*</span>By
+                    creating an account you agree to our Terms of Service and our Privacy Policy</label>
             </div>
-            <% } %>
-                <div class="from-group">
-                    <button type="submit" class="btn btn-outline-warning">Submit</button>
+            <% if (alert) { %>
+                <div class="alert alert-danger" role="alert">
+                    Please enter proper password
                 </div>
+                <% } %>
+                    <div class="from-group">
+                        <button type="submit" class="btn btn-outline-warning">Get OTP</button>
+                    </div>
+                    <% } %>
+                        <% if (submit) { %>
+                            <hr>
+                            <div class="from-group">
+                                <label for="OTP" class="txt-dark">Enter the OTP<span class="redTick">*</span></label>
+                                <input type="number" name="OTP" value="" placeholder="Enter the OTP" minlength="6"
+                                    maxlength="6" required>
+                            </div>
+                            <% if (OTPalert) { %>
+                                <div class="alert alert-danger" role="alert">
+                                    Please enter proper OTP
+                                </div>
+                                <% } %>
+                                    <div class="from-group">
+                                        <button type="submit" class="btn btn-outline-warning">Submit</button>
+                                    </div>
+                                    <% } %>
     </div>
 </form>
 <!-- /Form Handaling -->

@@ -16,7 +16,11 @@
                                 <%= User.name%>
                             </b>
                         </a>
-                        <div class="space-850"></div>
+                        <div class="space-600"></div>
+                        <a href="#" class="report"><i class="fa-solid fa-file"></i>
+                            Panding List</a>
+                        <a href="/admin/dashBoard/Report" class="report"><i class="fa-solid fa-file"></i>
+                            Report</a>
                         <a href="/admin/dashBoard/addTenment" class="Tenament-add"><i
                                 class="fa-solid fa-file-circle-plus"></i> Add
                             Tenament</a>
@@ -89,9 +93,10 @@
                                                                         <th scope="col">User</th>
                                                                         <th scope="col">Address</th>
                                                                         <th scope="col">Usage</th>
-                                                                        <th scope="col">Status </th>
-                                                                        <th scope="col">Total Bill</th>
-                                                                        <th scope="col">Action</th>
+                                                                        <th scope="col" class="Center-text">Status </th>
+                                                                        <th scope="col" class="Center-text">Total Bill
+                                                                        </th>
+                                                                        <th scope="col" class="Center-text">Action</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -111,7 +116,7 @@
                                                                             <td>
                                                                                 <%= userBill.get(key)[i].Usage%>
                                                                             </td>
-                                                                            <td>
+                                                                            <td class="Center-text">
                                                                                 <% if (userBill.get(key)[i].Status) { %>
                                                                                     <img src="/img/ok.png"
                                                                                         height="25px" />
@@ -120,10 +125,10 @@
                                                                                             height="18px" />
                                                                                         <% } %>
                                                                             </td>
-                                                                            <td>
+                                                                            <td class="Center-text">
                                                                                 <%= userBill.get(key)[i].Total%>
                                                                             </td>
-                                                                            <td>
+                                                                            <td class="Center-text">
                                                                                 <a class="Pay-btn shadow-sm"
                                                                                     href="/admin/dashBoard/details/<%= userBill.get(key)[i].tenament%>"><i
                                                                                         class="fa-solid fa-circle-info"></i>

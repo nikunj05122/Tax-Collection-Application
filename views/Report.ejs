@@ -1,0 +1,313 @@
+<!-- Include Header -->
+<%- include('include/_header')%>
+    <!-- /Include Header -->
+
+    <!-- Include Main Navbar -->
+    <%- include('include/_Main-navbar')%>
+        <!-- /Include Main Navbar -->
+
+        <div class="bg-warning">
+            <div class="container">
+                <div class="nav-menu-user">
+                    <div class="person-intro">
+                        Welcome,
+                        <a class="userEdit" href="/user/BillDashbord/userProfile">
+                            <b id="person">
+                                <%= User.name%>
+                            </b>
+                        </a>
+                        <div class="space-1000"></div>
+                        <a href="/admin/dashBoard" class="User-details-for-admin"><i class="fa-solid fa-house"></i>
+                            DashBoard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- property tex area -->
+        <div class="banner ">
+            <div class="container pt-5">
+                <div class="container py-3 bg-light text-dark">
+                    <span>
+                        <strong class="p-5 my-2" style="color: #4e109f; font-size: 30px">Report</strong>
+                    </span>
+
+                    <hr>
+                    <!-- Botton login and register -->
+                    <div class="tax-pay-btn py-3">
+                        <a class="download-btn Center-text" id="download" href="/Download/Report.pdf" download><i
+                                class="fa-solid fa-download"></i> Download Report</a>
+                    </div>
+
+                    <hr>
+                    <div class="grid-2-bills">
+                        <% for( var i=0; i < tenmentData.length; i++ ) { %>
+                            <!-- table -->
+                            <div>
+                                <table class=" table table-bordered <%= i + " disabled" %>">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" colspan="4" scope="col">
+                                                    <b style="font-size: 25px;">
+                                                        <%= tenmentData[i].tenament %> Tax Information
+                                                    </b>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="px-5">
+                                                    <b>Tenement No.</b>
+                                                    <p>
+                                                        <%= tenmentData[i].tenament %>
+                                                    </p>
+                                                </td>
+                                                <td class="amount" rowspan="8" class="p-5">
+                                                    <b>Outstanding Amount</b>
+                                                    <p>Rs.
+                                                        <%= tenmentData[i].Total %>/-
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-5">
+                                                    <b>Name</b>
+                                                    <p>
+                                                        <%= tenmentData[i].Name %>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-5">
+                                                    <b>Postal Address</b>
+                                                    <p>
+                                                        <%= tenmentData[i].Postal_address %>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-5">
+                                                    <b>Location Address</b>
+                                                    <p>
+                                                        <%= tenmentData[i].Local_address %>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-5">
+                                                    <b>Usage</b>
+                                                    <p>
+                                                        <%= tenmentData[i].Usage %>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-5">
+                                                    <b>OCCUPIER</b>
+                                                    <p>
+                                                        <%= tenmentData[i].Occupier %>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-5">
+                                                    <b>Last Bill Issue Data</b>
+                                                    <p>
+                                                        01/10/<%= tenmentData[i].Year %>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-5">
+                                                    <b>Last Bill Due Date</b>
+                                                    <p>
+                                                        31/12/<%= tenmentData[i].Year %>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-5" colspan="2">
+                                                    <!-- iner table -->
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Particulars</th>
+                                                                <th scope="col">Rateable Sys. Arrears</th>
+                                                                <th scope="col">Areabase Arrears</th>
+                                                                <th scope="col">Areabase Current Tax</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row">Property Tax</th>
+                                                                <td>0.00</td>
+                                                                <td>0.00</td>
+                                                                <td>
+                                                                    <%= tenmentData[i].Property_tax %>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Water Charge</th>
+                                                                <td>0.00</td>
+                                                                <td>0.00</td>
+                                                                <td>
+                                                                    <%= tenmentData[i].Water_tax %>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Drainage Charge</th>
+                                                                <td>0.00</td>
+                                                                <td>0.00</td>
+                                                                <td>
+                                                                    <%= tenmentData[i].Drainage_tax %>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">SW Charge</th>
+                                                                <td>0.00</td>
+                                                                <td>0.00</td>
+                                                                <td>
+                                                                    <%= tenmentData[i].SW_tax %>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Street Light Charge</th>
+                                                                <td>0.00</td>
+                                                                <td>0.00</td>
+                                                                <td>
+                                                                    <%= tenmentData[i].Street_Light %>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Fire Charge</th>
+                                                                <td>0.00</td>
+                                                                <td>0.00</td>
+                                                                <td>
+                                                                    <%= tenmentData[i].Fire_Charge %>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Env.Improve.Charge</th>
+                                                                <td>0.00</td>
+                                                                <td>0.00</td>
+                                                                <td>
+                                                                    <%= tenmentData[i].Env_improve_charge %>
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="rebate">
+                                                                <th scope="row">Rebate</th>
+                                                                <td>0.00</td>
+                                                                <td>0.00</td>
+                                                                <td>
+                                                                    <%= tenmentData[i].Rebate %>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Education Cess</th>
+                                                                <td>0.00</td>
+                                                                <td>0.00</td>
+                                                                <td>
+                                                                    <%= tenmentData[i].Education_Cess %>
+                                                                </td>
+                                                            </tr>
+                                                            <tr style="font-weight: bold">
+                                                                <th scope="row">
+                                                                    <b>Total</b>
+                                                                </th>
+                                                                <td>0.00</td>
+                                                                <td>0.00</td>
+                                                                <td>
+                                                                    <%= tenmentData[i].Total %> %>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <% if (tenmentData[i].Status) { %>
+
+                                                        <table class="table table-bordered">
+                                                            <tr>
+                                                                <th colspan="3" class="text-center"><b>Payment
+                                                                        Details</b>
+                                                                </th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="col">Date</th>
+                                                                <th scope="col">Transcation ID</th>
+                                                                <th scope="col">Reference</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <%=tenmentData[i].Date %>
+                                                                </td>
+                                                                <td>
+                                                                    <%=tenmentData[i].Transcation_ID %>
+                                                                </td>
+                                                                <td>
+                                                                    <%=tenmentData[i].Reference %>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                        <% } else { %>
+                                                            <table class="table table-bordered">
+                                                                <tr>
+                                                                    <th colspan="3" class="text-center"><b>Payment
+                                                                            Details</b>
+                                                                    </th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th scope="col" class="redTick Center-text">
+                                                                        Payment
+                                                                        Panding</th>
+                                                                </tr>
+                                                            </table>
+                                                            <% } %>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </table>
+                            </div>
+                            <% } %>
+                    </div>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <% if (page - 1> 0) { %>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="/admin/dashBoard/Report?page=<%= page - 1 %>">Previous</a>
+                                </li>
+                                <% } %>
+                                    <% if (page < tenmentDataLength/limit + 1) { %>
+
+                                        <li class="page-item"><a class="page-link"
+                                                href="/admin/dashBoard/Report?page=<%= page %>">
+                                                <%= page %>
+                                            </a></li>
+                                        <% } %>
+                                            <% if (page + 1 < tenmentDataLength/limit + 1) { %>
+                                                <li class="page-item"><a class="page-link"
+                                                        href="/admin/dashBoard/Report?page=<%= page + 1 %>">
+                                                        <%= page + 1 %>
+                                                    </a></li>
+                                                <% } %>
+                                                    <% if (page + 2 < tenmentDataLength/limit + 1) { %>
+                                                        <li class="page-item"><a class="page-link"
+                                                                href="/admin/dashBoard/Report?page=<%= page + 2 %>">
+                                                                <%= page + 2 %>
+                                                            </a></li>
+                                                        <% } %>
+                                                            <% if (page < tenmentDataLength/limit) { %>
+                                                                <li class="page-item">
+                                                                    <a class="page-link"
+                                                                        href="/admin/dashBoard/Report?page=<%= page + 1 %>">Next</a>
+                                                                </li>
+                                                                <% } %>
+                </div>
+            </div>
+        </div>
+        </ul>
+        </nav>
+        <!-- Include Footer -->
+        <%- include('include/_footer')%>
+            <!-- /Include Footer -->

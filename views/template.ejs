@@ -240,7 +240,7 @@
 
                                                 <!-- Botton login and register -->
                                                 <div class="tax-pay-btn py-3">
-                                                    <a class="tax-pay"
+                                                    <a class="download-btn Center-text" id="download"
                                                         href="/../Download/<%=Tenment.tenament %>_Payment.pdf"
                                                         download><i class="fa-solid fa-download"></i> Download</a>
                                                 </div>
@@ -252,6 +252,13 @@
                         </div>
                     </div>
                 </div>
+
+
+                <script>
+                    window.addEventListener("load", () => {
+                        document.querySelector("#download").click();
+                    });
+                </script>
 
                 <!-- Include Footer -->
                 <%- include('include/_footer')%>

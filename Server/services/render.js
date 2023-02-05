@@ -1,8 +1,6 @@
-const axios = require('axios');
-
 // ------------------------------------- User ------------------------------------------
 exports.UserSignUp = (req, res) => {
-    res.render('sign_Up', { title: "Sign Up", alert: false });
+    res.render('sign_Up', { title: "Sign Up", alert: false, submit: false, action: '/user/api/SignUpOTP', OTPalert: false });
 }
 
 exports.homepage = (req, res) => {
@@ -39,7 +37,7 @@ exports.forgot = async (req, res) => {
 
 // ------------------------------------- Admin ------------------------------------------
 exports.AdminSignUp = (req, res) => {
-    res.render('Admin_SignUp', { title: "Sign Up", alert: false });
+    res.render('Admin_SignUp', { title: "Sign Up", alert: false, submit: false, action: '/admin/api/SignUpOTP', OTPalert: false });
 }
 
 exports.AdminLogin = (req, res) => {

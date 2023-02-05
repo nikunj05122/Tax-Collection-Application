@@ -26,7 +26,7 @@
                                         <button class="accordion-button alert alert-primary" type="button"
                                             data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne"
                                             aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                            My properties
+                                            My Properties
                                         </button>
                                     </h2>
                                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
@@ -71,23 +71,33 @@
                                                             </tr>
                                                             <% } %>
                                                                 <% } %>
-                                                                    <tr class="payment-pandding pay">
-                                                                        <td class="pay-text" colspan="3">
-                                                                            <strong>Pay all the
-                                                                                bills.</strong>
-                                                                        </td>
-                                                                        <td class="Center-text">
-                                                                            31/12/<%= new Date().getFullYear();%>
-                                                                        </td>
-                                                                        <td class="Center-text">
-                                                                            <%= TotalPay %>
-                                                                        </td>
-                                                                        <td class="Center-text">
-                                                                            <a class="shadow-sm pay-all" href="#"><i
-                                                                                    class="fa-solid fa-credit-card"></i>
-                                                                                Pay All</a>
-                                                                        </td>
-                                                                    </tr>
+
+                                                                    <% if (TotalPay> 0) { %>
+                                                                        <tr class="payment-pandding pay">
+                                                                            <td class="pay-text" colspan="3">
+                                                                                <strong>Pay all the
+                                                                                    bills.</strong>
+                                                                            </td>
+                                                                            <td class="Center-text">
+                                                                                31/12/<%= new Date().getFullYear();%>
+                                                                            </td>
+                                                                            <td class="Center-text">
+                                                                                <%= TotalPay %>
+                                                                            </td>
+                                                                            <td class="Center-text">
+                                                                                <a class="shadow-sm pay-all"
+                                                                                    href="/user/BillDashbord/allBillPayment"><i
+                                                                                        class="fa-solid fa-credit-card"></i>
+                                                                                    Pay All</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <% } else { %>
+                                                                            <tr class="payment-pandding pay">
+                                                                                <td class="pay-text" colspan="6">
+                                                                                    <strong>All Billes is payed</strong>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <% } %>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -99,7 +109,7 @@
                                         <button class="accordion-button collapsed alert alert-primary" type="button"
                                             data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
                                             aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                            My Transaction
+                                            My Transactiones
                                         </button>
                                     </h2>
                                     <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show"
@@ -152,6 +162,31 @@
                                                             </tr>
                                                             <% }%>
                                                                 <% }%>
+                                                                    <% if (Payment.length==0){ %>
+                                                                        <tr class="payment-pandding pay">
+                                                                            <td class="pay-text" colspan="7">
+                                                                                <strong>All Billes is Panding</strong>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <% } else { %>
+                                                                            <tr>
+                                                                                <th class="pay-text" scope="row"
+                                                                                    colspan="6">
+                                                                                    Download the all bills
+                                                                                </th>
+                                                                                <td class="payment-pandding pay">
+                                                                                    <div class="login-btn Center-text"
+                                                                                        id="download-btn-append">
+                                                                                        <button type="button"
+                                                                                            class="btn btn-outline-primary"
+                                                                                            onclick="allDownload()"><i
+                                                                                                class="fa-solid fa-file-pdf"></i>
+                                                                                            All Receipt</button>
+                                                                                    </div>
+
+                                                                                </td>
+                                                                            </tr>
+                                                                            <% } %>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -163,6 +198,23 @@
                 </div>
             </div>
 
+            <script type="text/javascript">
+                function allDownload() {
+                    let tenment = ('<%- tenmentString %>').split(',');
+                    console.log(tenment);
+                    for (let i = 0; i < tenment.length - 1; i++) {
+                        let link = document.createElement('a');
+                        console.log(tenment[i], link);
+                        link.id = 'ALLDownload';
+                        link.classList.add('invisible');
+                        link.href = `/../Download/${tenment[i]}_Payment.pdf`;
+                        link.download = `${tenment[i]}_Payment.pdf`;
+                        document.querySelector('#download-btn-append').appendChild(link);
+                        document.querySelector('#ALLDownload').click();
+                        document.querySelector('#ALLDownload').remove();
+                    }
+                }
+            </script>
             <!-- Include Footer -->
             <%- include('include/_footer')%>
                 <!-- /Include Footer -->

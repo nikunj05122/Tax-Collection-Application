@@ -3,6 +3,12 @@
     --light: #adb5bd;
     --border: #dee2e6;
     --border-btn: #edf2f4;
+    --white: white;
+    --yellow-btn: rgb(255, 193, 7);
+    --login-btn: rgb(13, 110, 253);
+    --forgate: rgb(149, 78, 255);
+    --green-btn: rgb(25, 135, 84);
+    --green-btn-click: rgba(25, 135, 84, 0.5);
 }
 
 .banner {
@@ -101,40 +107,40 @@ footer {
 }
 
 .signUp-btn a {
-    color: rgb(255, 193, 7);
+    color: var(--yellow-btn);
     text-decoration: none;
-    border: 1px solid rgb(255, 193, 7);
+    border: 1px solid var(--yellow-btn);
     border-radius: 6px;
     padding: 5px 10px;
     margin: 4px 4px;
 }
 
 .signUp-btn a:hover {
-    color: white;
-    background-color: rgb(255, 193, 7);
+    color: var(--white);
+    background-color: var(--yellow-btn);
 }
 
 .login-btn a {
-    color: rgb(13, 110, 253);
+    color: var(--login-btn);
     text-decoration: none;
-    border: 1px solid rgb(13, 110, 253);
+    border: 1px solid var(--login-btn);
     border-radius: 6px;
     padding: 5px 10px;
     margin: 4px 4px;
 }
 
 .login-btn a:hover {
-    color: white;
-    background-color: rgb(13, 110, 253);
+    color: var(--white);
+    background-color: var(--login-btn);
 }
 
 .forgot {
-    color: rgb(149, 78, 255);
+    color: var(--forgate);
     text-decoration: none;
 }
 
 .forgot:hover {
-    color: rgb(149, 78, 255);
+    color: var(--forgate);
     text-decoration: underline;
 }
 
@@ -158,17 +164,17 @@ footer {
 }
 
 .Pay-btn {
-    color: rgb(25, 135, 84);
+    color: var(--green-btn);
     text-decoration: none;
-    border: 1px solid rgb(25, 135, 84);
+    border: 1px solid var(--green-btn);
     border-radius: 6px;
     padding: 5px 10px;
     margin: 4px 4px;
 }
 
 .Pay-btn:hover {
-    color: white;
-    background-color: rgb(25, 135, 84);
+    color: var(--white);
+    background-color: var(--green-btn);
 }
 
 .pay {
@@ -183,17 +189,17 @@ footer {
 }
 
 .pay-all {
-    color: rgb(25, 135, 84);
+    color: var(--green-btn);
     text-decoration: none;
-    border: 1px solid rgb(25, 135, 84);
+    border: 1px solid var(--green-btn);
     border-radius: 6px;
     padding: 5px 16px;
     margin: 4px 4px;
 }
 
 .pay-all:hover {
-    color: white;
-    background-color: rgb(25, 135, 84);
+    color: var(--white);
+    background-color: var(--green-btn);
 }
 
 /* tax Details page */
@@ -219,26 +225,40 @@ footer {
 
 .tax-pay {
     width: 100%;
-    color: rgb(25, 135, 84);
+    color: var(--green-btn);
     text-decoration: none;
-    border: 1px solid rgb(25, 135, 84);
+    border: 1px solid var(--green-btn);
     border-radius: 6px;
-    padding: 10px calc(100% - 635px);
+    padding: 10px;
 }
 
 .tax-pay-click {
     width: 100%;
-    color: white;
+    color: var(--white);
     text-decoration: none;
-    border: 1px solid rgba(25, 135, 84, 0.5);
+    border: 1px solid var(--green-btn-click);
     border-radius: 6px;
     padding: 10px calc(100% - 635px);
-    background-color: rgba(25, 135, 84, 0.5);
+    background-color: var(--green-btn-click);
 }
 
 .tax-pay:hover {
-    color: white;
-    background-color: rgb(25, 135, 84);
+    color: var(--white);
+    background-color: var(--green-btn);
+}
+
+.download-btn {
+    width: 100%;
+    color: var(--green-btn);
+    text-decoration: none;
+    border: 1px solid var(--green-btn);
+    border-radius: 6px;
+    padding: 10px 540px;
+}
+
+.download-btn:hover {
+    color: var(--white);
+    background-color: var(--green-btn);
 }
 
 .chart {
@@ -265,8 +285,8 @@ footer {
 /*User login page || Sign Page*/
 
 .btn-outline-warning:hover {
-    color: white;
-    background-color: rgb(255, 193, 7);
+    color: var(--white);
+    background-color: var(--yellow-btn);
 }
 
 /* User Details  */
@@ -277,7 +297,7 @@ footer {
 }
 
 .userEdit:hover {
-    color: rgb(74, 6, 162);
+    color: var(--white);
 }
 
 .userdata {
@@ -331,7 +351,7 @@ footer {
 }
 
 .userDetails {
-    font-size: 25px;
+    font-size: 15px;
 }
 
 .search {
@@ -341,8 +361,8 @@ footer {
     display: flex;
 }
 
-.space-850 {
-    width: 850px;
+.space-600 {
+    width: 600px;
 }
 
 .space-1000 {
@@ -356,7 +376,7 @@ a.User-details-for-admin {
 }
 
 a.User-details-for-admin:hover {
-    color: rgb(74, 6, 162);
+    color: var(--white);
 }
 
 a.Tenament-add {
@@ -367,10 +387,33 @@ a.Tenament-add {
 }
 
 a.Tenament-add:hover {
-    color: rgb(74, 6, 162);
+    color: var(--white);
+}
+
+a.report {
+    padding-right: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
+
+a.report:hover {
+    color: var(--white);
 }
 
 /* payment-success */
 .Center-text {
     text-align: center;
+}
+
+/* user Details Edit (add / remove tenment Page) */
+.alert-table {
+    background-color: rgb(255, 246, 247);
+    color: rgb(132, 32, 41);
+}
+
+/* Report Page */
+.grid-2-bills {
+    display: grid;
+    grid-template-columns: auto auto;
 }
