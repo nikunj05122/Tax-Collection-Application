@@ -1,4 +1,4 @@
-var { AdminDB, TenamentDB, paymentDB, UserDB, TempAdminDB } = require('./../model/model');
+var { AdminDB, TenamentDB, paymentDB, UserDB, TempAdminDB, PandingTenamentDB, addPropertyDB, sellDB, buyDB } = require('./../model/model');
 var randomstring = require("randomstring");
 const fs = require('fs');
 const pdf = require('pdf-creator-node');
@@ -43,7 +43,7 @@ exports.SignUpOTP = async (req, res) => {
             let MailGenerator = new Mailgen({
                 theme: "default",
                 product: {
-                    name: "Tax Payment",
+                    name: "AMC",
                     link: `${LOCAL_URL}`,
                     copyright: 'Copyright © 2019. All rights reserved.'
                 }
@@ -52,11 +52,11 @@ exports.SignUpOTP = async (req, res) => {
             var response = {
                 body: {
                     name: `${req.body.name}`,
-                    intro: 'You have received this email because a Sign up detailes is correct.',
+                    intro: 'Because the signup information was accurate, you have received this email.',
                     dictionary: {
                         instructions: `Your One-Time-password (OTP) : ${OTPNumber}`
                     },
-                    outro: 'Please sure enter the right OTP.'
+                    outro: 'Make sure to enter the correct otp.'
                 }
             };
 
@@ -65,7 +65,7 @@ exports.SignUpOTP = async (req, res) => {
             let message = {
                 from: EMAIL,
                 to: req.body.email,
-                subject: "OTP for sign UP.",
+                subject: "OTP for sign up.",
                 html: mail
             }
 
@@ -75,7 +75,7 @@ exports.SignUpOTP = async (req, res) => {
             res.redirect(`/admin/SignUpOTP/${TempAdmin._id.valueOf()}`);
         } catch (err) {
             res.status(500).send({
-                message: err.message || "Some error occurred while creating a create operation."
+                message: err.message || "Some error occured while sending the email, please sign up again."
             });
         }
     } else {
@@ -90,7 +90,7 @@ exports.verifyOTP = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             status: 'Fail',
-            message: 'Sign up data get is fail'
+            message: 'Server down, try again after some time.'
         });
     }
 }
@@ -108,7 +108,7 @@ exports.create = async (req, res) => {
                 res.status(200).redirect('/admin/Login');
             } catch (err) {
                 res.status(500).send({
-                    message: err.message || "Some error occurred while creating a create operation."
+                    message: err.message || "Server down, try again after some time."
                 });
             }
         } else {
@@ -118,7 +118,7 @@ exports.create = async (req, res) => {
         await TempAdminDB.findByIdAndDelete(req.body.id);
         res.status(500).json({
             status: 'Fail',
-            message: 'Re sign up'
+            message: 'Server down, try again after some time.'
         });
     }
 
@@ -137,7 +137,7 @@ exports.login = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             status: 'Fail',
-            message: 'Please Re-Login... '
+            message: 'Due to inactivty, you are logged out.'
         });
     }
 }
@@ -161,7 +161,7 @@ exports.forgot = async (req, res) => {
             let MailGenerator = new Mailgen({
                 theme: "default",
                 product: {
-                    name: "Tax Payment",
+                    name: "AMC",
                     link: `${LOCAL_URL}`,
                     copyright: 'Copyright © 2019. All rights reserved.'
                 }
@@ -202,7 +202,7 @@ exports.forgot = async (req, res) => {
     } catch (err) {
         res.status(404).json({
             status: 'fail',
-            message: 'Fail to send mail for forgot password admin',
+            message: 'Server down, try again after some time.',
         });
     }
 }
@@ -214,7 +214,7 @@ exports.passwordEdit = async (req, res) => {
     } catch (err) {
         res.status(404).json({
             status: 'fail',
-            message: 'Fail to get details',
+            message: 'Server down, try again after some time.',
         });
     }
 }
@@ -240,7 +240,7 @@ exports.passwordEditSubmit = async (req, res) => {
     } catch (err) {
         res.status(404).json({
             status: 'fail',
-            message: 'Fail to update details',
+            message: 'Server down, try again after some time.',
         });
     }
 }
@@ -301,18 +301,24 @@ exports.dashBoard = async (req, res) => {
             }
         });
 
+
+        const addProperty = await addPropertyDB.find();
+        const sell = await sellDB.find();
+
+        const totalRequest = addProperty.length + sell.length;
+
         if (req.session.user) {
-            res.status(200).render('DashBoard', { title: "DashBoard", User: req.session.user, year: year, tenData: tenData, userBill: userBill });
+            res.status(200).render('DashBoard', { title: "DashBoard", User: req.session.user, year: year, tenData: tenData, userBill: userBill, totalRequest: totalRequest });
         } else {
             res.status(500).json({
                 status: 'Fail',
-                message: 'Please Re-Login... '
+                message: 'Due to inactivty, you are logged out. '
             });
         }
     } catch (err) {
         res.status(500).json({
             status: 'Fail',
-            message: 'Login... Fail'
+            message: 'Server down, try again after some time.'
         });
     }
 }
@@ -328,13 +334,13 @@ exports.search = async (req, res) => {
         else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     } catch (err) {
         res.status(500).json({
-            status: "Fail to get data for serch bar",
-            message: err
+            status: "Fail",
+            message: err || "Server down, try again after some time."
         });
     }
 }
@@ -351,13 +357,13 @@ exports.searchUser = async (req, res) => {
         else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     } catch (err) {
         res.status(500).json({
-            status: "Fail to get data for serch bar",
-            message: err
+            status: "Fail",
+            message: err || "Server down, try again after some time."
         });
     }
 }
@@ -367,20 +373,20 @@ exports.details = async (req, res) => {
         if (req.session.user) {
             const userData = await UserDB.find({ tenment: req.params.tenment });
             const tenmentData = await TenamentDB.find({ tenament: req.params.tenment });
-            const paymentData = await paymentDB.find({ tenament: req.params.tenment })
+            const paymentData = await paymentDB.find({ tenament: req.params.tenment });
 
             res.status(200).render('Details', { title: "Details", User: req.session.user, TenmentDetails: tenmentData[0], UserDetails: userData, PaymentDetails: paymentData })
         }
         else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
 
     } catch (err) {
         res.status(500).json({
-            message: 'Details is not get from the database'
+            message: 'Server down, try again after some time.',
         });
     }
 }
@@ -395,14 +401,14 @@ exports.adminProfile = async (req, res) => {
         } else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     }
     catch (err) {
         res.status(404).json({
             status: 'fail',
-            message: 'Fail to get details',
+            message: 'Server down, try again after some time.',
         });
     }
 }
@@ -417,14 +423,14 @@ exports.adminProfileEdit = async (req, res) => {
         } else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     }
     catch (err) {
         res.status(404).json({
             status: 'fail',
-            message: 'Fail to get details',
+            message: 'Server down, try again after some time.',
         });
     }
 }
@@ -449,13 +455,13 @@ exports.adminProfileEditSubmit = async (req, res) => {
         else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     } catch (err) {
         res.status(404).json({
             status: 'fail',
-            message: 'Fail to update details',
+            message: 'Server down, try again after some time.',
         });
     }
 }
@@ -473,13 +479,13 @@ exports.userDetails = async (req, res) => {
         else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
 
     } catch (err) {
         res.status(500).json({
-            message: 'Details is not get from the database'
+            message: 'Server down, try again after some time.'
         });
     }
 }
@@ -496,13 +502,13 @@ exports.userDetailsEdit = async (req, res) => {
         else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
 
     } catch (err) {
         res.status(500).json({
-            message: 'Edit page not reneder'
+            message: 'Server down, try again after some time.'
         });
     }
 }
@@ -539,13 +545,13 @@ exports.userDetailsAdd = async (req, res) => {
         else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
 
     } catch (err) {
         res.status(500).json({
-            message: 'User Details is not updated',
+            message: 'Server down, try again after some time.',
             error: err.message
         });
     }
@@ -576,13 +582,13 @@ exports.userDetailsRemove = async (req, res) => {
         else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
 
     } catch (err) {
         res.status(500).json({
-            message: 'User Details is not updated'
+            message: 'Server down, try again after some time.'
         });
     }
 }
@@ -593,7 +599,7 @@ exports.TenamentEntry = (req, res) => {
     } else {
         res.status(500).json({
             status: "Fail",
-            message: "Please Re-Login..."
+            message: "Due to inactivty, you are logged out."
         });
     }
 }
@@ -645,12 +651,12 @@ exports.tenmentEntry = async (req, res) => {
         } else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     } catch (err) {
         res.status(500).json({
-            message: 'Data not inserted in the Tenament Database',
+            message: 'Server down, try again after some time.',
             error: err
         });
     }
@@ -690,12 +696,12 @@ exports.Report = async (req, res) => {
         } else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     } catch (err) {
         res.status(500).json({
-            message: 'Data not show',
+            message: 'Server down, try again after some time.',
             error: err.message
         });
     }
@@ -762,10 +768,66 @@ exports.ReportDownload = async (req, res, next) => {
         });
     } catch (err) {
         res.status(500).json({
-            message: 'Data not show',
+            message: 'Server down, try again after some time.',
             error: err.message
         });
     }
 
     next();
 }
+
+exports.PandingBill = async (req, res) => {
+    try {
+
+    } catch (err) {
+        res.status(500).json({
+            message: 'Server down, try again after some time.',
+            error: err.message
+        });
+    }
+}
+
+exports.propertyRequest = async (req, res) => {
+    try {
+        if (req.session.user) {
+            const addPropertyList = await addPropertyDB.find().sort("tenment");
+            const selllist = await sellDB.find().select("-photo -saleDead -propertyDocument -paymentStamp -__v").sort("tenment");
+
+            let sellList = [];
+            for (let i = 0; i < selllist.length; i++) {
+                const sell = await sellDB.find({ tenment: selllist[i].tenment });
+                const buy = await buyDB.find({ tenment: selllist[i].tenment });
+
+                let obj = {};
+                obj["tenment"] = sell[i].tenment || "";
+                obj["sellId"] = sell[i]._id || "";
+                obj["sellEmail"] = sell[i].email || "";
+                obj["sellAadhar"] = sell[i].aadhar || "";
+                obj["sellphoto"] = sell[i].photo || "";
+                obj["sellSaleDead"] = sell[i].saleDead || "";
+                obj["sellPropertyDocument"] = sell[i].propertyDocument || "";
+                obj["sellPaymentStamp"] = sell[i].paymentStamp || "";
+
+                obj["buyId"] = buy[i]._id || "";
+                obj["buyEmail"] = buy[i].email || "";
+                obj["buyAadhar"] = buy[i].aadhar || "";
+                obj["buyPhoto"] = buy[i].photo || "";
+                obj["buyOccupier"] = buy[i].Occupier || "";
+
+                sellList.push(obj);
+            }
+            res.status(200).render('propertyRequest', { title: "Property Request", User: req.session.user, addPropertyList: addPropertyList, sellList: sellList, LOCAL_URL: LOCAL_URL });
+        } else {
+            res.status(500).json({
+                status: "Fail",
+                message: "Due to inactivty, you are logged out."
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            message: 'Server down, try again after some time.',
+            error: err.message
+        });
+    }
+}
+// res.render('serverError', { title: 'ServerError', message: "", status: 0 });

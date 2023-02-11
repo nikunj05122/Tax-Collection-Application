@@ -14,6 +14,8 @@ const app = express();
 // Database connect
 connectDB();
 
+
+
 // Timer for bill update
 const bree = new Bree({
     jobs: [
@@ -28,7 +30,7 @@ const bree = new Bree({
 bree.start();
 
 // For get body data
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 // set view engine
@@ -38,13 +40,17 @@ app.set('view engine', 'ejs');
 app.use('/css', express.static(path.resolve(__dirname, 'assets/css')));
 app.use('/img', express.static(path.resolve(__dirname, 'assets/img')));
 app.use('/js', express.static(path.resolve(__dirname, 'assets/js')));
+app.use('/Docs', express.static(path.resolve(__dirname, 'Docs')));
 app.use('/Download', express.static(path.join(__dirname, 'Download')));
 
+
+const oneDay = 1000 * 60 * 60 * 24;
 // session for login
 app.use(session({
     secret: uuidv4(),
+    saveUninitialized: true,
     resave: false,
-    saveUninitialized: true
+    cookie: { maxAge: oneDay },
 }));
 
 // Routes for user

@@ -1,26 +1,17 @@
+// const LOCAL_URL = 'http://localhost:4000';
+const LOCAL_URL = 'https://tax-collection.onrender.com';
+
 // ------------------------------------- User ------------------------------------------
 exports.UserSignUp = (req, res) => {
     res.render('sign_Up', { title: "Sign Up", alert: false, submit: false, action: '/user/api/SignUpOTP', OTPalert: false });
 }
 
 exports.homepage = (req, res) => {
-    res.render('index', { title: "Home" });
+    res.render('index', { title: "Home", LOCAL_URL: LOCAL_URL });
 }
 
 exports.UserLogin = (req, res) => {
     res.render('login', { title: "Login", alert: false });
-}
-
-// session was destroy
-exports.exit = (req, res) => {
-    req.session.destroy(err => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            res.status(200).redirect('/');
-        }
-    });
 }
 
 exports.cancel = (req, res) => {

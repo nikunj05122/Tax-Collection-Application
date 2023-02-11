@@ -321,4 +321,100 @@ const paymentSchema = mongoose.Schema({
 
 const paymentDB = mongoose.model("paymentDB", paymentSchema);
 
-module.exports = { UserDB, AdminDB, TenamentDB, paymentDB, TempAdminDB, TempUserDB, PandingTenamentDB };
+const addProperty = mongoose.Schema({
+    email: {
+        type: String,
+        required: true
+    },
+    aadhar: {
+        type: String,
+        required: true
+    },
+    tenment: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    photo: {
+        type: String,
+        required: true
+    },
+    propertyDocument: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        default: '0'
+    }
+});
+
+const addPropertyDB = mongoose.model("addPropertyDB", addProperty);
+
+const sell = mongoose.Schema({
+    email: {
+        type: String,
+        required: true
+    },
+    aadhar: {
+        type: String,
+        required: true
+    },
+    tenment: {
+        type: String,
+        require: true
+    },
+    photo: {
+        type: String,
+        required: true
+    },
+    saleDead: {
+        type: String,
+        required: true
+    },
+    propertyDocument: {
+        type: String,
+        required: true
+    },
+    paymentStamp: {
+        type: String,
+        require: true
+    },
+    status: {
+        type: String,
+        default: "0"
+    }
+});
+
+const sellDB = mongoose.model("sellDB", sell);
+
+const buy = mongoose.Schema({
+    email: {
+        type: String,
+        required: true
+    },
+    aadhar: {
+        type: String,
+        required: true
+    },
+    tenment: {
+        type: String,
+        require: true
+    },
+    photo: {
+        type: String,
+        required: true
+    },
+    Occupier: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        default: '0'
+    }
+});
+
+const buyDB = mongoose.model("buyDB", buy);
+
+module.exports = { UserDB, AdminDB, TenamentDB, paymentDB, TempAdminDB, TempUserDB, PandingTenamentDB, addPropertyDB, sellDB, buyDB };

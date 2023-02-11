@@ -51,4 +51,7 @@ router.post('/api/dashBoard/searchUser', adminController.searchUser);
 router.get('/dashBoard/addTenment', adminController.TenamentEntry);
 router.post('/api/tenmentEntry', adminController.tenmentEntry);
 
+// Property Request
+router.get('/dashBoard/propertyRequest', adminController.propertyRequest);
+
 module.exports = router;

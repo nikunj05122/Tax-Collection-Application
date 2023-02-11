@@ -1,11 +1,12 @@
 var randomstring = require("randomstring");
-var { UserDB, TenamentDB, paymentDB, TempUserDB } = require('./../model/model');
+var { UserDB, TenamentDB, paymentDB, PandingTenamentDB, addPropertyDB, TempUserDB, sellDB, buyDB } = require('./../model/model');
 const fs = require('fs');
 const pdf = require('pdf-creator-node');
 const path = require('path');
 const options = require('./../../assets/js/options');
 const nodemailer = require('nodemailer');
 const Mailgen = require('mailgen');
+const multer = require('multer');
 const dotenv = require('dotenv');
 
 dotenv.config({ path: `${__dirname}/../../config.env` });
@@ -44,7 +45,7 @@ exports.SignUpOTP = async (req, res) => {
             let MailGenerator = new Mailgen({
                 theme: "default",
                 product: {
-                    name: "Tax Payment",
+                    name: "AMC",
                     link: `${LOCAL_URL}`,
                     copyright: 'Copyright © 2019. All rights reserved.'
                 }
@@ -78,7 +79,7 @@ exports.SignUpOTP = async (req, res) => {
         }
         catch (err) {
             res.status(500).send({
-                message: err.message || "Some error occurred while creating a create operation."
+                message: err.message || "Some error occured while sending the email, please sign up again."
             });
         }
     }
@@ -94,7 +95,7 @@ exports.verifyOTP = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             status: 'Fail',
-            message: 'Sign up data get is fail'
+            message: 'Server down, try again after some time.'
         });
     }
 }
@@ -106,15 +107,15 @@ exports.create = async (req, res) => {
         const OTP = req.body.OTP;
         if (OTP == tempuserData.OTP) {
             try {
-                console.log(tempuserData);
+                // console.log(tempuserData);
                 const user = await UserDB.create(req.body);
-                console.log(user);
+                // console.log(user);
                 await TempUserDB.findByIdAndDelete(req.body.id);
                 res.status(300).redirect('/user/login');
             }
             catch (err) {
                 res.status(500).send({
-                    message: err.message || "Some error occurred while creating a create operation."
+                    message: err.message || "Server down, try again after some time."
                 });
             }
         }
@@ -126,7 +127,7 @@ exports.create = async (req, res) => {
         await TempUserDB.findByIdAndDelete(req.body.id);
         res.status(500).json({
             status: 'Fail',
-            message: 'Re sign up'
+            message: 'Server down, try again after some time.'
         });
     }
 
@@ -146,9 +147,15 @@ exports.login = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             status: "Fail",
-            message: "Login Fail"
+            message: "Server down, try again after some time."
         });
     }
+}
+
+// session was destroy
+exports.exit = async (req, res) => {
+    delete req.session.user;
+    res.status(204).redirect('/');
 }
 
 exports.billboard = async (req, res) => {
@@ -183,32 +190,33 @@ exports.billboard = async (req, res) => {
         else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     }
     catch (err) {
         res.status(404).json({
             status: 'fail',
-            message: 'Fail to Find details',
+            message: 'Server down, try again after some time.',
         });
     }
 }
 
 exports.billDetails = async (req, res) => {
-    try {
-        if (req.session.user) {
+    if (req.session.user) {
+        try {
             const data = await TenamentDB.find({ tenament: req.params.tenment });
             res.status(200).render('taxPage', { title: "Tex Page", User: (req.session.user)[0], Tenment: data, PUBLISHABLE_KEY: process.env.PUBLISHABLE_KEY });
-        } else {
-            res.status(500).json({
-                status: "Fail",
-                message: "Please Re-Login..."
+        } catch (err) {
+            res.status(404).json({
+                status: 'fail',
+                message: "Server down, try again after some time."
             });
         }
-    } catch (err) {
-        res.status(404).json({
-            status: 'fail'
+    } else {
+        res.status(500).json({
+            status: "Fail",
+            message: "Due to inactivty, you are logged out."
         });
     }
 }
@@ -246,13 +254,13 @@ exports.payment = async (req, res) => {
         else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     } catch (err) {
         res.status(500).json({
             status: "Fail to payment",
-            message: err
+            message: err || "Server down, try again after some time."
         });
     }
 }
@@ -274,7 +282,7 @@ exports.PaymentMail = async (req, res) => {
             let MailGenerator = new Mailgen({
                 theme: "default",
                 product: {
-                    name: "Tax Payment",
+                    name: "AMC",
                     link: `${LOCAL_URL}`,
                     copyright: 'Copyright © 2019. All rights reserved.'
                 }
@@ -405,13 +413,13 @@ exports.PaymentMail = async (req, res) => {
         else {
             res.status(501).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     } catch (err) {
         res.status(500).json({
             status: "Fail to send mail",
-            message: err
+            message: err || "Some error occured while sending the email, please sign up again."
         });
     }
 }
@@ -490,13 +498,13 @@ exports.success = async (req, res) => {
         else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     } catch (err) {
         res.status(504).json({
             status: "Fail to payment",
-            message: err
+            message: err || "Server down, try again after some time."
         });
     }
 }
@@ -547,13 +555,13 @@ exports.allBillDetails = async (req, res) => {
         } else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     } catch (err) {
         res.status(404).json({
             status: 'fail',
-            error: err
+            error: err || "Server down, try again after some time."
         });
     }
 }
@@ -590,13 +598,13 @@ exports.paymentAllBill = async (req, res) => {
         else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     } catch (err) {
         res.status(500).json({
             status: "Fail to payment",
-            message: err
+            message: err || "Server down, try again after some time."
         });
     }
 }
@@ -675,13 +683,13 @@ exports.successAll = async (req, res) => {
         } else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     } catch (err) {
         res.status(504).json({
             status: "Fail to payment",
-            message: err
+            message: err || "Server down, try again after some time."
         });
     }
 }
@@ -707,7 +715,7 @@ exports.AllPaymentMail = async (req, res) => {
                 let MailGenerator = new Mailgen({
                     theme: "default",
                     product: {
-                        name: "Tax Payment",
+                        name: "AMC",
                         link: `${LOCAL_URL}`,
                         copyright: 'Copyright © 2019. All rights reserved.'
                     }
@@ -839,18 +847,18 @@ exports.AllPaymentMail = async (req, res) => {
         else {
             res.status(501).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     } catch (err) {
         res.status(500).json({
             status: "Fail to send mail",
-            message: err
+            message: err || "Server down, try again after some time."
         });
     }
 }
 
-exports.downloadReceipe = async (req, res) => {
+exports.Receipe = async (req, res) => {
     try {
         var year = new Date().getFullYear();
         var Tenment = await TenamentDB.find({ tenament: req.params.id });
@@ -861,7 +869,7 @@ exports.downloadReceipe = async (req, res) => {
     catch (err) {
         res.status(404).json({
             status: 'fail',
-            message: err
+            message: err || "Server down, try again after some time."
         });
     }
 }
@@ -877,14 +885,14 @@ exports.userProfile = async (req, res) => {
         } else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     }
     catch (err) {
         res.status(404).json({
             status: 'fail',
-            message: 'Fail to get details',
+            message: 'Server down, try again after some time.',
         });
     }
 }
@@ -899,13 +907,13 @@ exports.userEdit = async (req, res) => {
         } else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     } catch (err) {
         res.status(404).json({
             status: 'fail',
-            message: 'Fail to get details',
+            message: 'Server down, try again after some time.',
         });
     }
 }
@@ -932,13 +940,13 @@ exports.userEditSubmit = async (req, res) => {
         else {
             res.status(500).json({
                 status: "Fail",
-                message: "Please Re-Login..."
+                message: "Due to inactivty, you are logged out."
             });
         }
     } catch (err) {
         res.status(404).json({
             status: 'fail',
-            message: 'Fail to update details',
+            message: 'Server down, try again after some time.',
         });
     }
 }
@@ -960,7 +968,7 @@ exports.forgot = async (req, res) => {
             let MailGenerator = new Mailgen({
                 theme: "default",
                 product: {
-                    name: "Tax Payment",
+                    name: "AMC",
                     link: `${LOCAL_URL}`,
                     copyright: 'Copyright © 2019. All rights reserved.'
                 }
@@ -969,7 +977,7 @@ exports.forgot = async (req, res) => {
             var response = {
                 body: {
                     name: `${userData[0].name}`,
-                    intro: 'You have received this email because a password reset request for your account was received.',
+                    intro: 'Because your account requested a password reset, you have got this email.',
                     action: {
                         instructions: 'Click the button below to reset your password:',
                         button: {
@@ -978,7 +986,7 @@ exports.forgot = async (req, res) => {
                             link: `${LOCAL_URL}/user/forgot/${userData[0]._id.valueOf()}`
                         }
                     },
-                    outro: 'If you did not request a password reset, no further action is required on your part.'
+                    outro: 'No more action is necessary on your behalf if you did not request a password reset.'
                 }
             };
 
@@ -1000,7 +1008,7 @@ exports.forgot = async (req, res) => {
     } catch (err) {
         res.status(404).json({
             status: 'fail',
-            message: 'Fail to send mail for forgot password user',
+            message: 'Fail to send forgot password mail.',
         });
     }
 }
@@ -1012,7 +1020,7 @@ exports.passwordEdit = async (req, res) => {
     } catch (err) {
         res.status(404).json({
             status: 'fail',
-            message: 'Fail to get details',
+            message: 'Server down, try again after some time.',
         });
     }
 }
@@ -1039,7 +1047,112 @@ exports.passwordEditSubmit = async (req, res) => {
     } catch (err) {
         res.status(404).json({
             status: 'fail',
-            message: 'Fail to update details',
+            message: 'Server down, try again after some time.',
+        });
+    }
+}
+
+exports.addProperty = async (req, res) => {
+    try {
+        const RequestedList = await addPropertyDB.find({ email: req.session.user[0].email });
+        res.status(200).render('addProperty', { title: "Property Request", User: req.session.user[0], list: RequestedList });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err.message || 'Details not updated successfully, So try again.',
+        });
+    }
+}
+
+exports.addPropertyRequest = async (req, res) => {
+    try {
+
+        const obj = {
+            email: req.session.user[0].email,
+            aadhar: req.body.aadharNumber,
+            tenment: req.body.propertyNumber,
+            photo: req.body.files[0],
+            propertyDocument: req.body.files[1],
+        }
+
+        await addPropertyDB.create(obj);
+
+        res.status(200).redirect(`/user/BillDashboard/upload`);
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err.message || 'Details not updated successfully, So try again.',
+        });
+    }
+}
+
+exports.sellProperty = async (req, res) => {
+    try {
+        const sellProperty = await sellDB.find({ email: req.session.user[0].email });
+        res.status(200).render('sell', { title: "Sell Property Request", User: req.session.user[0], list: sellProperty });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err.message || 'Details not updated successfully, So try again.',
+        });
+    }
+}
+
+exports.sellPropertyRequest = async (req, res) => {
+    try {
+        // console.log(req.session.user);
+
+        const obj = {
+            email: req.session.user[0].email,
+            aadhar: req.body.aadharNumber,
+            tenment: req.body.propertyNumber,
+            photo: req.body.files[0],
+            saleDead: req.body.files[1],
+            propertyDocument: req.body.files[2],
+            paymentStamp: req.body.files[3],
+
+        }
+        await sellDB.create(obj);
+
+        res.status(200).redirect(`/user/BillDashboard/sell`);
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err.message || 'Details not updated successfully, So try again.',
+        });
+    }
+}
+
+exports.buyProperty = async (req, res) => {
+    try {
+        const buyProperty = await buyDB.find({ email: req.session.user[0].email });
+        res.status(200).render('buy', { title: "Buy Property Request", User: req.session.user[0], list: buyProperty });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err.message || 'Details not updated successfully, So try again.',
+        });
+    }
+}
+
+exports.buyPropertyRequest = async (req, res) => {
+    try {
+        // console.log(req.body.files);
+
+        const obj = {
+            email: req.session.user[0].email,
+            aadhar: req.body.aadharNumber,
+            tenment: req.body.propertyNumber,
+            photo: req.body.files[0],
+            Occupier: req.body.post
+        }
+        await buyDB.create(obj);
+
+        res.status(200).redirect(`/user/BillDashboard/buy`);
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err.message || 'Details not updated successfully, So try again.',
         });
     }
 }

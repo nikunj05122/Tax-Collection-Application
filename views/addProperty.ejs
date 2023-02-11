@@ -1,0 +1,95 @@
+<!-- Include Header -->
+<%- include('include/_header')%>
+    <!-- /Include Header -->
+
+    <!-- Include Main Navbar -->
+    <%- include('include/_Main-navbar')%>
+        <!-- /Include Main Navbar -->
+
+        <div class="bg-warning">
+            <div class="container">
+                <div class="nav-menu-user">
+                    <div class="person-intro">
+                        Welcome,
+                        <a class="userEdit" href="/admin/dashBoard/adminProfile">
+                            <b id="person">
+                                <%= User.name%>
+                            </b>
+                        </a>
+                        <div class="space-900"></div>
+                        <a href="/user/BillDashbord" class="User-details-for-admin"><i class="fa-solid fa-house"></i>
+                            BillDashBoard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <div class="banner">
+                <div class="hid"></div>
+                <div class="container pt-5 main-container ">
+                    <span>
+                        <strong class="purpel-text">Add Property</strong>
+                    </span>
+                    <hr>
+                    <div class="user-upload">
+                        <!-- form -->
+                        <!-- Form Handaling -->
+                        <form ref='uploadForm' id='uploadForm' action="/user/api/BillDashboard/upload" method="POST"
+                            encType="multipart/form-data">
+                            <div class="from-group">
+                                <label for="aadharNumber" class="txt-dark form-label">Aadhar Number<span
+                                        class="redTick">
+                                        *</span></label>
+                                <input type="text" class="form-control" name="aadharNumber" value=""
+                                    placeholder="xxxx xxxx xxxx">
+                            </div>
+                            <div class="from-group">
+                                <label for="tenment" class="txt-dark form-label">Property Number<span class="redTick">
+                                        *</span></label>
+                                <input type="text" class="form-control" name="propertyNumber" value=""
+                                    placeholder="111-A-11-1111-1-111">
+                            </div>
+                            <div class="from-group pt-2">
+                                <label for="photo" class="txt-dark form-label">Photo<span class="redTick">
+                                        *</span></label>
+                                <input type="file" class="form-control" name="photo" accept="image/*" />
+                            </div>
+                            <div class="from-group pt-2">
+                                <label for="propertyDocument" class="txt-dark form-label">Property Document<span
+                                        class="redTick">
+                                        *</span></label>
+                                <input type="file" class="form-control" name="propertyDocument"
+                                    accept="application/pdf" />
+                            </div>
+
+                            <div class="from-group pt-3">
+                                <input type="submit" class="btn btn-outline-warning" value="Upload!" />
+                            </div>
+                        </form>
+                        <!-- /Form Handaling -->
+
+                        <!-- / form -->
+
+
+                        <% if (list.length> 0) { %>
+                            <ul class="list-group pt-4">
+                                <li class="list-group-item Center-text"><strong>
+                                        Panding List
+                                    </strong></li>
+                                <% for( let i=0; i < list.length; i++ ) { %>
+                                    <li class="list-group-item Center-text"><strong>
+                                            <%= list[i].tenment %>
+                                        </strong> still is panding.</li>
+                                    <% } %>
+                            </ul>
+                            <% } %>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Include Footer -->
+        <%- include('include/_footer')%>
+            <!-- /Include Footer -->

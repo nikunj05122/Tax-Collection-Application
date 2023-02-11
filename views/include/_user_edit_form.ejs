@@ -20,7 +20,11 @@
         </div>
         <div class="from-group">
             <label for="password" class="txt-dark">Password<span class="redTick"> *</span></label>
-            <input type="text" name="password" value="<%= User.password %>" placeholder="123456">
+            <div class="password-show">
+                <input class="passShow" type="password" name="password" value="<%= User.password %> "
+                    placeholder="123456"><a href="#" onclick="passwordShow()"><i
+                        class="fa-regular fa-eye-slash"></i></a>
+            </div>
         </div>
 
         <div class="from-group">
@@ -28,4 +32,19 @@
         </div>
     </div>
 </form>
+
+<script>
+    function passwordShow() {
+        const icon = document.querySelector('.passShow').type;
+        if (icon == "password") {
+            document.querySelector('.passShow').type = 'text';
+            document.querySelector('.fa-regular').classList.remove("fa-eye-slash");
+            document.querySelector('.fa-regular').classList.add("fa-eye");
+        } else {
+            document.querySelector('.passShow').type = 'password';
+            document.querySelector('.fa-regular').classList.remove("fa-eye");
+            document.querySelector('.fa-regular').classList.add("fa-eye-slash");
+        }
+    }
+</script>
 <!-- /Form Handaling -->

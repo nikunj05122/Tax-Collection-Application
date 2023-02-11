@@ -16,9 +16,12 @@
                                 <%= User.name%>
                             </b>
                         </a>
-                        <div class="space-600"></div>
-                        <a href="#" class="report"><i class="fa-solid fa-file"></i>
-                            Panding List</a>
+                        <div class="space-575"></div>
+                        <a href="/admin/dashBoard/propertyRequest" class="propertyRequest"><i
+                                class="fa-solid fa-file pt-1 pe-1"></i>
+                            Property request <span class="badge bg-primary rounded-pill totalRequest ms-1">
+                                <%= totalRequest %>
+                            </span> </a>
                         <a href="/admin/dashBoard/Report" class="report"><i class="fa-solid fa-file"></i>
                             Report</a>
                         <a href="/admin/dashBoard/addTenment" class="Tenament-add"><i
@@ -52,6 +55,24 @@
                     </div>
 
                     <hr>
+
+                    <!-- Chart -->
+                    <div class="Center-text"><strong>Statistics Data</strong></div>
+                    <hr>
+                    <div class="line-chart">
+                        <canvas class="line-chart" id="myChart"></canvas>
+                    </div>
+                    <hr>
+                    <div class="chart">
+                        <div class="chart-item">
+                            <canvas id="myChart2"></canvas>
+                        </div>
+                        <div class="chart-item">
+                            <canvas id="myChart3"></canvas>
+                        </div>
+                    </div>
+                    <hr>
+                    <!-- /Chart -->
 
                     <!-- list-payment holder -->
                     <div class="list-payment">
@@ -152,20 +173,7 @@
                     </div>
                     <!-- /list-payment holder -->
 
-                    <!-- Chart -->
-                    <hr>
-                    <div class="line-chart">
-                        <canvas class="line-chart" id="myChart"></canvas>
-                    </div>
-                    <hr>
-                    <div class="chart">
-                        <div class="chart-item">
-                            <canvas id="myChart2"></canvas>
-                        </div>
-                        <div class="chart-item">
-                            <canvas id="myChart3"></canvas>
-                        </div>
-                    </div>
+
 
                     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

@@ -9,6 +9,11 @@
     --forgate: rgb(149, 78, 255);
     --green-btn: rgb(25, 135, 84);
     --green-btn-click: rgba(25, 135, 84, 0.5);
+    --logout-btn-colour: red;
+}
+
+body {
+    top: 0px !important;
 }
 
 .banner {
@@ -20,7 +25,7 @@
 .main-container {
     border-radius: 5px;
     background-color: rgb(248, 249, 250);
-    width: calc(100% - 250px);
+    width: 100%;
     padding: 20px 20px;
     margin: auto;
 }
@@ -40,6 +45,34 @@
     text-decoration: none;
     position: absolute;
     right: 150px;
+}
+
+#google_translate_element > div > span {
+    display: none;
+}
+
+.goog-te-gadget {
+    color: transparent !important;
+}
+
+.VIpgJd-ZVi9od-ORHb-OEVmcd.skiptranslate {
+    display: none !important;
+}
+.goog-te-combo {
+    padding: 5px;
+    border: 1px solid rgb(111, 111, 113);
+    border-radius: 6px;
+}
+.navbar-expand-lg .navbar-nav {
+    margin-bottom: -17px !important;
+}
+
+.google_translate_element {
+    margin-top: 100px;
+}
+.goog-te-combo > option {
+    padding: -5px;
+    border-radius: 2px;
 }
 
 .icon {
@@ -80,6 +113,21 @@
     border: 1px solid var(--border);
     font-size: 1em;
     border-radius: 0.2em;
+}
+
+/* main navbar */
+.logout-btn {
+    color: var(--logout-btn-colour);
+    text-decoration: none;
+    border: 1px solid var(--logout-btn-colour) !important;
+    border-radius: 6px;
+    padding: 5px 10px;
+    margin: 4px 4px;
+}
+
+.logout-btn:hover {
+    color: var(--white);
+    background-color: var(--logout-btn-colour);
 }
 
 /* Footer */
@@ -168,7 +216,7 @@ footer {
     text-decoration: none;
     border: 1px solid var(--green-btn);
     border-radius: 6px;
-    padding: 5px 10px;
+    padding: 5px 8px;
     margin: 4px 4px;
 }
 
@@ -193,7 +241,7 @@ footer {
     text-decoration: none;
     border: 1px solid var(--green-btn);
     border-radius: 6px;
-    padding: 5px 16px;
+    padding: 5px 10px;
     margin: 4px 4px;
 }
 
@@ -238,7 +286,7 @@ footer {
     text-decoration: none;
     border: 1px solid var(--green-btn-click);
     border-radius: 6px;
-    padding: 10px calc(100% - 635px);
+    padding: 10px 0px;
     background-color: var(--green-btn-click);
 }
 
@@ -318,6 +366,15 @@ footer {
     text-decoration: none;
 }
 
+.password-show {
+    display: flex;
+}
+
+.password-show a {
+    margin-top: 18px;
+    margin-left: -30px;
+}
+
 /* admin Sign up */
 .admin-post {
     display: flex;
@@ -361,8 +418,20 @@ footer {
     display: flex;
 }
 
-.space-600 {
-    width: 600px;
+.space-575 {
+    width: 575px;
+}
+
+.space-700 {
+    width: 700px;
+}
+
+.space-800 {
+    width: 800px;
+}
+
+.space-900 {
+    width: 900px;
 }
 
 .space-1000 {
@@ -387,6 +456,18 @@ a.Tenament-add {
 }
 
 a.Tenament-add:hover {
+    color: var(--white);
+}
+
+a.propertyRequest {
+    display: flex;
+    padding-right: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
+
+a.propertyRequest:hover {
     color: var(--white);
 }
 

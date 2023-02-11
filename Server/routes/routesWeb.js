@@ -5,8 +5,7 @@ const webController = require('./../controller/webController');
 const router = express.Router();
 
 // home page
-router.get('/', services.homepage, services.exit);
-router.get('/exit', services.exit);
+router.get('/', services.homepage);
 
 // mail in payment receipe download
 router.get('/Download/:id', webController.TenamentDBPDFDownloadInMail);

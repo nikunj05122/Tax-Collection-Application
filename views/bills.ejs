@@ -6,190 +6,207 @@
     <%- include('include/_Main-navbar')%>
         <!-- /Include Main Navbar -->
 
-        <!-- Include User Navbar -->
-        <%- include('include/_user_bar')%>
-            <!-- /Include User Navbar -->
+        <div class="bg-warning">
+            <div class="container">
+                <div class="nav-menu-user">
+                    <div class="person-intro">
+                        Welcome,
+                        <a class="userEdit" href="/user/BillDashbord/userProfile">
+                            <b id="person">
+                                <%= User.name%>
+                            </b></a>
+                        <div class="space-700"></div>
+                        <a href="/user/BillDashboard/buy" class="report"><i class="fa-solid fa-file-invoice-dollar"></i>
+                            Buy Property</a>
+                        <a href="/user/BillDashboard/sell" class="report"><i class="fa-solid fa-tags"></i>
+                            Sell Property</a>
+                        <a href="/user/BillDashboard/upload" class="report"><i class="fa-solid fa-file"></i>
+                            Add Property</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            <!-- property tex area -->
-            <div class="banner">
-                <div class="container pt-5">
-                    <div class="bg-light text-dark pt-4">
-                        <div>
-                            <strong class="p-5 purpel-text">PROPERTY TAX</strong>
-                        </div>
+        <!-- property tex area -->
+        <div class="banner">
+            <div class="container pt-5">
+                <div class="bg-light text-dark pt-4">
+                    <div>
+                        <strong class="p-5 purpel-text">PROPERTY TAX</strong>
+                    </div>
 
-                        <!-- My Registration and My Transaction -->
-                        <div class="container pt-3">
-                            <div class=" accordion" id="accordionPanelsStayOpenExample">
-                                <div class="container m-1 p-3 accordion-item">
-                                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                        <button class="accordion-button alert alert-primary" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne"
-                                            aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                            My Properties
-                                        </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                                        aria-labelledby="panelsStayOpen-headingOne">
-                                        <div>
-                                            <table class="table table-striped table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope=" col">Tenement No</th>
-                                                        <th scope="col">Address</th>
-                                                        <th scope="col">Usage</th>
-                                                        <th scope="col" class="Center-text">Last bill due date </th>
-                                                        <th scope="col" class="Center-text">Total Bill</th>
-                                                        <th scope="col" class="Center-text">Pay</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <% for(var i=0; i<Tenment.length; i++) {%>
-                                                        <% if(!Tenment[i][0].Status) { %>
-                                                            <tr class="payment-pandding">
-                                                                <th scope="row">
-                                                                    <%= Tenment[i][0].tenament%>
-                                                                </th>
-                                                                <td>
-                                                                    <%= Tenment[i][0].Postal_address%>
-                                                                </td>
-                                                                <td>
-                                                                    <%= Tenment[i][0].Usage%>
-                                                                </td>
-                                                                <td class="Center-text">
-                                                                    31/12/<%= new Date().getFullYear();%>
-                                                                </td>
-                                                                <td class="Center-text">
-                                                                    <%= Tenment[i][0].Total%>
-                                                                </td>
-                                                                <td class="Center-text">
-                                                                    <a class="Pay-btn shadow-sm"
-                                                                        href="/user/BillDashbord/BillPayment/<%= Tenment[i][0].tenament %>"><i
-                                                                            class="fa-solid fa-credit-card"></i> Pay
-                                                                        Now</a>
-                                                                </td>
-                                                            </tr>
+                    <!-- My Registration and My Transaction -->
+                    <div class="container pt-3">
+                        <div class=" accordion" id="accordionPanelsStayOpenExample">
+                            <div class="container m-1 p-3 accordion-item">
+                                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                    <button class="accordion-button alert alert-primary" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne"
+                                        aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                        My Properties
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                                    aria-labelledby="panelsStayOpen-headingOne">
+                                    <div>
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope=" col">Property No.</th>
+                                                    <th scope="col">Address</th>
+                                                    <th scope="col">Usage</th>
+                                                    <th scope="col" class="Center-text">Last bill due date </th>
+                                                    <th scope="col" class="Center-text">Total Bill</th>
+                                                    <th scope="col" class="Center-text">Pay</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% for(var i=0; i<Tenment.length; i++) {%>
+                                                    <% if(!Tenment[i][0].Status) { %>
+                                                        <tr class="payment-pandding">
+                                                            <th scope="row">
+                                                                <%= Tenment[i][0].tenament%>
+                                                            </th>
+                                                            <td>
+                                                                <%= Tenment[i][0].Postal_address%>
+                                                            </td>
+                                                            <td>
+                                                                <%= Tenment[i][0].Usage%>
+                                                            </td>
+                                                            <td class="Center-text">
+                                                                31/12/<%= new Date().getFullYear();%>
+                                                            </td>
+                                                            <td class="Center-text">
+                                                                <%= Tenment[i][0].Total%>
+                                                            </td>
+                                                            <td class="Center-text">
+                                                                <a class="Pay-btn shadow-sm"
+                                                                    href="/user/BillDashbord/BillPayment/<%= Tenment[i][0].tenament %>"><i
+                                                                        class="fa-solid fa-credit-card"></i> Pay
+                                                                    Now</a>
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
                                                             <% } %>
-                                                                <% } %>
 
-                                                                    <% if (TotalPay> 0) { %>
+                                                                <% if (TotalPay> 0) { %>
+                                                                    <tr class="payment-pandding pay">
+                                                                        <td class="pay-text" colspan="3">
+                                                                            <strong>Pay all the
+                                                                                bills.</strong>
+                                                                        </td>
+                                                                        <td class="Center-text">
+                                                                            31/12/<%= new Date().getFullYear();%>
+                                                                        </td>
+                                                                        <td class="Center-text">
+                                                                            <%= TotalPay %>
+                                                                        </td>
+                                                                        <td class="Center-text">
+                                                                            <a class="shadow-sm pay-all"
+                                                                                href="/user/BillDashbord/allBillPayment"><i
+                                                                                    class="fa-solid fa-credit-card"></i>
+                                                                                Pay All</a>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <% } else { %>
                                                                         <tr class="payment-pandding pay">
-                                                                            <td class="pay-text" colspan="3">
-                                                                                <strong>Pay all the
-                                                                                    bills.</strong>
-                                                                            </td>
-                                                                            <td class="Center-text">
-                                                                                31/12/<%= new Date().getFullYear();%>
-                                                                            </td>
-                                                                            <td class="Center-text">
-                                                                                <%= TotalPay %>
-                                                                            </td>
-                                                                            <td class="Center-text">
-                                                                                <a class="shadow-sm pay-all"
-                                                                                    href="/user/BillDashbord/allBillPayment"><i
-                                                                                        class="fa-solid fa-credit-card"></i>
-                                                                                    Pay All</a>
+                                                                            <td class="pay-text" colspan="6">
+                                                                                <strong>No bills are
+                                                                                    pending.</strong>
                                                                             </td>
                                                                         </tr>
-                                                                        <% } else { %>
-                                                                            <tr class="payment-pandding pay">
-                                                                                <td class="pay-text" colspan="6">
-                                                                                    <strong>All Billes is payed</strong>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <% } %>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                                        <% } %>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                                <!-- My Transaction  -->
-                                <div class="container accordion-item m-1 mt-2 pt-3">
-                                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                        <button class="accordion-button collapsed alert alert-primary" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
-                                            aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                            My Transactiones
-                                        </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show"
-                                        aria-labelledby="panelsStayOpen-headingTwo">
-                                        <div>
-                                            <table class="table table-striped table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope=" col">Tenment No.</th>
-                                                        <th scope=" col">Transaction id</th>
-                                                        <th scope="col">Transaction Date</th>
-                                                        <th scope="col">Ref. No</th>
-                                                        <th scope="col" class="Center-text">Total Payed</th>
-                                                        <th scope="col" class="Center-text">Status</th>
-                                                        <th scope="col" class="Center-text">Print</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <% for(var i=0; i<Payment.length; i++) {%>
-                                                        <% if(Payment[i].length && Payment[i][0].Status &&
-                                                            (Payment[i][0].paymentYear)==year) { %>
-                                                            <tr>
-                                                                <th scope="row">
-                                                                    <%= Payment[i][0].tenament %>
-                                                                </th>
-                                                                <th>
-                                                                    <%= Payment[i][0].Transcation_ID %>
-                                                                </th>
-                                                                <td>
-                                                                    <%= Payment[i][0].Date %>
-                                                                </td>
-                                                                <td>
-                                                                    <%= Payment[i][0].Reference %>
-                                                                </td>
-                                                                <td class="Center-text">
-                                                                    <%= Payment[i][0].Total %>
-                                                                </td>
-                                                                <td class="Center-text">
-                                                                    <img src="/img/ok.png" height="25px" />
-                                                                </td>
-                                                                <td>
-                                                                    <div class="login-btn Center-text">
-                                                                        <a class="login shadow-sm"
-                                                                            href="/user/BillDashbord/Download/<%= Payment[i][0].tenament %>"><i
-                                                                                class="fa-solid fa-file-pdf"></i>
-                                                                            Receipt</a>
-                                                                    </div>
+                            </div>
+                            <!-- My Transaction  -->
+                            <div class="container accordion-item m-1 mt-2 pt-3">
+                                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                    <button class="accordion-button collapsed alert alert-primary" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
+                                        aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                        My Transactions
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show"
+                                    aria-labelledby="panelsStayOpen-headingTwo">
+                                    <div>
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope=" col">Property No.</th>
+                                                    <th scope=" col">Transaction id</th>
+                                                    <th scope="col">Transaction Date</th>
+                                                    <th scope="col">Ref. No</th>
+                                                    <th scope="col" class="Center-text">Total Payed</th>
+                                                    <th scope="col" class="Center-text">Status</th>
+                                                    <th scope="col" class="Center-text">Print</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% for(var i=0; i<Payment.length; i++) {%>
+                                                    <% if(Payment[i].length && Payment[i][0].Status &&
+                                                        (Payment[i][0].paymentYear)==year) { %>
+                                                        <tr>
+                                                            <th scope="row">
+                                                                <%= Payment[i][0].tenament %>
+                                                            </th>
+                                                            <th>
+                                                                <%= Payment[i][0].Transcation_ID %>
+                                                            </th>
+                                                            <td>
+                                                                <%= Payment[i][0].Date %>
+                                                            </td>
+                                                            <td>
+                                                                <%= Payment[i][0].Reference %>
+                                                            </td>
+                                                            <td class="Center-text">
+                                                                <%= Payment[i][0].Total %>
+                                                            </td>
+                                                            <td class="Center-text">
+                                                                <img src="/img/ok.png" height="25px" />
+                                                            </td>
+                                                            <td>
+                                                                <div class="login-btn Center-text">
+                                                                    <a class="login shadow-sm"
+                                                                        href="/user/BillDashbord/Download/<%= Payment[i][0].tenament %>"><i
+                                                                            class="fa-solid fa-file-pdf"></i>
+                                                                        Receipt</a>
+                                                                </div>
 
-                                                                </td>
-                                                            </tr>
+                                                            </td>
+                                                        </tr>
+                                                        <% }%>
                                                             <% }%>
-                                                                <% }%>
-                                                                    <% if (Payment.length==0){ %>
-                                                                        <tr class="payment-pandding pay">
-                                                                            <td class="pay-text" colspan="7">
-                                                                                <strong>All Billes is Panding</strong>
+                                                                <% if (Payment.length==0){ %>
+                                                                    <tr class="payment-pandding pay">
+                                                                        <td class="pay-text" colspan="7">
+                                                                            <strong>Transactions pending</strong>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <% } else { %>
+                                                                        <tr>
+                                                                            <th class="pay-text" scope="row"
+                                                                                colspan="6">
+                                                                                Download all bills
+                                                                            </th>
+                                                                            <td class="payment-pandding pay">
+                                                                                <div class="login-btn Center-text"
+                                                                                    id="download-btn-append">
+                                                                                    <button type="button"
+                                                                                        class="btn btn-outline-primary"
+                                                                                        onclick="allDownload()"><i
+                                                                                            class="fa-solid fa-file-pdf"></i>
+                                                                                        All Receipt</button>
+                                                                                </div>
+
                                                                             </td>
                                                                         </tr>
-                                                                        <% } else { %>
-                                                                            <tr>
-                                                                                <th class="pay-text" scope="row"
-                                                                                    colspan="6">
-                                                                                    Download the all bills
-                                                                                </th>
-                                                                                <td class="payment-pandding pay">
-                                                                                    <div class="login-btn Center-text"
-                                                                                        id="download-btn-append">
-                                                                                        <button type="button"
-                                                                                            class="btn btn-outline-primary"
-                                                                                            onclick="allDownload()"><i
-                                                                                                class="fa-solid fa-file-pdf"></i>
-                                                                                            All Receipt</button>
-                                                                                    </div>
-
-                                                                                </td>
-                                                                            </tr>
-                                                                            <% } %>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                                        <% } %>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -197,24 +214,25 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <script type="text/javascript">
-                function allDownload() {
-                    let tenment = ('<%- tenmentString %>').split(',');
-                    console.log(tenment);
-                    for (let i = 0; i < tenment.length - 1; i++) {
-                        let link = document.createElement('a');
-                        console.log(tenment[i], link);
-                        link.id = 'ALLDownload';
-                        link.classList.add('invisible');
-                        link.href = `/../Download/${tenment[i]}_Payment.pdf`;
-                        link.download = `${tenment[i]}_Payment.pdf`;
-                        document.querySelector('#download-btn-append').appendChild(link);
-                        document.querySelector('#ALLDownload').click();
-                        document.querySelector('#ALLDownload').remove();
-                    }
+        <script type="text/javascript">
+            function allDownload() {
+                let tenment = ('<%- tenmentString %>').split(',');
+                console.log(tenment);
+                for (let i = 0; i < tenment.length - 1; i++) {
+                    let link = document.createElement('a');
+                    console.log(tenment[i], link);
+                    link.id = 'ALLDownload';
+                    link.classList.add('invisible');
+                    link.href = `/../Download/${tenment[i]}_Payment.pdf`;
+                    link.download = `${tenment[i]}_Payment.pdf`;
+                    document.querySelector('#download-btn-append').appendChild(link);
+                    document.querySelector('#ALLDownload').click();
+                    document.querySelector('#ALLDownload').remove();
                 }
-            </script>
-            <!-- Include Footer -->
-            <%- include('include/_footer')%>
-                <!-- /Include Footer -->
+            }
+        </script>
+        <!-- Include Footer -->
+        <%- include('include/_footer')%>
+            <!-- /Include Footer -->
